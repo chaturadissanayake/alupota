@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play. Learn. Vote - Game Design Document v2.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Sinhala:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="app-layout">
+
+        <nav class="sidebar-nav" aria-label="GDD Section Navigation">
+            <div class="sidebar-header">
+                <div class="sidebar-header-left">
+                    <h1>Play. Learn. Vote</h1>
+                    <span class="version-badge">GDD v2.0</span>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="navSection" aria-label="Toggle navigation menu">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="3" y1="6"  x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                    Menu
+                </button>
+            </div>
+
+            <div id="navSection" class="nav-section">
+                <div class="lang-switcher" role="group" aria-label="Language selection">
+                    <span class="lang-label">Language</span>
+                    <div class="lang-buttons">
+                        <button class="lang-btn active" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
+                        <button class="lang-btn" data-lang="si" aria-pressed="false" aria-label="Sinhala">සිං</button>
+                        <button class="lang-btn" data-lang="ta" aria-pressed="false" aria-label="Tamil">தமி</button>
+                    </div>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title" id="nav-docs-label">Documentation</div>
+                    <button class="nav-btn active" data-view-target="overview-view" aria-current="page" aria-describedby="nav-docs-label">Overview &amp; Vision</button>
+                    <button class="nav-btn" data-view-target="world-view" aria-describedby="nav-docs-label">World &amp; Characters</button>
+                    <button class="nav-btn" data-view-target="systems-view" aria-describedby="nav-docs-label">Core Systems &amp; Gauges</button>
+                    <button class="nav-btn" data-view-target="scenarios-view" aria-describedby="nav-docs-label">Scenarios &amp; Flow</button>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title" id="nav-arch-label">Architecture</div>
+                    <button class="nav-btn" data-view-target="technical-view" aria-describedby="nav-arch-label">Tech Spec &amp; Component B</button>
+                    <button class="nav-btn" data-view-target="network-view" aria-describedby="nav-arch-label">Systems Network Map</button>
+                    <button class="nav-btn" data-view-target="production-view" aria-describedby="nav-arch-label">Production &amp; AI Tools</button>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title" id="nav-design-label">Design Systems</div>
+                    <button class="nav-btn" data-view-target="achievements-view" aria-describedby="nav-design-label">Achievements &amp; Clues</button>
+                    <button class="nav-btn" data-view-target="scope-view" aria-describedby="nav-design-label">Scope &amp; Delivery</button>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="pdf-btn" id="pdfExportBtn" aria-label="Save this document as a PDF">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                        <line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/>
+                    </svg>
+                    Save as PDF
+                </button>
+            </div>
+        </nav>
+
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+        <main class="main-content" id="main-content" tabindex="-1">
+
+            <div class="print-header print-only" aria-hidden="true">
+                <strong>Play. Learn. Vote - Game Design Document v2.0</strong>
+                Pre-Production Reference &nbsp;|&nbsp; April 2026 &nbsp;|&nbsp; LIRNEasia RFP Submission
+            </div>
+
+            <section id="overview-view" class="view-section active" aria-labelledby="overview-heading">
+                <header class="doc-header">
+                    <h2 id="overview-heading">Overview &amp; Vision Statement</h2>
+                    <p class="lead-text">Status: Pre-Production Reference &nbsp;|&nbsp; Date: April 2026 &nbsp;|&nbsp; LIRNEasia RFP Submission</p>
+                </header>
+
+                <div class="doc-body">
+
+                    <div class="content-block">
+                        <h3>1. Vision Statement</h3>
+                        <p>Play. Learn. Vote is a single-player, click-based digital experience set in a fictional Sri Lankan town called Alupotha. The player navigates the town, interacts with characters, makes decisions, and experiences the direct consequences of those decisions on their community - before, during, and after an election.</p>
+                        <p>The game teaches voter education and misinformation resilience not through instruction but through consequence. The player learns by feeling what happens when they get it wrong, and by discovering what happens when they quietly get it right.</p>
+                        <p>The tone is warm, comedic, and grounded in the specific texture of Sri Lankan life - the grama sevaka office at 9am, the WhatsApp group that never stops, the politician's calendar on every wall. It does not lecture. It lets the situation speak.</p>
+                        <div class="meta-specs" role="list" aria-label="Game specifications">
+                            <span class="spec-tag" role="listitem">Target session length: 15 to 20 minutes</span>
+                            <span class="spec-tag" role="listitem">Designed for meaningful replay</span>
+                            <span class="spec-tag" role="listitem">Available in English, Sinhala, and Tamil</span>
+                            <span class="spec-tag" role="listitem">Web browser - Component A &amp; B</span>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>0. Canonical Definitions</h3>
+                        <p class="muted-text">This section exists solely to resolve conflicts identified between GDD v1.0 and supporting design documents. Every developer, artist, writer, and translator uses this section as the final authority. No other document overrides these definitions.</p>
+
+                        <div class="definition-item">
+                            <h4>0.1 Week Numbering - Canonical Definition</h4>
+                            <p><strong>The week counter is a countdown.</strong> The game opens at Week 6 (six weeks until election day) and ends at Week 0 (election day). The counter decrements by 1 each time the player completes a chapter. Week 4 means four weeks remain before the election. Registration closes when the counter reaches Week 4. The campaign period ends when the counter reaches Week 1. Voting day is Week 0. This convention is used in all documents, all code, all UI labels without exception.</p>
+                            <table class="data-table" aria-label="Week numbering reference">
+                                <thead>
+                                    <tr><th scope="col">Counter Display</th><th scope="col">Meaning</th><th scope="col">Locks / Events</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Week 6</td><td>Game start - 6 weeks until election</td><td>All locations accessible except Polling Station</td></tr>
+                                    <tr><td>Week 5</td><td>Community momentum</td><td>Rumours begin escalating. Uncle Sirisena's frequency increases.</td></tr>
+                                    <tr><td>Week 4</td><td>Registration deadline</td><td>Voter registration permanently closes if not completed</td></tr>
+                                    <tr><td>Week 3</td><td>Candidate list notice posted</td><td>Elections Commission board updated with official candidate list. Sandya's note appears.</td></tr>
+                                    <tr><td>Week 2</td><td>Mid-campaign</td><td>Mahinda Bandara's manifesto comparison becomes available</td></tr>
+                                    <tr><td>Week 1</td><td>Campaign period closes</td><td>Mahinda Bandara no longer gives interviews. Campaign tent still accessible.</td></tr>
+                                    <tr><td>Week 0</td><td>Election day</td><td>Polling Station unlocks. All other locations become read-only.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="definition-item">
+                            <h4>0.2 Character Name - Canonical Spelling</h4>
+                            <p>The third playable character is named <strong>Kumaran</strong>. Not Kumar. Not Kumaran Pillai. Kumaran. This spelling is used in all code variable names, all dialogue files, all UI labels, all translation files. Any supporting document that uses "Kumar" is incorrect and must be updated before production.</p>
+                        </div>
+
+                        <div class="definition-item">
+                            <h4>0.3 Skeptics Cafe - Canonical Status</h4>
+                            <p>Skeptics Cafe is a <strong>discoverable unlockable space, not a mapped location.</strong> It does not appear on the town map at the start of the game. It becomes accessible only after the player verifies three or more messages using the Elections Commission board in a single playthrough. It is referenced in dialogue by Nandadasa Mahaththaya as "a group of people who check things before they share them" - not named directly. Players who find it discover a secondary information network. Its existence is not documented anywhere the player can read before unlocking it.</p>
+                        </div>
+
+                        <div class="definition-item">
+                            <h4>0.4 Difficulty Scope - MVP vs Post-Launch</h4>
+                            <p><strong>MVP scope includes Standard mode only.</strong> Hard mode, Expert mode, and Speedrun mode are documented in Section 17 as post-launch features. They are not built in the initial release. The game state architecture must be designed to support them without refactoring, but they are not activated in v1.0 of the product.</p>
+                        </div>
+
+                        <div class="definition-item">
+                            <h4>0.5 Platform Scope - MVP</h4>
+                            <p><strong>MVP is web browser only.</strong> Both Component A and Component B are web applications. Android packaging (Android 12+) is a post-launch deliverable documented in Section 17. The web build must be responsive and function correctly on mobile browsers as a prerequisite for eventual Android packaging.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>What This Game Is Not</h3>
+                        <ul class="clean-list">
+                            <li><strong>It does not tell the player who to vote for.</strong> Mahinda Bandara is a fictional candidate. No real political party is named or depicted. The Elections Commission of Sri Lanka is referenced as an institution but no real officials are depicted.</li>
+                            <li><strong>It does not claim the electoral system is perfect.</strong> Nandadasa Mahaththaya's Road File exists precisely to show that correct process and good outcomes are not the same thing.</li>
+                            <li><strong>It does not resolve the road.</strong> The road is still not fixed at the end of the game. This is the point.</li>
+                            <li><strong>It does not reward cynicism.</strong> Non-participation makes the imperfections worse, not better. The game asks the player to participate in the system with full awareness of its imperfections.</li>
+                            <li><strong>It does not lecture.</strong> The situation speaks. The player learns by experiencing consequences, not by being told what the consequences are.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="world-view" class="view-section" aria-labelledby="world-heading">
+                <header class="doc-header">
+                    <h2 id="world-heading">World, Locations &amp; Characters</h2>
+                </header>
+
+                <div class="doc-tabs" role="tablist" aria-label="World section tabs">
+                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="world-locations" data-tab-target="world-locations">The Town &amp; Locations</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="world-playable" data-tab-target="world-playable">Playable Characters</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="world-cast" data-tab-target="world-cast">Supporting Cast</button>
+                </div>
+
+                <div class="tab-content-container">
+
+                    <div id="world-locations" class="sub-tab-content active" role="tabpanel">
+
+                        <div class="content-block">
+                            <h3>2. The Town - Alupotha</h3>
+                            <p>Alupotha means Middle Town. It is a composite of everywhere in Sri Lanka - not Colombo, not a village, but the kind of semi-urban junction town that most Sri Lankans either come from or pass through. There is a kovil on one side of the main road and a temple on the other. One traffic light that is technically functional. A bus that comes when it comes. Coconut trees everywhere, including in places where coconut trees probably should not be.</p>
+                            <p>The game world is presented as a clickable illustrated town map. All seven locations are visible from the beginning. Some are inaccessible until the story unlocks them. The player navigates by clicking a location on the map. The week countdown and three gauges are always visible at the top of the screen regardless of which location the player is in.</p>
+                        </div>
+
+                        <div class="content-block">
+                            <h3>3. The Seven Locations</h3>
+                            <p class="muted-text">Each location entry includes the narrative description, the complete clickable object inventory, and the conditions that lock or unlock access. Every object listed here must be implemented as a discrete clickable region in the art layer.</p>
+
+                            <div class="location-card">
+                                <h4>3.1 The Grama Sevaka Office</h4>
+                                <p>A single-room government building with a peeling paint sign, three plastic chairs, one ceiling fan, and a computer running software from 2007. The queue outside starts at 7am. The officer inside starts at 8:30am. The gap between these two facts is where most of the drama in this location lives.</p>
+                                <p>This is where voter registration happens, NIC issues are resolved, and polling division assignments are confirmed. It is the procedural core of the game - the location that teaches the real administrative steps of participating in a Sri Lankan election.</p>
+                                <table class="data-table" aria-label="Grama Sevaka Office clickable object inventory">
+                                    <thead><tr><th scope="col">Object</th><th scope="col">Always Available?</th><th scope="col">Trigger Condition</th><th scope="col">What Happens</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Nandadasa Mahaththaya (NPC)</td><td>Yes - office hours only (8:30am to 4pm displayed)</td><td>Any visit during Weeks 6 to 1</td><td>Main dialogue for registration and election law content. Source of all official procedural information.</td></tr>
+                                        <tr><td>Filing cabinet</td><td>No - no prompt given to click it</td><td>Week 3 or later, any character</td><td>Road File secret - 90-second exchange. Recontextualises Nandadasa and Mahinda Bandara entirely. Gauge: +25 IH, +5 CT.</td></tr>
+                                        <tr><td>Notice board</td><td>Yes</td><td>Any visit</td><td>Shows registration deadlines, polling division assignments. Gauge: +5 IH per visit.</td></tr>
+                                        <tr><td>Queue of waiting people</td><td>Yes</td><td>Weeks 6 to 4</td><td>Overheard conversations about registration difficulties. Context building only. No gauge impact.</td></tr>
+                                        <tr><td>Old computer</td><td>Yes</td><td>Any visit</td><td>Humorous interaction - software from 2007, a progress bar that never completes. No gauge impact. Character building.</td></tr>
+                                    </tbody>
+                                </table>
+                                <p class="note-text"><em>Karunasena receives one additional dialogue option at this location - he can ask Nandadasa why each step in the registration process exists and receive a deeper explanation. This is his Curiosity perk in action. Kamala and Kumaran do not have this option.</em></p>
+                            </div>
+
+                            <div class="location-card">
+                                <h4>3.2 Uncle Sirisena's House</h4>
+                                <p>A modest house two streets from the main road. Every surface has something on it - a political calendar, a framed photo of a former president, a phone charger that is always in use. Uncle Sirisena is retired and has appointed himself the community's chief political analyst. He runs a WhatsApp group called Alupotha Patriots with 847 members and a posting frequency of approximately one message every four minutes.</p>
+                                <p>He is the primary misinformation vector in the game. Not because he is dishonest but because he is enthusiastic, trusting, and completely unable to evaluate a source. Every visit surfaces new forwarded content that the player must evaluate. He will always offer pol roti. The pol roti is always good.</p>
+                                <table class="data-table" aria-label="Uncle Sirisena's House clickable object inventory">
+                                    <thead><tr><th scope="col">Object</th><th scope="col">Always Available?</th><th scope="col">Trigger Condition</th><th scope="col">What Happens</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Uncle Sirisena (NPC)</td><td>Yes</td><td>Any visit</td><td>Main misinformation mechanic - delivers WhatsApp content in 4 formats per the schedule in Section 10.</td></tr>
+                                        <tr><td>Television</td><td>Yes</td><td>Any visit</td><td>Shows news. Some accurate, some sensationalised. Does not affect gauges but informs context and provides background world-building.</td></tr>
+                                        <tr><td>Political calendars on wall</td><td>Yes</td><td>Any visit</td><td>Each calendar has a different candidate photo - humorous commentary from Uncle Sirisena about why he chose each one.</td></tr>
+                                        <tr><td>Framed presidential photos</td><td>Yes</td><td>Any visit</td><td>Reveals which presidents Uncle Sirisena has hung, removed, and quietly put back. Character building only.</td></tr>
+                                        <tr><td>Pol roti (always offered)</td><td>Yes</td><td>Any visit - he always offers it</td><td>Accepting: +3 CT (warmth, community signal). Refusing: no gauge penalty but Uncle Sirisena is visibly, mildly hurt.</td></tr>
+                                    </tbody>
+                                </table>
+                                <p class="note-text"><em>Karunasena cannot ignore Uncle Sirisena's messages without a Civic Trust penalty - Uncle Sirisena is his actual uncle, making opting out socially costly. Every 3 dismissed messages: -10 CT. Kamala and Kumaran face no such penalty and can ignore freely.</em></p>
+                            </div>
+
+                            <div class="location-card">
+                                <h4>3.3 Mudalali Perera's Boutique</h4>
+                                <p>The junction shop at the centre of town. Sells Milo, motor oil, hairpins, and political opinions in roughly equal measure. Every person in Alupotha passes through this shop. It functions as the town's informal information exchange - a place where the player overhears conversations, catches rumours, and sometimes finds accurate information buried under enthusiasm.</p>
+                                <p>Mudalali Perera has voted for the same party since 1977. He is not a villain. He is simply certain in a way that makes nuance difficult.</p>
+                                <table class="data-table" aria-label="Mudalali Perera's Boutique clickable object inventory">
+                                    <thead><tr><th scope="col">Object</th><th scope="col">Always Available?</th><th scope="col">Trigger Condition</th><th scope="col">What Happens</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Mudalali Perera (NPC)</td><td>Yes</td><td>Any visit</td><td>Delivers political opinion and overheard community conversations. Gauge: +5 IH if player asks critical follow-up questions.</td></tr>
+                                        <tr><td>Wall behind the counter</td><td>Yes - but player must click the wall, not Mudalali</td><td>Must click wall specifically. No prompt given.</td><td>1977 receipt secret. Reveals the origin of Mudalali's political loyalty. No gauge impact - purely narrative. Unlocks achievement "Pol Roti and Politics".</td></tr>
+                                        <tr><td>Shelves with products</td><td>Yes</td><td>Any visit</td><td>Humorous inventory - Milo, motor oil, hairpins. Occasional election pamphlet buried under stock. Flavour text only.</td></tr>
+                                        <tr><td>Other customers</td><td>Yes</td><td>Weeks 6 to 2</td><td>Overhear conversations about registration, misinformation spreading, community attitudes to voting. Disappear after Week 2 as election day focus narrows.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="location-card">
+                                <h4>3.4 The Police Station</h4>
+                                <p>Present but understated. Staffed primarily by Sergeant Wickramasinghe, who has been at this posting for eleven years and has seen every election violation at least twice. He is fair, occasionally very funny, and delivers the game's election law content in the most natural way possible - because explaining rules is literally his job.</p>
+                                <p>The player visits when illegal campaign posters appear, when someone reports voter intimidation, or when the player needs to understand what is and is not permitted near a polling station.</p>
+                                <table class="data-table" aria-label="Police Station clickable object inventory">
+                                    <thead><tr><th scope="col">Object</th><th scope="col">Always Available?</th><th scope="col">Trigger Condition</th><th scope="col">What Happens</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Sergeant Wickramasinghe (NPC)</td><td>Yes</td><td>Any visit</td><td>Election law content, violation reporting, manifesto commentary (only if player has read manifesto). Gauge: +10 IH per visit.</td></tr>
+                                        <tr><td>Station notice board</td><td>Yes</td><td>Any visit</td><td>Official election regulations. What is and is not permitted near a polling station. Gauge: +5 IH first visit.</td></tr>
+                                        <tr><td>Incident reports on desk</td><td>Yes</td><td>Any visit</td><td>Past election violations described - context building. Not interactive, just visible and readable.</td></tr>
+                                        <tr><td>Ask about 2016 specifically</td><td>No - conditional dialogue option only</td><td>Player must first hear about the 2016 road repair attempt from Mudalali Perera</td><td>Sergeant's Transfer thread - unresolved, intentionally ambiguous. He pauses. He says he arrived in 2017. He says he requested this posting specifically. He will not explain why. No gauge impact. Unlocks achievement "Somebody Had to Ask".</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="location-card">
+                                <h4>3.5 The Politician's Campaign Tent</h4>
+                                <p>Mahinda Bandara is running for the Provincial Council. His tent is set up on the edge of town near the main road, positioned for maximum visibility and minimum accountability. He has campaign flags, a sound system that plays his jingle at volumes that raise questions about neighbourhood consent, and supporters distributing calendars with his face printed in a slightly unflattering shade of maroon.</p>
+                                <p>Mahinda is not a villain. He is a politician, which the game treats as a distinct and specific category of person - charming, evasive, saying something slightly different to each visitor, making promises that are technically not lies because they contain no timeline. He has been promising to fix the road since 2005. The road exists. It is not fixed.</p>
+                                <table class="data-table" aria-label="Campaign Tent clickable object inventory">
+                                    <thead><tr><th scope="col">Object</th><th scope="col">Always Available?</th><th scope="col">Trigger Condition</th><th scope="col">What Happens</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Mahinda Bandara (NPC)</td><td>Weeks 6 to 1 only</td><td>Campaign period active</td><td>Candidate interaction - charming, makes promises. Gauge impact depends on whether player subsequently fact-checks his claims.</td></tr>
+                                        <tr><td>Current manifesto on table</td><td>Yes - even after Week 1</td><td>Any visit</td><td>Readable document. Gauge: +5 IH, +15 CT for reading. Unlocks Sergeant Wickramasinghe's manifesto commentary option.</td></tr>
+                                        <tr><td>Unmarked box in the corner</td><td>No - no label, no prompt</td><td>Must click the specific box. Only available if current manifesto has already been read.</td><td>2010 manifesto secret. Triggers side-by-side comparison. The road section is 94% identical. Gauge: +20 IH, +10 CT. Unlocks achievement "Actually Read the Fine Print".</td></tr>
+                                        <tr><td>Campaign supporters</td><td>Yes</td><td>Weeks 6 to 1</td><td>Distribute calendars, repeat Mahinda's promises. Additional information context.</td></tr>
+                                    </tbody>
+                                </table>
+                                <p class="note-text"><em>The manifesto remains readable after the Week 1 campaign close. Only Mahinda Bandara's NPC dialogue is locked after that point. The comparison mechanic is still available at Week 0 if the player finds the box for the first time on election day.</em></p>
+                            </div>
+
+                            <div class="location-card">
+                                <h4>3.6 The Polling Station</h4>
+                                <p>Rivisanda Maha Vidyalaya, repurposed for election day. The desks have been pushed to the walls. The principal's office is now the presiding officer's office. There is a sign on the door listing what you cannot bring inside. The queue extends down the front steps and around the corner.</p>
+                                <p>This location is locked until Week 0. It is the climax of the game - the place where every decision the player made in the previous weeks either pays off or reveals its cost. The ballot is more complicated than most first-time voters expect. The fold matters. The queue is long. The elderly woman in front of you needs help.</p>
+                                <table class="data-table" aria-label="Polling Station clickable object inventory">
+                                    <thead><tr><th scope="col">Object</th><th scope="col">Available</th><th scope="col">Trigger Condition</th><th scope="col">What Happens</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Presiding officer</td><td>Week 0 only</td><td>Polling Station unlocked</td><td>Voting instructions. Asks to verify NIC. Gauge impact based on registration status.</td></tr>
+                                        <tr><td>Voter register</td><td>Week 0 only</td><td>Polling Station unlocked</td><td>Player can check their name. Kumaran: extra step to find name under correct home district. Sandya's name visible if her thread was followed.</td></tr>
+                                        <tr><td>Elderly woman in queue</td><td>Week 0 only</td><td>Always present - player must choose to engage</td><td>Help her find her name on the voter register. Gauge: +25 VP (permanent, cannot be obtained any other way), +10 CT. Unlocks "Not Your Job" achievement.</td></tr>
+                                        <tr><td>Young man (forgot NIC)</td><td>Week 0 only</td><td>Always present - player must choose to engage</td><td>Help him understand his options for voting without NIC on election day. Gauge: +10 VP, +5 CT, +5 IH.</td></tr>
+                                        <tr><td>Lost couple (wrong queue)</td><td>Week 0 only</td><td>Always present - player must choose to engage</td><td>Help them find their correct polling queue. Gauge: +15 VP, +10 CT.</td></tr>
+                                        <tr><td>Ballot box (voting action)</td><td>Week 0 only</td><td>After completing the queue sequence</td><td>Casting the vote - the fold is explained, the preference vote system is shown. Outcome depends on Information Health score. Valid ballot: +10 CT, +10 IH, +20 VP. Spoiled ballot due to misinformation: -10 CT, -20 IH, -10 VP.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="location-card">
+                                <h4>3.7 The Elections Commission Notice Board</h4>
+                                <p>Not a building. A physical notice board in the town square, covered in official printed notices - voter registration deadlines, candidate lists, polling station assignments, counting timelines, official clarifications on circulating rumours. It is updated automatically as the story progresses.</p>
+                                <p>Every time Uncle Sirisena sends something alarming, the player can walk to this board and check. Every time Mahinda Bandara makes a claim about electoral procedure, this board has the accurate version. The game rewards every visit with a small Information Health boost and, occasionally, with something the player was not looking for.</p>
+                                <table class="data-table" aria-label="Elections Commission Notice Board clickable object inventory">
+                                    <thead><tr><th scope="col">Object</th><th scope="col">Always Available?</th><th scope="col">Trigger Condition</th><th scope="col">What Happens</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Official registration notice</td><td>Yes</td><td>Weeks 6 to 4</td><td>Gauge: +5 IH per visit. Shows real deadline, real steps. Removes at Week 3 (deadline passed).</td></tr>
+                                        <tr><td>Candidate list notice</td><td>From Week 3 onwards</td><td>Automatically posted at Week 3</td><td>Player can compare this to Uncle Sirisena's circulating version. Two fake candidates exposed. One missing candidate revealed. Gauge: +10 IH first time.</td></tr>
+                                        <tr><td>Misinformation correction notices</td><td>Contextual - only appear after player shares false content</td><td>Appear when specific misinformation flags are true</td><td>Board posts a formal correction referencing the circulating rumour. The world responds to what the player did. Gauge: +5 IH on reading.</td></tr>
+                                        <tr><td>Sandya's handwritten note</td><td>No - appears Week 3 only</td><td>Not from Elections Commission. Pinned in the corner. Small and easy to miss.</td><td>Bulletin Board Thread - a community member asking for help finding her name on the register. Updates weekly as others respond by hand. By Week 0, Sandya's name is on the voter register inside the polling station. Gauge across all weeks: +10 IH, +10 CT, +15 VP total. Unlocks "Sandya Made It" achievement.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div id="world-playable" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>4. The Three Playable Characters</h3>
+                            <p>The player selects one character at the start. Each character experiences the same town and the same election but enters from a different position, has a different relationship with the community, and has one mechanical advantage and one mechanical disadvantage that changes how the game feels without changing what it teaches. The educational content is identical across all three - what changes is the texture of reaching it.</p>
+
+                            <div class="character-profile">
+                                <h4>Karunasena</h4>
+                                <p class="char-meta">19 years old &nbsp;|&nbsp; First-time voter from Kurunegala</p>
+                                <p><strong>Background:</strong> He has just moved to Alupotha to live with his uncle while attending a vocational training programme. He is not particularly political. He has opinions but is not sure yet where they come from. Uncle Sirisena is his actual uncle, which means the WhatsApp group is not optional - he is a member by default and receives every notification in the game whether he wants to or not.</p>
+                                <p><strong>Perk - Curiosity:</strong> At every location he gets one additional dialogue option the other characters do not - he can ask why something works the way it does and receive a deeper explanation. This makes him the character best suited to players who want to understand the system from the ground up.</p>
+                                <p><strong>Disadvantage - Exposure:</strong> Because Uncle Sirisena is family, ignoring his messages has a social cost. Civic Trust takes a penalty of -10 CT for every 3 messages Karunasena dismisses without engaging. He cannot simply opt out of the misinformation - he has to navigate it.</p>
+                                <p><strong>Starting Gauges:</strong> Civic Trust 60 &nbsp;|&nbsp; Information Health 70 &nbsp;|&nbsp; Voter Participation 50</p>
+                                <p class="note-text"><em>Best suited to: Players who want to understand the system from the ground up. First playthrough recommended character.</em></p>
+                            </div>
+
+                            <div class="character-profile">
+                                <h4>Kamala</h4>
+                                <p class="char-meta">34 years old &nbsp;|&nbsp; School teacher - has voted before, but inattentively</p>
+                                <p><strong>Background:</strong> She has lived in Alupotha for eight years. She knows most people. She voted in the last two elections and filled in her ballot the way she always had, assuming she was doing it correctly. She was mostly right. Mostly.</p>
+                                <p><strong>Perk - Network:</strong> She has social capital in every location - queues are slightly shorter, characters share information more readily, and she occasionally gets warned about a problem before it becomes one.</p>
+                                <p><strong>Disadvantage - Assumption:</strong> The game periodically gives her information she believes she already knows but has subtly wrong - a detail about the preference vote system, a rule about polling station conduct, a deadline she thought was later than it is. She must recognise and correct these assumptions to maintain her Information Health score. Correcting a false assumption gives a +15 IH bonus. The lesson is that experience without attention accumulates errors.</p>
+                                <p><strong>Starting Gauges:</strong> Civic Trust 75 &nbsp;|&nbsp; Information Health 65 &nbsp;|&nbsp; Voter Participation 65</p>
+                                <p class="note-text"><em>Best suited to: Players who want the social texture of the game. Second playthrough recommended character.</em></p>
+                            </div>
+
+                            <div class="character-profile">
+                                <h4>Kumaran</h4>
+                                <p class="char-meta">28 years old &nbsp;|&nbsp; Migrant worker from the Northern Province - Tamil-speaking</p>
+                                <p><strong>Background:</strong> He moved to Alupotha two years ago for work. His voter registration is in his home district. He needs to transfer it. The process involves more steps than it should and some of those steps involve forms that exist only in Sinhala, being processed by an officer who is doing his best but whose Tamil is limited. Kumaran's story is harder. It is also more complete.</p>
+                                <p><strong>Perk - Persistence:</strong> He earns significantly more points for completing each step because each step costs him more. He also unlocks a separate thread of content - conversations and situations that only arise when the player is navigating the system in a second language. The bilingual ballot. The Tamil notice on the Elections Commission board that contradicts the Sinhala notice because it was printed at a different time. The polling officer who mispronounced his name on the register.</p>
+                                <p><strong>Disadvantage - Distance:</strong> He does not have the social network Kamala has or the family anchor Karunasena has. He has fewer informal information sources, which makes accurate information harder to find and misinformation slightly harder to counter without the Elections Commission board.</p>
+                                <p><strong>Starting Gauges:</strong> Civic Trust 50 &nbsp;|&nbsp; Information Health 75 &nbsp;|&nbsp; Voter Participation 40</p>
+                                <p><strong>Language note:</strong> Kumaran's presence in the game is the reason the trilingual support is not cosmetic. For Kumaran, the language of the ballot and the language of the instructions at the polling station are the literal difference between a valid vote and a spoiled one.</p>
+                                <p class="note-text"><em>Best suited to: Players who want to experience the full scope of the game's electoral justice content. Third playthrough recommended character.</em></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="world-cast" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>5. The Supporting Cast</h3>
+
+                            <div class="doc-grid">
+                                <div class="grid-item">
+                                    <h4>Nandadasa Mahaththaya</h4>
+                                    <p>The grama sevaka. Has been at this posting since 1994. Processes approximately 40 files per day at a consistent pace that has never been observed to vary based on external conditions including urgency, rainfall, or the proximity of election day. He is not obstructing anyone. He is being thorough, which in this context is indistinguishable from obstruction. He secretly thinks the democratic system is one of the better things human beings have managed to build and would be embarrassed if anyone found out.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Uncle Sirisena</h4>
+                                    <p>Retired. Connected to everything. Correct about nothing election-related. Runs the WhatsApp group Alupotha Patriots with 847 members. Has a television that is always on. Has a framed photo of every president since 1978, including some he later removed from the wall and then quietly put back. Feeds everyone who enters his house regardless of the political situation. His motivations are entirely good. His information hygiene is catastrophic.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Sergeant Wickramasinghe</h4>
+                                    <p>Eleven years at this posting. Has seen voter fraud attempts, illegal poster campaigns, election violence, and one incident involving a candidate's supporter and a loudhailer that he is not at liberty to discuss. He finds most situations mildly amusing. He gives accurate information efficiently. He is the most competent person in Alupotha and has made peace with the fact that this does not make him the most influential.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Mudalali Perera</h4>
+                                    <p>Junction shop owner. Has voted for the same party since 1977 and regards this as a form of integrity. Generous with short eats and political commentary in roughly equal measure. Not malicious. Just very certain and very loud. His father ran this boutique before him. The 1977 receipt is behind the counter. He has never mentioned it to anyone.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Mahinda Bandara</h4>
+                                    <p>Provincial Council candidate. Has been in politics long enough to have several hairstyles documented in public records. Gives out calendars every election cycle with a new photo but the same smile. Has a manifesto. The manifesto has a section about the road. The section about the road has been in every manifesto since 2010, with minor edits. The road section of the 2010 manifesto and the current one are being compared somewhere in this game, if the player looks hard enough.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Aunty Soma</h4>
+                                    <p>Karunasena's mother. Appears in his storyline directly; referenced by name in the other two characters' storylines. Has voted in every election since she turned eligible in 1983. Does not regard this as exceptional. Regards not voting the same way she regards not eating - technically survivable but why would you. She appears at the beginning of the game and at the end. Her scene at the end, outside the polling station, is the emotional anchor of the whole thing.</p>
+                                </div>
+                                <div class="grid-item full-width">
+                                    <h4>The Queue People</h4>
+                                    <p>At the polling station, three people are around the player in the queue. An elderly woman who needs help locating her name on the voter register. A young man who left his NIC at home and is conducting a crisis in real time. A couple who have discovered they are in the wrong queue and are handling this differently from each other. Helping any of them is optional. The game does not tell you to. It just presents the situation and lets you choose. These three characters represent the highest single-source Voter Participation gains available in the game.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="systems-view" class="view-section" aria-labelledby="systems-heading">
+                <header class="doc-header">
+                    <h2 id="systems-heading">Game Systems, Mechanics &amp; Consequences</h2>
+                </header>
+
+                <div class="doc-tabs" role="tablist" aria-label="Systems section tabs">
+                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="sys-gauges" data-tab-target="sys-gauges">Gauges &amp; Delta Table</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="sys-consequences" data-tab-target="sys-consequences">Cross-Zone Reactivity</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="sys-mechanics" data-tab-target="sys-mechanics">Countdown &amp; Difficulty</button>
+                </div>
+
+                <div class="tab-content-container">
+
+                    <div id="sys-gauges" class="sub-tab-content active" role="tabpanel">
+                        <div class="content-block">
+                            <h3>6. The Three Gauges</h3>
+                            <p>All three gauges are always visible at the top of the screen. Gauges run from 0 to 100. They are shown as: a labelled bar, an icon, and a numerical value. <strong>Colour is never the sole indicator of information</strong> - gauge states are also shown with icons and numerical values (WCAG 1.4.1 compliance). All animations on gauge changes can be disabled for players with motion sensitivity.</p>
+                            <ul class="clean-list">
+                                <li><strong>Civic Trust (CT):</strong> Does this community believe the election is legitimate and worth participating in? This is a community score, not a personal one. It drops when misinformation spreads, when violations go unreported, when the player chooses cynicism over engagement. It rises when the player verifies information before sharing, reports illegal campaign activity, and helps others navigate the process.</li>
+                                <li><strong>Information Health (IH):</strong> How accurate is the player's personal understanding of the electoral process? This drops when the player accepts false information, skips verification, or follows Mahinda Bandara's instructions about voting procedure without checking official sources. It rises when the player reads the Elections Commission board, asks Nandadasa Mahaththaya direct questions, and resists the pressure to share things they have not confirmed.</li>
+                                <li><strong>Voter Participation (VP):</strong> How many eligible people in Alupotha are going to vote? This is affected most by what the player does in the community rather than for themselves. Helping the queue people at the polling station raises this permanently. Spreading the fake story about the 4am voting time drops it. One action the player takes in Week 5 determines whether the elderly woman's family comes with her on election day.</li>
+                            </ul>
+                        </div>
+
+                        <div class="content-block">
+                            <h3>6.1 Gauge Delta Table</h3>
+                            <p>Every action in the game and its exact gauge impact. CT = Civic Trust. IH = Information Health. VP = Voter Participation. Values marked with * are permanent and cannot be recovered through any subsequent action.</p>
+                            <table class="data-table delta-table" aria-label="Complete gauge delta table for all player actions">
+                                <thead>
+                                    <tr><th scope="col">Action</th><th scope="col">CT</th><th scope="col">IH</th><th scope="col">VP</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-group"><td colspan="4">Misinformation Decisions</td></tr>
+                                    <tr><td>Share Uncle Sirisena's fake 4am voting time message</td><td class="neg">-20</td><td class="neg">-15</td><td class="neg">-20</td></tr>
+                                    <tr><td>Share Uncle Sirisena's fake candidate list</td><td class="neg">-15</td><td class="neg">-20</td><td class="neg">-10</td></tr>
+                                    <tr><td>Share accurate information from a verified source</td><td class="pos">+10</td><td class="pos">+10</td><td class="pos">+10</td></tr>
+                                    <tr><td>Verify message at Elections Commission board before acting</td><td class="pos">+10</td><td class="pos">+15</td><td class="pos">+5</td></tr>
+                                    <tr><td>Ask Nandadasa Mahaththaya and follow his advice</td><td class="pos">+5</td><td class="pos">+20</td><td class="pos">+5</td></tr>
+                                    <tr><td>Ignore ALL Uncle Sirisena messages - blanket distrust across entire playthrough</td><td class="neg">-5</td><td class="neg">-5</td><td class="neg">-5</td></tr>
+                                    <tr><td>Karunasena only: every 3 Uncle Sirisena messages dismissed without engagement</td><td class="neg">-10</td><td class="no-impact">-</td><td class="no-impact">-</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">Registration and Civic Process</td></tr>
+                                    <tr><td>Complete voter registration before Week 4 deadline</td><td class="pos">+10</td><td class="pos">+15</td><td class="pos">+20</td></tr>
+                                    <tr><td>Miss voter registration deadline - permanent, cannot be recovered*</td><td class="neg">-5</td><td class="neg">-20*</td><td class="neg">-30*</td></tr>
+                                    <tr><td>Check Elections Commission notice board (each visit)</td><td class="pos">+5</td><td class="pos">+10</td><td class="pos">+5</td></tr>
+                                    <tr><td>Report illegal campaign posters to Sergeant Wickramasinghe</td><td class="pos">+15</td><td class="pos">+5</td><td class="pos">+10</td></tr>
+                                    <tr><td>Ignore voter intimidation scenario when presented</td><td class="neg">-20</td><td class="neg">-5</td><td class="neg">-15</td></tr>
+                                    <tr><td>Report voter intimidation to Sergeant Wickramasinghe</td><td class="pos">+20</td><td class="pos">+5</td><td class="pos">+20</td></tr>
+                                    <tr><td>Kumaran only: complete each step of district transfer (extra reward per step)</td><td class="no-impact">-</td><td class="pos">+20</td><td class="pos">+30</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">Information Gathering and Research</td></tr>
+                                    <tr><td>Read Mahinda Bandara's current manifesto in full</td><td class="pos">+5</td><td class="pos">+15</td><td class="pos">+5</td></tr>
+                                    <tr><td>Find and complete the 2010 vs current manifesto comparison</td><td class="pos">+10</td><td class="pos">+20</td><td class="pos">+10</td></tr>
+                                    <tr><td>Find the Road File in the Grama Sevaka Office filing cabinet</td><td class="pos">+5</td><td class="pos">+25</td><td class="pos">+5</td></tr>
+                                    <tr><td>Find the 1977 receipt behind Mudalali's counter</td><td class="pos">+5</td><td class="pos">+10</td><td class="no-impact">-</td></tr>
+                                    <tr><td>Follow Mahinda Bandara's voting advice without checking an official source</td><td class="neg">-5</td><td class="neg">-15</td><td class="no-impact">-</td></tr>
+                                    <tr><td>Kamala only: correctly identify and correct a false assumption she held</td><td class="no-impact">-</td><td class="pos">+15</td><td class="no-impact">-</td></tr>
+                                    <tr><td>Accept pol roti from Uncle Sirisena</td><td class="pos">+3</td><td class="no-impact">-</td><td class="no-impact">-</td></tr>
+                                    <tr><td>Ask Mudalali Perera a critical follow-up question about a political claim</td><td class="no-impact">-</td><td class="pos">+5</td><td class="no-impact">-</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">Polling Station - Week 0 Only</td></tr>
+                                    <tr><td>Help elderly woman find her name on the voter register - permanent*</td><td class="pos">+10</td><td class="pos">+5</td><td class="pos">+25*</td></tr>
+                                    <tr><td>Help young man who forgot his NIC understand his options</td><td class="pos">+5</td><td class="pos">+5</td><td class="pos">+10</td></tr>
+                                    <tr><td>Help lost couple find their correct queue</td><td class="pos">+10</td><td class="pos">+5</td><td class="pos">+15</td></tr>
+                                    <tr><td>Leave polling station without helping any of the queue people</td><td class="neg">-5</td><td class="no-impact">-</td><td class="neg">-10</td></tr>
+                                    <tr><td>Cast a valid ballot correctly</td><td class="pos">+10</td><td class="pos">+10</td><td class="pos">+20</td></tr>
+                                    <tr><td>Spoil ballot due to acting on misinformation about the fold</td><td class="neg">-10</td><td class="neg">-20</td><td class="neg">-10</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">Bulletin Board Thread - Cumulative Across Weeks 3 to 0</td></tr>
+                                    <tr><td>Find Sandya's note in Week 3 and follow the thread each subsequent week</td><td class="pos">+10 total</td><td class="pos">+10 total</td><td class="pos">+15 total</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="sys-consequences" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>8. The Consequence System - Cross-Zone Reactivity</h3>
+                            <p>Every significant decision in one location leaves a trace in at least one other location. The town remembers what the player did. This is the most technically complex system in the game and the most educationally important.</p>
+                            <p>The system works by reading the <code>gameState.flags</code> object when a new location is loaded. If a relevant flag is true, the location renders a modified version of itself. These modifications are additive - multiple flags can combine in the same location simultaneously.</p>
+
+                            <h4>8.1 Confirmed Consequence Chains</h4>
+                            <table class="data-table" aria-label="Confirmed consequence chains between locations">
+                                <thead>
+                                    <tr><th scope="col">Trigger (Player Action)</th><th scope="col">Affected Location</th><th scope="col">World Change</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Player shares fake 4am voting message</td><td>Grama Sevaka Office</td><td>23 confused people in queue who came at 4am. Wait is visibly longer. Nandadasa has heard about it and references it directly.</td></tr>
+                                    <tr><td>Player shares fake 4am voting message</td><td>Mudalali Perera's Boutique</td><td>Mudalali references the confusion. New dialogue available: "Can you believe people came at 4am?"</td></tr>
+                                    <tr><td>Player shares fake 4am voting message</td><td>Elections Commission Board</td><td>Formal correction notice posted on the board, referencing the circulating rumour. Board now shows the debunked version.</td></tr>
+                                    <tr><td>Player shares fake 4am voting message</td><td>Police Station</td><td>Sergeant Wickramasinghe has received three calls about it. New dialogue option available about community misinformation spread.</td></tr>
+                                    <tr><td>Player reads Mahinda's current manifesto</td><td>Police Station</td><td>Sergeant will comment on it if player asks - shares specific thoughts on the infrastructure promises relative to the actual known budget allocation.</td></tr>
+                                    <tr><td>Player reads Mahinda's current manifesto</td><td>Campaign Tent</td><td>Mahinda notices the player read it. Slightly different opening dialogue - slightly more careful with his specific claims than before.</td></tr>
+                                    <tr><td>Player helps elderly woman at polling station queue</td><td>Ending screen statistics</td><td>Her granddaughter registers to vote the following cycle - this fact is shown in the ending screen statistics panel.</td></tr>
+                                    <tr><td>Player finds Road File in Grama Sevaka Office</td><td>Campaign Tent</td><td>The 2010 manifesto comparison becomes available if the player subsequently finds the unmarked box in the corner of the tent.</td></tr>
+                                    <tr><td>Player reports illegal posters to Sergeant Wickramasinghe</td><td>Campaign Tent</td><td>Sergeant has spoken to Mahinda's supporters. Fewer posters visible. Mahinda is more guarded in his opening dialogue.</td></tr>
+                                    <tr><td>Sandya's note found and followed across Weeks 3 to 0</td><td>Polling Station - voter register</td><td>Sandya's name appears on the voter register. Visible if player checks the register before voting.</td></tr>
+                                    <tr><td>Player verifies 3 or more messages at Elections Commission board in one playthrough</td><td>Town map</td><td>Skeptics Cafe becomes visible - a small unlabelled icon appears near the notice board on the map. Player must click it to discover it.</td></tr>
+                                    <tr><td>Player reports voter intimidation scenario to Sergeant Wickramasinghe</td><td>Polling Station</td><td>Increased security presence visible. Presiding officer references the earlier report. Gauge: additional +10 VP on election day.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="sys-mechanics" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>9. The Countdown Mechanic and Permanent Consequences</h3>
+                            <p>The election is in 6 weeks. The countdown is always visible. Some doors close as time passes and do not reopen. The game does not announce these closures in advance - they are discovered by absence. The player's first playthrough teaches them that deadlines are real. Their second playthrough shows them what to do about it.</p>
+                            <ul class="clean-list">
+                                <li><strong>Week 4 - Registration closes:</strong> If the player has not completed the registration chapter by the end of Week 4, voter registration is permanently unavailable. Information Health takes a permanent reduction of -20 that cannot be recovered. The game does not stop. The player can still vote if they were already registered - but the lesson is built into the experience, not delivered as a message.</li>
+                                <li><strong>Week 3 - Official candidate list posted:</strong> Players who visit the Elections Commission board at or after Week 3 can compare this list to Uncle Sirisena's circulating version, which has two candidates who do not exist and is missing one who does.</li>
+                                <li><strong>Week 2 - Manifesto comparison unlocks:</strong> Mahinda Bandara's manifesto comparison mechanic becomes available. The 2010 copy can be found in the campaign tent from this point.</li>
+                                <li><strong>Week 1 - Campaign period closes:</strong> Mahinda Bandara no longer gives interviews. His manifesto can still be read. His calendar is still on walls everywhere. But the conversation about his promises is no longer available.</li>
+                                <li><strong>Week 0 - Election day:</strong> The Polling Station unlocks. All other locations become read-only. This is the only day the player can vote. Consequences of all previous weeks are visible in this one location simultaneously.</li>
+                            </ul>
+                        </div>
+
+                        <div class="content-block">
+                            <h3>Difficulty Modes</h3>
+                            <p class="muted-text">Standard mode is the MVP. Hard, Expert, and Speedrun modes are post-launch features. The game state architecture must support them without refactoring - they are not activated in v1.0.</p>
+                            <div class="doc-grid">
+                                <div class="grid-item">
+                                    <h4>Standard Mode - MVP</h4>
+                                    <p><strong>Misinformation:</strong> Moderate difficulty. False content is plausible but detectable with attention.</p>
+                                    <p><strong>Deadlines:</strong> Missed deadlines reduce gauges but do not block the ending.</p>
+                                    <p><strong>Gauges:</strong> Fully visible at all times.</p>
+                                    <p><strong>Status:</strong> Built in v1.0.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Hard Mode - Post-launch</h4>
+                                    <p><strong>Misinformation:</strong> High difficulty. Lies are highly plausible and well-sourced-seeming.</p>
+                                    <p><strong>Deadlines:</strong> Missed deadlines lock specific ending paths.</p>
+                                    <p><strong>Gauges:</strong> Progress bars hidden. Numbers only.</p>
+                                    <p><strong>Status:</strong> Documented, not built in v1.0.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Expert Mode - Post-launch</h4>
+                                    <p><strong>Misinformation:</strong> Extreme difficulty. Context-heavy, requires cross-referencing.</p>
+                                    <p><strong>Consequences:</strong> Permanent credibility loss for a single mistake. Some locations become permanently inaccessible.</p>
+                                    <p><strong>Gauges:</strong> Completely hidden.</p>
+                                    <p><strong>Status:</strong> Documented, not built in v1.0.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Speedrun Mode - Post-launch</h4>
+                                    <p><strong>Timeline:</strong> 6 weeks compressed to 2. All decisions are faster.</p>
+                                    <p><strong>Mechanic:</strong> Rapid decisions, instant cross-zone ripples. Leaderboard integration required.</p>
+                                    <p><strong>Challenge:</strong> Reach the secret ending in under 10 minutes.</p>
+                                    <p><strong>Status:</strong> Documented, not built in v1.0. Requires backend for leaderboard.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="scenarios-view" class="view-section" aria-labelledby="scenarios-heading">
+                <header class="doc-header">
+                    <h2 id="scenarios-heading">Scenarios, Misinformation Flow &amp; Endings</h2>
+                </header>
+
+                <div class="doc-tabs" role="tablist" aria-label="Scenarios section tabs">
+                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="flow-misinfo" data-tab-target="flow-misinfo">Misinformation Mechanic</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="flow-secrets" data-tab-target="flow-secrets">Secret Content &amp; Easter Eggs</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="flow-endings" data-tab-target="flow-endings">Endings</button>
+                </div>
+
+                <div class="tab-content-container">
+
+                    <div id="flow-misinfo" class="sub-tab-content active" role="tabpanel">
+                        <div class="content-block">
+                            <h3>10. The Misinformation Mechanic - Detailed Design</h3>
+                            <p>This is the most educationally critical mechanic in the game. Uncle Sirisena sends the player content in four formats that mirror exactly how misinformation actually circulates in Sri Lanka. The game does not reward blanket distrust any more than it rewards blanket trust. It rewards discrimination - evaluating each piece of information on its merits. The false content is faster and easier to act on. The accurate verification requires a trip. This asymmetry is intentional and is the core educational design.</p>
+
+                            <h4>10.1 Content Formats</h4>
+                            <ul class="clean-list">
+                                <li><strong>Text forward:</strong> Looks like a news article. Has a headline, a body, and a source that sounds plausible.</li>
+                                <li><strong>Voice note:</strong> Cannot be easily fact-checked because there is no text to search. Player hears a written transcript summary, not the audio itself - because audio is inaccessible without transcripts (WCAG compliance).</li>
+                                <li><strong>Screenshot:</strong> An image of something allegedly said by a real institution. Player must evaluate whether the institution would say this and whether the formatting looks correct.</li>
+                                <li><strong>Video clip:</strong> Shown as a still frame with a caption. The caption may or may not accurately describe what is in the video.</li>
+                            </ul>
+
+                            <h4>10.2 Player Response Options</h4>
+                            <ul class="clean-list">
+                                <li><strong>Share immediately:</strong> Fastest option. Requires no navigation. If the content is false, triggers the cross-zone consequence system immediately.</li>
+                                <li><strong>Ignore completely:</strong> Safe if content is false. Costly if content is accurate - some accurate information comes through Uncle Sirisena and ignoring everything he sends means missing it.</li>
+                                <li><strong>Check the Elections Commission board:</strong> Always available but takes time - the player must physically navigate to the town square and find the relevant notice. This simulates the real friction of verification.</li>
+                                <li><strong>Ask Nandadasa Mahaththaya:</strong> Slowest option. Only available during office hours (posted on the door and not generous). But he is always right. He has never forwarded anything in his life.</li>
+                            </ul>
+
+                            <h4>10.3 Uncle Sirisena's Complete Message Schedule</h4>
+                            <table class="data-table" aria-label="Uncle Sirisena full message schedule">
+                                <thead><tr><th scope="col">Week</th><th scope="col">Format</th><th scope="col">Content</th><th scope="col">True or False</th><th scope="col">Verification Source</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Week 6</td><td>Text forward</td><td>Claims registration deadline is Week 6. It is actually Week 4. Creates urgency and panic.</td><td><strong>False</strong></td><td>Elections Commission board, Nandadasa Mahaththaya</td></tr>
+                                    <tr><td>Week 5</td><td>Voice note</td><td>Claims that voters can vote at any polling station on election day. This is incorrect - voters must attend their assigned station only.</td><td><strong>False</strong></td><td>Elections Commission board</td></tr>
+                                    <tr><td>Week 4</td><td>Screenshot</td><td>A fake Elections Commission notice about voting time change to 4am. The EC logo is slightly wrong. The footer is missing.</td><td><strong>False</strong></td><td>Elections Commission board (real opening hours posted there)</td></tr>
+                                    <tr><td>Week 3</td><td>Text forward</td><td>States that voters need to bring their NIC or passport to vote. This is correct information.</td><td><strong>True</strong> - sharing this is the correct action</td><td>N/A - this one should be shared. Not sharing it is a missed opportunity.</td></tr>
+                                    <tr><td>Week 2</td><td>Video clip</td><td>A fake candidate list - two names that do not exist, one real candidate's name missing. Circulated to cause confusion about who is actually on the ballot.</td><td><strong>False</strong></td><td>Elections Commission board's official candidate list notice (posted at Week 3)</td></tr>
+                                    <tr><td>Week 1</td><td>Voice note</td><td>Claims about where to fold the ballot. The procedure described is incorrect. Acting on this advice produces a spoiled ballot.</td><td><strong>False</strong></td><td>Nandadasa Mahaththaya, Sergeant Wickramasinghe</td></tr>
+                                </tbody>
+                            </table>
+
+                            <h4 style="margin-top: 2rem;">10.4 Interactive Decision Trees - All Six Scenarios</h4>
+                            <p class="muted-text">Click any choice to reveal its consequence and gauge impact. Each scenario maps to one Uncle Sirisena message in the schedule above.</p>
+
+                            <div class="logic-tree" aria-label="Misinformation decision trees">
+
+                                <div class="decision-node">
+                                    <div class="node-title">Scenario 1 - Week 6: Text Forward about Registration Deadline</div>
+                                    <div class="node-desc"><strong>Content:</strong> "URGENT: Voter registration closes THIS WEEK. If you are not registered by Friday you cannot vote. Share with everyone you know before it is too late."</div>
+                                    <div class="choices">
+                                        <button class="choice bad btn-interact" aria-expanded="false">Share immediately with WhatsApp contacts<div class="consequence"><strong>Result:</strong> False information spreads. Community members miss the real deadline because they thought they had already missed it. -20 CT, -15 IH, -20 VP.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Check the Elections Commission board first<div class="consequence"><strong>Result:</strong> Board shows real deadline is Week 4, not Week 6. You share the correction instead. +10 CT, +15 IH, +5 VP. Unlocks "The Algorithm Would Hate You" achievement.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Ask Nandadasa Mahaththaya directly<div class="consequence"><strong>Result:</strong> He confirms the real deadline without looking up from his desk. "Week 4. It is printed on the notice. The notice is on the board." +5 CT, +20 IH, +5 VP.</div></button>
+                                        <button class="choice neutral btn-interact" aria-expanded="false">Ignore the message completely<div class="consequence"><strong>Result:</strong> The message spreads through others anyway. You are not the source but also not the correction. -5 CT, -5 IH, -5 VP. Note: some accuracy is lost even without your involvement.</div></button>
+                                    </div>
+                                </div>
+
+                                <div class="decision-node">
+                                    <div class="node-title">Scenario 2 - Week 5: Voice Note about Polling Station Assignment</div>
+                                    <div class="node-desc"><strong>Content:</strong> A voice note (shown as transcript): "My cousin who works at the elections office told me - they changed it. You can go to any polling station now. No need to find your assigned one. Pass this on."</div>
+                                    <div class="choices">
+                                        <button class="choice bad btn-interact" aria-expanded="false">Forward the voice note: "URGENT SHARE IMMEDIATELY"<div class="consequence"><strong>Result:</strong> Spreads widely before being debunked. Dozens of voters go to the wrong stations and cannot vote. -20 CT, -15 IH, -20 VP.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Ask Grama Officer to confirm or deny<div class="consequence"><strong>Result:</strong> Officer denies it calmly. "This is not correct. Voters must attend their assigned station. The assignment is on the notice board." You share the clarification. +5 CT, +20 IH, +5 VP.</div></button>
+                                        <button class="choice neutral btn-interact" aria-expanded="false">Ask "Is this legit?" in the Alupotha Patriots group<div class="consequence"><strong>Result:</strong> Group splits. Some believe it, some do not. The uncertainty spreads. No clear outcome. No gauge change - but the misinformation gains traction anyway.</div></button>
+                                        <button class="choice neutral btn-interact" aria-expanded="false">Delete without checking or sharing<div class="consequence"><strong>Result:</strong> The rumour still spreads through others. You missed the chance to correct it. -5 CT, -5 IH, -5 VP.</div></button>
+                                    </div>
+                                </div>
+
+                                <div class="decision-node">
+                                    <div class="node-title">Scenario 3 - Week 4: Screenshot of Fake Elections Commission Notice</div>
+                                    <div class="node-desc"><strong>Content:</strong> A screenshot of what looks like an official Elections Commission notice. It states voting hours have changed and polling will begin at 4am instead of 7am due to security concerns. The EC logo is present but slightly wrong.</div>
+                                    <div class="choices">
+                                        <button class="choice bad btn-interact" aria-expanded="false">"This is what I've been saying - share IMMEDIATELY"<div class="consequence"><strong>Result:</strong> 23 people arrive at the polling station at 4am. When debunked, you are identified as a source. Community trust in your information drops. -15 CT, -20 IH, -20 VP. Triggers the queue-at-4am consequence chain.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Check the actual Elections Commission notice board<div class="consequence"><strong>Result:</strong> Board shows real opening hours: 7am to 5pm. The EC logo on the screenshot is wrong. You explain it is fake, with evidence. +10 CT, +15 IH, +5 VP.</div></button>
+                                        <button class="choice neutral btn-interact" aria-expanded="false">"I'm not sure about this one…" - share with a question mark<div class="consequence"><strong>Result:</strong> Others fill the uncertainty with stronger claims. Misinformation wins by default when doubt is left unresolved. No positive gauge change.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Share with Skeptics Cafe if it has been unlocked<div class="consequence"><strong>Result:</strong> Group debunks together within minutes. You are part of the verification network. +10 CT, +10 IH, +5 VP. Only available if verifiedAtBoardCount is 3 or more.</div></button>
+                                    </div>
+                                </div>
+
+                                <div class="decision-node">
+                                    <div class="node-title">Scenario 4 - Week 3: Correct Information about NIC Requirement</div>
+                                    <div class="node-desc"><strong>Content:</strong> Text forward: "Reminder to everyone - you MUST bring your NIC or passport to vote. No other ID is accepted. Please remind your family members who might not know this."</div>
+                                    <div class="choices">
+                                        <button class="choice good btn-interact" aria-expanded="false">Share it - this sounds right<div class="consequence"><strong>Result:</strong> This one is true. Sharing accurate information is the correct action. Community members are reminded of what to bring. +10 CT, +10 IH, +10 VP. Unlocks "It Spreads Both Ways" achievement.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Verify it at the Elections Commission board first, then share<div class="consequence"><strong>Result:</strong> Board confirms it. You share it with added authority. +10 CT, +15 IH, +10 VP. Slightly higher IH gain for verifying even true information.</div></button>
+                                        <button class="choice bad btn-interact" aria-expanded="false">Ignore it - you have been ignoring everything<div class="consequence"><strong>Result:</strong> Accurate information does not spread. Some voters arrive without their NIC and cannot vote. The game penalises blanket distrust the same way it penalises blanket trust. -5 CT, -5 IH, -5 VP.</div></button>
+                                        <button class="choice neutral btn-interact" aria-expanded="false">File it away - you will deal with it later<div class="consequence"><strong>Result:</strong> The moment passes. Information does not reach people in time. No positive gain. Neutral outcome but missed opportunity.</div></button>
+                                    </div>
+                                </div>
+
+                                <div class="decision-node">
+                                    <div class="node-title">Scenario 5 - Week 2: Video Clip with Fake Candidate List</div>
+                                    <div class="node-desc"><strong>Content:</strong> A video clip shared as a still frame with the caption "CONFIRMED: Full candidate list for our district - share before they take it down." The list has two names that do not appear on the official list and is missing one candidate who is actually running.</div>
+                                    <div class="choices">
+                                        <button class="choice bad btn-interact" aria-expanded="false">Share as confirmed - the caption says so<div class="consequence"><strong>Result:</strong> Voters make decisions based on a fabricated list. Some prepare to vote for candidates who do not exist. When the real list is published, community confusion peaks. -15 CT, -20 IH, -10 VP.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Compare to the Elections Commission board candidate list from Week 3<div class="consequence"><strong>Result:</strong> The discrepancy is immediate and obvious. Two fake names. One real name missing. You document and share the comparison. +10 CT, +20 IH, +10 VP.</div></button>
+                                        <button class="choice neutral btn-interact" aria-expanded="false">Ask Mahinda Bandara's supporters about it<div class="consequence"><strong>Result:</strong> They confirm names that benefit their candidate. Biased source. No gauge gain. Information remains unreliable.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Check the official Elections Commission website<div class="consequence"><strong>Result:</strong> Official list matches the board version. Discrepancy confirmed. Sharing the official source directly earns maximum trust. +10 CT, +15 IH, +10 VP.</div></button>
+                                    </div>
+                                </div>
+
+                                <div class="decision-node">
+                                    <div class="node-title">Scenario 6 - Week 1: Voice Note about Ballot Fold Procedure</div>
+                                    <div class="node-desc"><strong>Content:</strong> Voice note transcript: "I just found out - you have to fold the ballot in thirds, not in half. If you fold it in half your vote does not count. My brother-in-law works at the counting centre and he confirmed this."</div>
+                                    <div class="choices">
+                                        <button class="choice bad btn-interact" aria-expanded="false">Trust it - the brother-in-law works at the counting centre<div class="consequence"><strong>Result:</strong> On election day, the player folds the ballot incorrectly. The ballot is spoiled. -10 CT, -20 IH, -10 VP. This is the most direct consequence in the entire game - your vote does not count because of a voice note you did not verify.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Ask Nandadasa Mahaththaya - he will know the exact procedure<div class="consequence"><strong>Result:</strong> Nandadasa explains the correct fold without looking up. The vote counts. +5 CT, +20 IH, +5 VP. This IH gain is the highest single-source gain available in Week 1.</div></button>
+                                        <button class="choice good btn-interact" aria-expanded="false">Ask Sergeant Wickramasinghe at the police station<div class="consequence"><strong>Result:</strong> Sergeant describes the correct procedure clearly and adds that he has seen spoiled ballots from this exact misinformation before. +10 CT, +10 IH, +5 VP.</div></button>
+                                        <button class="choice neutral btn-interact" aria-expanded="false">Ignore it - you already know how to vote<div class="consequence"><strong>Result:</strong> If this is Kamala's Assumption disadvantage triggering, she thinks she knows the fold from last time. She was wrong. If this is a deliberate ignore from another character: -5 CT, -5 IH. The information that the fold matters is not received.</div></button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="flow-secrets" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>11. Secret Content, Easter Eggs, and Hidden Threads</h3>
+                            <p>None of this content is required to complete the game. All of it adds something. It is intentionally designed to reward players who look carefully and play more than once. None of it is flagged, signposted, or marked as interactive in the UI. The player either finds it or they do not.</p>
+
+                            <div class="doc-grid">
+                                <div class="grid-item">
+                                    <h4>11.1 The Road File</h4>
+                                    <p><strong>How to find it:</strong> In the Grama Sevaka Office, click on Nandadasa Mahaththaya's filing cabinet rather than on Nandadasa himself. No prompt is given. The interaction is available from Week 3 onwards.</p>
+                                    <p><strong>What happens:</strong> A 90-second exchange. Nandadasa retrieves a thick folder - a paper trail of every road repair application submitted since 2007. Each application was processed correctly. Each was forwarded. Each was received and filed. The road is not fixed because the budget was reallocated at a level above his jurisdiction. He has known this since 2009. He pulls out a thinner folder - his personal correspondence attempting to escalate the issue. He has never mentioned this to anyone because it is not his place.</p>
+                                    <p><strong>What it does:</strong> Recontextualises Mahinda Bandara without exonerating him. Also recontextualises Nandadasa entirely. Gauge: +25 IH, +5 CT. Unlocks achievement "Thirty Years in the Same Room".</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>11.2 The 1977 Receipt</h4>
+                                    <p><strong>How to find it:</strong> In Mudalali Perera's boutique, click specifically on the wall behind the counter. Not on Mudalali himself. No prompt given.</p>
+                                    <p><strong>What happens:</strong> A framed receipt from 1977 - a food order from a political rally. Mudalali's father ran this boutique before him and catered the rally for the party that won that election. The party Mudalali has voted for every election since. He did not choose it for ideological reasons. The game says nothing about what this means. The player decides.</p>
+                                    <p><strong>What it does:</strong> Gauge: +10 IH, +5 CT. Unlocks achievement "Pol Roti and Politics".</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>11.3 The Manifesto Comparison</h4>
+                                    <p><strong>How to find it:</strong> The player must have already read the current manifesto AND click on a specific unmarked box in the corner of the campaign tent. Two conditions required. No prompt given for the box.</p>
+                                    <p><strong>What happens:</strong> The game generates a side-by-side comparison of the 2010 and current manifesto. The road section is highlighted. The wording is 94% identical. The only substantive change is that 2010 says "within the next term" and the current version says "as a priority." The game says nothing about this comparison. It just shows it.</p>
+                                    <p><strong>What it does:</strong> Gauge: +20 IH, +10 CT. Unlocks achievement "Actually Read the Fine Print".</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>11.4 The Sergeant's Transfer</h4>
+                                    <p><strong>How to find it:</strong> The player must first hear about the 2016 road repair attempt from Mudalali Perera. Then visit the Police Station and specifically ask Sergeant Wickramasinghe about 2016. Two conditions required. No hint given.</p>
+                                    <p><strong>What happens:</strong> He pauses longer than usual. He says he arrived at this posting in 2017. He does not know the specific history of every infrastructure project. If the player waits rather than clicking through dialogue, he adds one more line: that he requested this posting specifically and he is not going to explain why. This thread does not resolve. It is simply there for players who are paying attention.</p>
+                                    <p><strong>What it does:</strong> No gauge impact. Unlocks achievement "Somebody Had to Ask".</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>11.5 The Bulletin Board Thread</h4>
+                                    <p><strong>How to find it:</strong> Visit the Elections Commission board in Week 3. A small handwritten note is pinned in the corner, not from the Elections Commission. It says: "My name is not on the list. Has anyone else had this problem. Please contact Sandya." The phone number given is fictional.</p>
+                                    <p><strong>What happens:</strong> If the player returns to the notice board each week from Week 3 to Week 0, the note changes. Someone has replied by hand underneath. Then someone else. By election day, there is a small cluster of handwritten notes from people helping each other navigate the registration problem. Sandya's name appears on the voter register inside the polling station on Week 0. She made it.</p>
+                                    <p><strong>What it does:</strong> Gauge across all weeks: +10 IH, +10 CT, +15 VP total. Unlocks achievement "Sandya Made It".</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>11.6 Skeptics Cafe</h4>
+                                    <p><strong>How to find it:</strong> Verify three or more messages using the Elections Commission board in a single playthrough. A small unlabelled icon appears near the notice board on the town map. No announcement. No notification. Player must click it.</p>
+                                    <p><strong>What happens:</strong> A secondary information network - community members who evaluate content before sharing. They provide additional misinformation commentary and context on any content currently circulating. Nandadasa is not a member. He was invited once. He did not reply to the invitation, which itself took six weeks.</p>
+                                    <p><strong>What it does:</strong> Provides an additional response option (Share with Skeptics Cafe) for all subsequent Uncle Sirisena messages. Unlocks achievement "You Found the Cafe".</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="flow-endings" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>12. Endings</h3>
+                            <p>The ending is determined by the player's gauge scores and flag states at Week 0, after voting. Endings are evaluated in order from secret to bad - the game checks for the secret ending first, then good, then neutral, then bad.</p>
+
+                            <div class="logic-tree" aria-label="Game endings">
+                                <div class="logic-node border-danger">
+                                    <div class="node-title">12.1 Bad Ending</div>
+                                    <div class="node-desc">
+                                        <p><strong>Trigger:</strong> Any single gauge below 30 at Week 0, OR registration was missed, OR ballot was spoiled due to misinformation.</p>
+                                        <p>The town is quieter. The turnout is low. Characters comment on what happened without editorialising. The election happens. The result is announced. Mahinda Bandara may win or lose depending on Voter Participation score - but the ending focuses on the community, not the candidate. The ending screen shows statistics: what percentage of Alupotha voted, where Civic Trust ended, how many people the player helped versus how many were confused by what the player shared.</p>
+                                    </div>
+                                </div>
+                                <div class="logic-node border-warning">
+                                    <div class="node-title">12.2 Neutral Ending</div>
+                                    <div class="node-desc">
+                                        <p><strong>Trigger:</strong> All gauges between 30 and 60 at Week 0. Valid ballot cast. Registration completed.</p>
+                                        <p>The player voted and tried. Some things went wrong. Some went right. The game acknowledges both without sentimentality. The community participated but not at full strength. The ending screen reflects a mixed picture - some people helped, some misinformation still spread, some opportunities missed.</p>
+                                    </div>
+                                </div>
+                                <div class="logic-node border-success">
+                                    <div class="node-title">12.3 Good Ending</div>
+                                    <div class="node-desc">
+                                        <p><strong>Trigger:</strong> All gauges above 60 at Week 0. Registration completed. Valid ballot cast.</p>
+                                        <p>Karunasena walks out of the polling station. Aunty Soma is waiting outside. The moment passes without dialogue - just the two of them and the quiet of a street that has been through an election. The closing card shows community statistics. Strong turnout. High Civic Trust. A note that the elderly woman's granddaughter registered to vote for the next cycle if the player helped her find her name.</p>
+                                    </div>
+                                </div>
+                                <div class="logic-node border-primary">
+                                    <div class="node-title">12.4 Secret Ending - The Unbroken Chain</div>
+                                    <div class="node-desc">
+                                        <p><strong>Trigger:</strong> All three gauges above 75 at Week 0. Manifesto comparison completed. Road File found. All three queue people helped. Valid ballot cast.</p>
+                                        <p>The standard good ending plays in full. After the closing card, there is one more scene. Aunty Soma takes a worn voter registration card from her purse - her original card from 1983. She shows it to Karunasena. She says, in whichever language the player has selected, that she has carried this since the first time she voted. That it is not the card that matters. That the road will probably not be fixed. That Mahinda Bandara will probably win again. That she comes every time anyway because the alternative is to let other people make all the decisions, and she has never found a convincing argument for that.</p>
+                                        <p>She puts the card away. The game ends. There are no further statistics or scores. Just the closing.</p>
+                                        <p class="note-text"><em>The secret ending text is the same in all three languages. It is the only piece of content in the game with no variation by character - the scene is always Aunty Soma and Karunasena, referenced by the other two characters in their own epilogue text as something they heard about later.</em></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="technical-view" class="view-section" aria-labelledby="technical-heading">
+                <header class="doc-header">
+                    <h2 id="technical-heading">Technical Architecture &amp; Facilitator Tool</h2>
+                </header>
+
+                <div class="doc-tabs" role="tablist" aria-label="Technical section tabs">
+                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tech-state" data-tab-target="tech-state">Game State JSON</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tech-component-b" data-tab-target="tech-component-b">Component B (Facilitator)</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tech-stack" data-tab-target="tech-stack">Stack &amp; Analytics</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tech-a11y" data-tab-target="tech-a11y">Accessibility (WCAG)</button>
+                </div>
+
+                <div class="tab-content-container">
+
+                    <div id="tech-state" class="sub-tab-content active" role="tabpanel">
+                        <div class="content-block">
+                            <h3>7. Game State Specification</h3>
+                            <p>This is the complete definition of everything the game must remember. The developer implements this as a JavaScript object. It is saved to localStorage after every significant action. It is loaded on page load. Language can be switched at any time without resetting this state.</p>
+                            <pre class="code-block"><code>gameState = {
+  core: {
+    character: 'karunasena' | 'kamala' | 'kumaran',
+    language: 'en' | 'si' | 'ta',
+    week: 6,            // counts down: 6 to 0
+    sessionStart: timestamp,
+    sessionId: uuid,
+    sessionCount: 1     // increments per new playthrough
+  },
+  gauges: {
+    civicTrust: Number,         // 0-100
+    informationHealth: Number,  // 0-100
+    voterParticipation: Number  // 0-100
+  },
+  flags: {
+    // Registration
+    registrationComplete: false,
+    registrationDeadlineMissed: false,
+    // Misinformation
+    sharedFake4amMessage: false,
+    sharedFakeCandidateList: false,
+    verifiedAtBoardCount: 0,        // used to unlock Skeptics Cafe at 3
+    skepticsCafeUnlocked: false,
+    // Secret content
+    foundRoadFile: false,
+    found1977Receipt: false,
+    foundOldManifesto: false,
+    manifestoComparisonDone: false,
+    foundSergeantTransferThread: false,
+    foundSandyaNote: false,
+    sandyaOnRegister: false,        // set true at Week 0 if thread followed
+    // Queue people
+    helpedElderlyWoman: false,
+    helpedNICYoungMan: false,
+    helpedLostCouple: false,
+    // Civic actions
+    reportedIllegalPosters: false,
+    reportedVoterIntimidation: false,
+    readCurrentManifesto: false,
+    // Voting
+    votedSuccessfully: false,
+    ballotSpoiled: false,
+    // Character-specific
+    karunasena_dismissedCount: 0,   // tracks blanket dismissals
+    kamala_assumptionsCorrected: 0,
+    kumaran_transferStepsComplete: 0,
+    // Endings
+    endingReached: null             // 'good' | 'bad' | 'neutral' | 'secret'
+  },
+  npcRelationship: {
+    uncleSirisena: 50,              // 0-100, affects dialogue options
+    nandadasa: 50,
+    sergeantWickramasinghe: 50,
+    mudalaliPerera: 50,
+    mahindaBandara: 50
+  },
+  visitLog: {
+    // week : array of location IDs visited that week
+    6:[], 5:[], 4:[], 3:[], 2:[], 1:[], 0:[]
+  }
+}</code></pre>
+                        </div>
+
+                        <div class="content-block">
+                            <h3>15.2 Content JSON Structure</h3>
+                            <p>All game text lives in three files: <code>content.en.json</code>, <code>content.si.json</code>, and <code>content.ta.json</code>. They are structurally identical - the developer builds the game against the English file and the same key structure in the other two languages is loaded when the player switches language. Translators edit JSON files directly. They do not touch any code. New scenarios are added by adding entries to the JSON files without touching the game engine.</p>
+                            <pre class="code-block"><code>// content.en.json - partial structure example
+{
+  "characters": {
+    "karunasena": {
+      "name": "Karunasena",
+      "age": 19,
+      "intro": "You've just arrived in Alupotha...",
+      "perk": "Curiosity",
+      "disadvantage": "Exposure"
+    },
+    "kamala": { ... },
+    "kumaran": { ... }
+  },
+  "locations": {
+    "gramaSevaka": {
+      "name": "Grama Sevaka Office",
+      "description": "A single-room government building...",
+      "objects": {
+        "nandadasa": {
+          "label": "Talk to Nandadasa Mahaththaya",
+          "dialogues": {
+            "default": { "text": "...", "options": [] },
+            "karunasena_extra": { "text": "...", "options": [] }
+          }
+        },
+        "filingCabinet": {
+          "label": null,
+          "condition": "week <= 3",
+          "dialogue": { "text": "...", "gaugeDeltas": { "ih": 25, "ct": 5 } }
+        }
+      }
+    }
+  },
+  "uncleSirisena": {
+    "messages": [
+      {
+        "week": 6,
+        "format": "text",
+        "content": "URGENT: Voter registration closes THIS WEEK...",
+        "isTrue": false,
+        "verificationSource": "electionsCommission",
+        "shareConsequence": {
+          "ct": -20, "ih": -15, "vp": -20,
+          "flags": ["sharedFake4amMessage"]
+        }
+      }
+    ]
+  },
+  "achievements": { ... },
+  "clues": { ... }
+}</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div id="tech-component-b" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>13. Component B - Facilitator-Led Training Tool</h3>
+                            <p>Component B reuses the game's visual assets, characters, and scenarios but restructures them for facilitator-led group sessions in classrooms and community workshops. It shares the same codebase and content JSON as Component A. The facilitator controls progression. Participants respond in real time on their own devices.</p>
+
+                            <h4>13.1 How It Works</h4>
+                            <ul class="clean-list">
+                                <li>Facilitator opens the web application and creates a new session. They receive a 6-character session code.</li>
+                                <li>Participants navigate to the same URL on their phones or devices and enter the session code. No account required. Participant ID is generated automatically and anonymously.</li>
+                                <li>A scenario appears on the facilitator's projected screen - the same scenario all participants can also read on their devices.</li>
+                                <li>Participants respond individually on their own devices. Their responses are collected in real time.</li>
+                                <li>The facilitator sees aggregate results as a live bar chart on their screen.</li>
+                                <li>The facilitator advances the session to the next scenario at their own pace. Participants cannot advance independently.</li>
+                                <li>At the end, the facilitator can export the session data as a CSV file for reporting and monitoring purposes.</li>
+                            </ul>
+
+                            <h4>13.2 Facilitator Interface Screens</h4>
+                            <table class="data-table" aria-label="Component B facilitator interface screens">
+                                <thead><tr><th scope="col">Screen</th><th scope="col">Purpose</th><th scope="col">Key Elements</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Session creation</td><td>Start a new workshop session</td><td>Generate session code, set scenario playlist via drag-and-drop, language selection, participant cap setting, session password</td></tr>
+                                    <tr><td>Waiting room</td><td>Participants join before session starts</td><td>Live count of joined participants, list of anonymous participant IDs, language distribution, Start Session button</td></tr>
+                                    <tr><td>Scenario view - facilitator</td><td>Run the active session</td><td>Scenario text (large, projectable), live response bar chart updating in real time, Next / Pause / Reset controls, optional countdown timer</td></tr>
+                                    <tr><td>Reveal screen</td><td>Show correct answer after voting closes</td><td>Correct answer highlighted with explanation text, full percentage breakdown, option to discuss before moving on</td></tr>
+                                    <tr><td>Session summary</td><td>End of session overview</td><td>All scenarios with aggregate responses, participation rate, CSV export button, shareable session link</td></tr>
+                                </tbody>
+                            </table>
+
+                            <h4>13.3 Participant Interface</h4>
+                            <ul class="clean-list">
+                                <li><strong>Join screen:</strong> Enter 6-character session code, select language (EN/SI/TA), receive anonymous participant ID.</li>
+                                <li><strong>Scenario view:</strong> Read the full scenario text on device. Cannot advance - facilitator controls pace.</li>
+                                <li><strong>Response screen:</strong> The same four options as Component A (Share, Ignore, Verify, Ask). Response is locked in on tap.</li>
+                                <li><strong>Waiting screen:</strong> "Response received - waiting for facilitator to reveal results." Cannot change response after submission.</li>
+                                <li><strong>Results view:</strong> Aggregate bar chart visible after facilitator reveals. Participant's own choice is highlighted.</li>
+                            </ul>
+
+                            <h4>13.4 Technical Architecture - Component B</h4>
+                            <ul class="clean-list">
+                                <li><strong>Real-time communication:</strong> WebSockets (preferred) or HTTP polling every 2 seconds (fallback for restricted school/community networks).</li>
+                                <li><strong>Session state:</strong> Stored server-side in Node.js with in-memory session store. No database required for basic operation. Sessions expire after 4 hours of inactivity.</li>
+                                <li><strong>Participant data:</strong> Anonymous. No personal information stored. Participant ID is a random 4-character string generated at join.</li>
+                                <li><strong>Facilitator authentication:</strong> Simple session password set at creation - no account system required for MVP.</li>
+                                <li><strong>Scenario content:</strong> All Component A scenarios are available. Facilitator selects and reorders via drag-and-drop playlist builder before starting.</li>
+                            </ul>
+
+                            <h4>13.5 Best Scenarios for Group Discussion</h4>
+                            <ul class="clean-list">
+                                <li><strong>Manifesto comparison:</strong> Facilitator displays both manifestos side by side. Group identifies differences before the comparison is revealed. High engagement for groups with political literacy.</li>
+                                <li><strong>Uncle Sirisena WhatsApp messages:</strong> Facilitator sends a fake message to participants. Group votes on whether to share before correct answer revealed. Best for the 4am scenario (Week 4).</li>
+                                <li><strong>Voter intimidation scenario:</strong> Group discusses what constitutes a legal violation before seeing the answer from Sergeant Wickramasinghe. Good for community workshops.</li>
+                                <li><strong>The ballot fold:</strong> Group attempts to describe correct procedure before seeing the actual instructions. High relevance for first-time voter audiences.</li>
+                                <li><strong>Roleplay option:</strong> Facilitator assigns one participant to play Mahinda Bandara - reading out his promises, answering questions in character - before the group evaluates his record against his manifesto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="tech-stack" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>15.1 Technology Stack</h3>
+                            <table class="data-table" aria-label="Technology stack">
+                                <thead><tr><th scope="col">Layer</th><th scope="col">Technology</th><th scope="col">Rationale</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Frontend - Component A</td><td>HTML5 + CSS3 + JavaScript (vanilla, no framework)</td><td>No framework dependency. Unencrypted source. Runs in any browser. Fully inspectable by client. Future developer can work without proprietary tools.</td></tr>
+                                    <tr><td>Content system</td><td>JSON content files (content.en.json, content.si.json, content.ta.json)</td><td>Translators edit JSON, not code. New scenarios added without developer involvement. Full separation of content and logic.</td></tr>
+                                    <tr><td>State persistence</td><td>localStorage</td><td>Game state saved automatically after every significant action. Player returns to same session on same device without an account.</td></tr>
+                                    <tr><td>Backend - Component B</td><td>Node.js + Express</td><td>Lightweight session management. WebSocket support via ws library. Deployable to free hosting tiers.</td></tr>
+                                    <tr><td>Real-time - Component B</td><td>WebSockets (ws library) with HTTP polling fallback</td><td>Live participant response aggregation. Fallback ensures functionality in restricted school/community network environments.</td></tr>
+                                    <tr><td>Analytics</td><td>Custom event logger (POST to simple backend endpoint)</td><td>All events defined in Section 16. Stored as structured JSON. Dashboard accessible to funder without requiring database expertise.</td></tr>
+                                    <tr><td>Hosting</td><td>Vercel or Netlify (free tier)</td><td>Component A deployed as static site. Component B deployed as Node.js service. Both free at project scale.</td></tr>
+                                    <tr><td>Version control &amp; handoff</td><td>GitHub (public repository)</td><td>Full unencrypted source history. Client receives repository access, not a ZIP file. Post-launch developers can fork and extend.</td></tr>
+                                    <tr><td>Fonts</td><td>Noto Sans (Latin), Noto Sans Sinhala, Noto Sans Tamil</td><td>Single Noto font family. Consistent rendering across all three scripts. Available via Google Fonts at no cost.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="content-block">
+                            <h3>16. Analytics Event Taxonomy</h3>
+                            <p>Every event below is fired to the analytics backend at the moment it occurs. The analytics dashboard shows aggregate data - never individual player data. All data is anonymised by session ID. The funder receives dashboard access. No raw event logs are exposed publicly.</p>
+                            <table class="data-table" aria-label="Full analytics event taxonomy">
+                                <thead><tr><th scope="col">Event Name</th><th scope="col">Fired When</th><th scope="col">Data Payload</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>session_start</code></td><td>Game loads and character is selected</td><td>character, language, timestamp, sessionId, sessionCount</td></tr>
+                                    <tr><td><code>session_end</code></td><td>Any ending is reached</td><td>character, language, duration, endingReached, finalGauges{ct, ih, vp}, sessionId</td></tr>
+                                    <tr><td><code>language_switched</code></td><td>Player uses the language switcher mid-session</td><td>from, to, week, sessionId, character</td></tr>
+                                    <tr><td><code>location_visited</code></td><td>Player navigates to any location</td><td>locationId, week, character, sessionId, visitCount</td></tr>
+                                    <tr><td><code>gauge_update</code></td><td>Any gauge value changes</td><td>gauge, oldValue, newValue, delta, trigger, week, locationId, character, sessionId</td></tr>
+                                    <tr><td><code>misinformation_choice</code></td><td>Player responds to any Uncle Sirisena message</td><td>messageId, week, choice (share|ignore|verify|ask), isCorrectChoice, character, sessionId</td></tr>
+                                    <tr><td><code>secret_found</code></td><td>Player discovers any secret content</td><td>secretId, week, character, sessionId</td></tr>
+                                    <tr><td><code>deadline_outcome</code></td><td>Week 4 passes (registration window closes)</td><td>registrationComplete, character, sessionId</td></tr>
+                                    <tr><td><code>queue_person</code></td><td>Player interacts with any queue person at polling station</td><td>personId (elderly|youngman|couple), helped (true|false), character, sessionId</td></tr>
+                                    <tr><td><code>vote_cast</code></td><td>Player casts their ballot at Week 0</td><td>outcome (valid|spoiled), character, finalIH, sessionId</td></tr>
+                                    <tr><td><code>achievement_unlocked</code></td><td>Any achievement is unlocked</td><td>achievementId, week, character, sessionId, timestamp</td></tr>
+                                    <tr><td><code>component_b_session</code></td><td>Facilitator starts a Component B session</td><td>sessionCode, participantCount, scenarioPlaylist, language, timestamp</td></tr>
+                                    <tr><td><code>component_b_response</code></td><td>Participant responds to a scenario in Component B</td><td>sessionCode, scenarioId, choice, anonymous_participantId, responseTime</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="tech-a11y" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>14. Accessibility - WCAG Compliance Requirements</h3>
+                            <p>Accessibility is not a post-launch feature. Every requirement listed below is a production prerequisite that is tested and confirmed before release. The game failing any of these tests is a build failure, not a nice-to-have fix.</p>
+                            <table class="data-table" aria-label="Accessibility requirements and implementation">
+                                <thead><tr><th scope="col">Requirement</th><th scope="col">WCAG Standard</th><th scope="col">Implementation</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Minimum tap target size</td><td>WCAG 2.5.5</td><td>Every tappable element minimum 44×44 pixels. Applies to all interactive elements including map locations, dialogue choices, NPC click targets, and navigation buttons.</td></tr>
+                                    <tr><td>Text size options</td><td>WCAG 1.4.4</td><td>Three display text sizes: standard, large, extra-large. Setting is persistent across sessions via localStorage. Applies to all dialogue text and UI labels.</td></tr>
+                                    <tr><td>Colour independence</td><td>WCAG 1.4.1</td><td>Gauge states shown with icon, numerical value, AND colour. Colour is never the sole indicator of information. Positive/negative gauge changes also shown with +/- symbols, not just green/red.</td></tr>
+                                    <tr><td>Motion sensitivity</td><td>WCAG 2.3.3</td><td>All animations can be disabled in settings. Also automatically respected via prefers-reduced-motion media query. Setting persists across sessions.</td></tr>
+                                    <tr><td>Screen reader navigation</td><td>WCAG 4.1.2</td><td>All menu systems navigable via screen reader. All interactive elements have ARIA labels. All sections have aria-labelledby headings. Skip-to-main-content link at top of page.</td></tr>
+                                    <tr><td>Sinhala and Tamil font rendering</td><td>Best practice - essential for trilingual content</td><td>Noto Sans Sinhala and Noto Sans Tamil loaded for all Sinhala and Tamil text. :lang(si) and :lang(ta) CSS rules apply correct font, line-height, and letter-spacing.</td></tr>
+                                    <tr><td>Contrast ratio - body text</td><td>WCAG 1.4.3</td><td>All body text meets minimum 4.5:1 contrast ratio. Garnet red (#8B1A2B) on off-white (#F5F0EA) verified. Slate (#3D4A5C) on off-white verified.</td></tr>
+                                    <tr><td>Contrast ratio - large text and UI elements</td><td>WCAG 1.4.3</td><td>All large text and UI components meet minimum 3:1 contrast ratio.</td></tr>
+                                    <tr><td>Audio descriptions</td><td>WCAG 1.2.3</td><td>Available for all significant visual elements via settings toggle. Voice note content always displayed as written transcript - audio is never the only format.</td></tr>
+                                    <tr><td>Keyboard navigation</td><td>WCAG 2.1.1</td><td>Full game navigable by keyboard. Tab order is logical. Focus states are visible. No keyboard traps. All interactive elements reachable without a mouse or touchscreen.</td></tr>
+                                    <tr><td>Focus visibility</td><td>WCAG 2.4.7</td><td>All focusable elements have a visible focus indicator with sufficient contrast. Custom focus ring applied consistently across all interactive elements.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="network-view" class="view-section" aria-labelledby="network-heading">
+                <header class="doc-header">
+                    <h2 id="network-heading">Systems Network Map</h2>
+                    <p class="lead-text">Interactive visualisation of all characters, locations, and systems. Click any node to view its connections and GDD details.</p>
+                </header>
+
+                <div class="doc-body network-layout">
+                    <div class="network-canvas-container" aria-label="Interactive game systems network map">
+                        <div class="network-controls" role="toolbar" aria-label="Network map filters">
+                            <button class="filter-btn active" data-filter="all" aria-pressed="true">All Elements</button>
+                            <button class="filter-btn" data-filter="characters" aria-pressed="false">Characters &amp; NPCs</button>
+                            <button class="filter-btn" data-filter="locations" aria-pressed="false">Locations</button>
+                            <button class="filter-btn" data-filter="scenarios" aria-pressed="false">Scenarios</button>
+                            <button id="resetBtn" class="action-btn" aria-label="Reset network map to initial state">Reset Map</button>
+                        </div>
+                        <div id="network" role="img" aria-label="Force-directed network graph of game entities"></div>
+                    </div>
+
+                    <aside class="network-sidebar" aria-label="Network node details">
+                        <div class="doc-tabs sub-tabs" role="tablist" aria-label="Network sidebar tabs">
+                            <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="info-tab" data-tab-target="info-tab">Node Info</button>
+                            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="legend-tab" data-tab-target="legend-tab">Map Legend</button>
+                        </div>
+
+                        <div class="tab-content-container">
+                            <div id="info-tab" class="sub-tab-content active" role="tabpanel">
+                                <div id="selectedInfo" class="info-panel">
+                                    <p class="empty-state">Click on any node to view GDD details and system linkages.</p>
+                                </div>
+                            </div>
+                            <div id="legend-tab" class="sub-tab-content" role="tabpanel">
+                                <div class="legend">
+                                    <h3>Entity Types</h3>
+                                    <div class="legend-item"><div class="legend-color char-player" aria-hidden="true"></div><span>Playable Characters</span></div>
+                                    <div class="legend-item"><div class="legend-color char-npc" aria-hidden="true"></div><span>NPCs &amp; Supporting Characters</span></div>
+                                    <div class="legend-item"><div class="legend-color loc-public" aria-hidden="true"></div><span>Locations &amp; Spaces</span></div>
+                                    <div class="legend-item"><div class="legend-color" style="background:#0F172A" aria-hidden="true"></div><span>Abstract Systems &amp; Scenarios</span></div>
+
+                                    <h3>Relationship Types</h3>
+                                    <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-trust" stroke-width="2"/></svg><span>Trust / Support</span></div>
+                                    <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-conflict" stroke-width="2" stroke-dasharray="4,4"/></svg><span>Conflict / Misinformation</span></div>
+                                    <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-influence" stroke-width="1"/></svg><span>Influence Path</span></div>
+                                    <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-location" stroke-width="2"/></svg><span>Location Access</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="production-view" class="view-section" aria-labelledby="production-heading">
+                <header class="doc-header">
+                    <h2 id="production-heading">Production Plan &amp; AI Tool Assignments</h2>
+                </header>
+
+                <div class="doc-body">
+                    <div class="content-block">
+                        <h3>AI Tool Assignments by Production Area</h3>
+                        <div class="doc-grid">
+                            <div class="card">
+                                <h4>Writing &amp; Dialogue</h4>
+                                <div class="tool-list">
+                                    <div class="tool-entry"><strong>Claude:</strong> All NPC dialogue trees, GDD v2.0 drafting, UI copy and system text, secret content writing, Aunty Soma's ending scene, achievement descriptions.</div>
+                                    <div class="tool-entry"><strong>Gemini Pro:</strong> Sinhala translation draft, Tamil translation draft, cross-checking electoral law facts against Sri Lankan sources.</div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <h4>Code &amp; Development</h4>
+                                <div class="tool-list">
+                                    <div class="tool-entry"><strong>Claude:</strong> Game state engine, dialogue renderer, consequence system, gauge logic, Component B facilitator tool, analytics integration, trilingual language switcher.</div>
+                                    <div class="tool-entry"><strong>ChatGPT:</strong> Second opinion on complex logic, bug diagnosis, JSON content structure validation.</div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <h4>Art &amp; Visuals</h4>
+                                <div class="tool-list">
+                                    <div class="tool-entry"><strong>Adobe Firefly:</strong> All 7 location background illustrations, 3 playable character designs, town map artwork. Safe for commercial use.</div>
+                                    <div class="tool-entry"><strong>DALL-E 3 (via ChatGPT):</strong> NPC portrait illustrations, UI decorative elements, WhatsApp message card mockups.</div>
+                                    <div class="tool-entry"><strong>Canva AI (free tier):</strong> UI kit assembly, gauge graphic states, Elections Commission notice board designs.</div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <h4>Audio &amp; Hosting</h4>
+                                <div class="tool-list">
+                                    <div class="tool-entry"><strong>Suno (free tier):</strong> Ambient music loops for all 7 locations, Mahinda Bandara's campaign jingle, polling station atmosphere track.</div>
+                                    <div class="tool-entry"><strong>Freesound.org:</strong> WhatsApp notification tone, page turn and stamp sounds, gauge change audio, crowd ambience.</div>
+                                    <div class="tool-entry"><strong>Vercel / Netlify + GitHub:</strong> Free web hosting deployment and unencrypted source version control.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>Critical Production Warnings</h3>
+                        <div class="warning-callout" role="alert">
+                            <p><strong>Sri Lankan electoral law accuracy:</strong> The voter registration steps, polling rules, and election commission procedures must be verified against real Sri Lankan sources before writing the dialogue. Do not use AI memory for these facts. Cross-check against the Elections Commission of Sri Lanka's official published materials.</p>
+                        </div>
+                        <div class="warning-callout" role="alert">
+                            <p><strong>Trilingual final review - non-negotiable:</strong> AI translation of Sinhala and Tamil produces a first draft only. One native Sinhala speaker and one native Tamil speaker who understands the electoral context must review all translated content before it goes live. This especially applies to Kumaran's path and all ballot instructions.</p>
+                        </div>
+                        <div class="warning-callout" role="alert">
+                            <p><strong>Consequence chain testing:</strong> All 12 consequence chains in Section 8 must be manually triggered and verified by a human player before release. This takes one focused day of playtesting, not a week. Do not skip it. Automated testing cannot replace this - the chains involve state combinations that require playing through as a human.</p>
+                        </div>
+                        <div class="warning-callout" role="alert">
+                            <p><strong>Achievement testing:</strong> All 25 achievements must be manually triggered in a test environment to confirm their conditions fire correctly. Pay particular attention to "The Road Remains" - it must fire on every single ending including the bad ending, and must not fire before an ending is reached.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="achievements-view" class="view-section" aria-labelledby="achievements-heading">
+                <header class="doc-header">
+                    <h2 id="achievements-heading">Achievements &amp; Subtle Clue System</h2>
+                    <p class="lead-text">25 total achievements. 4 hidden. The system exists to give an education game a reason to be replayed.</p>
+                </header>
+
+                <div class="doc-tabs" role="tablist" aria-label="Achievements section tabs">
+                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="ach-system" data-tab-target="ach-system">Achievement System Design</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="ach-list" data-tab-target="ach-list">Full Achievement List</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="ach-clues" data-tab-target="ach-clues">Subtle Clue System</button>
+                </div>
+
+                <div class="tab-content-container">
+
+                    <div id="ach-system" class="sub-tab-content active" role="tabpanel">
+                        <div class="content-block">
+                            <h3>Achievement System - Design Philosophy</h3>
+                            <p>Half the achievements are funny. Half are genuinely meaningful. None of them tell the player what to do next. The funny ones should make a first-time player laugh when they read the name before they understand it. The meaningful ones should feel like quiet acknowledgments of something the player actually did, without applause.</p>
+                            <p>This system exists for one practical reason: an education game that takes itself too seriously is one nobody finishes. The achievements give players a reason to replay and reward the curiosity that drives deeper learning.</p>
+
+                            <h4>Storage and Display</h4>
+                            <ul class="clean-list">
+                                <li>Achievements are stored in the same <code>gameState</code> localStorage object as everything else. No external platform required for MVP.</li>
+                                <li>The Achievements screen is accessible from the main menu only. It is not accessible mid-game.</li>
+                                <li>The screen shows all 25 achievements including locked ones. Locked achievements show their name but the description is replaced with a placeholder dash. The player has to earn it to read what it says.</li>
+                                <li>Four achievements are fully hidden when locked - they appear as a blank tile with a question mark. The player does not know these exist until they unlock them.</li>
+                                <li>The screen shows a simple counter: X / 25 Unlocked. No percentage. No rarity. No global statistics. Just the number.</li>
+                            </ul>
+
+                            <h4>Notification Types</h4>
+                            <ul class="clean-list">
+                                <li><strong>Silent:</strong> Achievement appears in the Achievements screen with no in-game notification. Player discovers it when they next visit the screen. The majority of achievements are silent.</li>
+                                <li><strong>Immediate pop-up:</strong> A small card appears at the bottom right of the screen for 3 seconds before fading. Used only for 5 specific achievements that benefit from immediate acknowledgment. No sound. Subtle animation only.</li>
+                            </ul>
+
+                            <h4>Hidden Achievements (4 total)</h4>
+                            <p>These four achievements show as question marks until unlocked. Their names and descriptions are only visible after being earned:</p>
+                            <ul class="clean-list">
+                                <li>The Unbroken Chain - secret ending</li>
+                                <li>Thirty Years in the Same Room - Road File</li>
+                                <li>Somebody Had to Ask - Sergeant's Transfer thread</li>
+                                <li>You Found the Cafe - Skeptics Cafe</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="ach-list" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>All 25 Achievements - Complete List</h3>
+                            <table class="data-table" aria-label="Complete achievement list">
+                                <thead>
+                                    <tr><th scope="col">Name</th><th scope="col">Description (visible after unlock)</th><th scope="col">Trigger Condition</th><th scope="col">Notification Type</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-group"><td colspan="4">You started. Brave.</td></tr>
+                                    <tr><td><strong>Big Mistake</strong></td><td>Started the game.</td><td>sessionCount equals 1. Fires before character select screen on first ever launch. The first thing that happens.</td><td>Immediate pop-up - this one fires before the game even begins. The player will laugh or be confused. Both are correct.</td></tr>
+                                    <tr><td><strong>Democracy, They Said</strong></td><td>Selected a character and began your first playthrough.</td><td>Character selection confirmed. Week 6 begins. sessionCount equals 1.</td><td>Silent</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">You are learning. Slowly.</td></tr>
+                                    <tr><td><strong>Read the Fine Print</strong></td><td>Read Mahinda Bandara's manifesto. The whole thing.</td><td>readCurrentManifesto flag set to true.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Actually Read the Fine Print</strong></td><td>Found and compared the 2010 manifesto to the current one. Side by side. The road section.</td><td>manifestoComparisonDone flag set to true.</td><td>Silent</td></tr>
+                                    <tr><td><strong>The Algorithm Would Hate You</strong></td><td>Verified a message at the Elections Commission board instead of sharing it immediately.</td><td>First time player selects Verify option at the Elections Commission board.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Professional Skeptic</strong></td><td>Verified three or more messages in a single playthrough. Unlocked something.</td><td>verifiedAtBoardCount reaches 3. Skeptics Cafe unlocks simultaneously.</td><td>Silent - the unlocked Cafe is the bigger discovery moment</td></tr>
+                                    <tr><td><strong>Nandadasa Approved</strong></td><td>Asked Nandadasa Mahaththaya before acting on information. He was right. He is always right.</td><td>First time player selects Ask Nandadasa and follows his advice.</td><td>Silent</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">You found things. (4 are hidden until found)</td></tr>
+                                    <tr><td><strong>Thirty Years in the Same Room</strong> [HIDDEN until unlocked]</td><td>Found the Road File. You know why the road is not fixed. It is not the reason you expected.</td><td>foundRoadFile flag set to true.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Pol Roti and Politics</strong></td><td>Found the 1977 receipt behind Mudalali's counter. Political loyalty has stranger origins than you think.</td><td>found1977Receipt flag set to true.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Sandya Made It</strong></td><td>Followed Sandya's handwritten note from Week 3 to Week 0. Her name is on the register.</td><td>sandyaOnRegister flag set to true at Week 0.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Somebody Had to Ask</strong> [HIDDEN until unlocked]</td><td>Found the thread about Sergeant Wickramasinghe's 2016 transfer request. He still will not explain why.</td><td>foundSergeantTransferThread flag set to true.</td><td>Silent</td></tr>
+                                    <tr><td><strong>You Found the Cafe</strong> [HIDDEN until unlocked]</td><td>Found the Skeptics Cafe. It does not have a sign. Nandadasa was invited once. He did not reply.</td><td>skepticsCafeUnlocked flag set to true.</td><td>Silent</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">You helped people.</td></tr>
+                                    <tr><td><strong>Not Your Job</strong></td><td>Helped the elderly woman find her name on the voter register. It was not your job. You did it anyway.</td><td>helpedElderlyWoman flag set to true.</td><td>Silent</td></tr>
+                                    <tr><td><strong>At Least Someone Asked</strong></td><td>Helped all three people in the polling station queue in a single playthrough. They noticed.</td><td>helpedElderlyWoman AND helpedNICYoungMan AND helpedLostCouple all true in same session.</td><td>Immediate pop-up - this one earns the notification</td></tr>
+                                    <tr><td><strong>It Spreads Both Ways</strong></td><td>Shared accurate, verified information through Uncle Sirisena's WhatsApp chain. It works in both directions.</td><td>First time player correctly identifies the Week 3 true message and shares it.</td><td>Silent</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">You made things worse.</td></tr>
+                                    <tr><td><strong>847 Members</strong></td><td>Shared a false message through Uncle Sirisena's WhatsApp group. 847 people received it. This is why the queue at the Grama Sevaka Office looks like that.</td><td>First time sharedFake4amMessage OR sharedFakeCandidateList is set to true.</td><td>Silent - player finds this in the screen while dealing with the consequence in the game world. The timing lands better that way.</td></tr>
+                                    <tr><td><strong>You Were So Confident</strong></td><td>Acted on Mahinda Bandara's voting instructions without checking an official source. The fold was wrong.</td><td>Player follows Mahinda's voting advice without verification and casts a spoiled ballot.</td><td>Silent</td></tr>
+                                    <tr><td><strong>The 4am People</strong></td><td>Shared the fake voting time message. Twenty-three people came at 4am. Nandadasa has heard about it.</td><td>sharedFake4amMessage flag set to true. Separate from "847 Members" - this one is specific to the 4am scenario because the world consequence is the most visible.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Blanket Policy</strong></td><td>Ignored every single message Uncle Sirisena sent. Including the one that was true.</td><td>All 6 Uncle Sirisena messages ignored in a single playthrough without any engagement.</td><td>Silent</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">You missed things. On purpose or not.</td></tr>
+                                    <tr><td><strong>The Door Was Right There</strong></td><td>Missed the voter registration deadline. The door to the Grama Sevaka Office was open every week.</td><td>registrationDeadlineMissed flag set to true when Week 4 passes.</td><td>Silent</td></tr>
+                                    <tr><td><strong>The Road Remains</strong></td><td>Reached any ending. The road is still not fixed.</td><td>ANY ending reached - bad, neutral, good, or secret. Every playthrough. Every character. Every time without exception.</td><td>Silent - this achievement is always there. That is the point.</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">You played well.</td></tr>
+                                    <tr><td><strong>Information Health: 100</strong></td><td>Reached Week 0 with perfect Information Health. You verified everything. You trusted no one blindly. You trusted no one not at all.</td><td>informationHealth at exactly 100 at the start of Week 0.</td><td>Silent</td></tr>
+                                    <tr><td><strong>The Unbroken Chain</strong> [HIDDEN until unlocked]</td><td>Found the secret ending. Aunty Soma's 1983 card. The road is still not fixed. She comes anyway.</td><td>Secret ending reached - all gauges above 75, manifesto comparison done, Road File found, all three queue people helped.</td><td>Immediate pop-up - this one earns it</td></tr>
+                                    <tr><td><strong>You Finished an Education Game</strong></td><td>Reached any ending. Voluntarily. Most people do not.</td><td>First time any ending is reached in the very first playthrough. sessionCount equals 1 and endingReached is not null.</td><td>Immediate pop-up</td></tr>
+
+                                    <tr class="table-group"><td colspan="4">Character-specific</td></tr>
+                                    <tr><td><strong>Uncle's Nephew</strong></td><td>As Karunasena, dismissed more than 5 of Uncle Sirisena's messages. The family WhatsApp group still has 847 members. He knows.</td><td>character equals karunasena AND karunasena_dismissedCount exceeds 5.</td><td>Silent</td></tr>
+                                    <tr><td><strong>She Was Mostly Right</strong></td><td>As Kamala, identified and corrected all of her false assumptions in a single playthrough.</td><td>character equals kamala AND kamala_assumptionsCorrected reaches maximum value for the playthrough.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Every Step Cost More</strong></td><td>As Kumaran, completed every step of the district transfer process. The bilingual form. The officer who mispronounced your name. All of it.</td><td>character equals kumaran AND kumaran_transferStepsComplete reaches maximum value.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Three Perspectives</strong></td><td>Completed at least one full playthrough with each of the three characters. You have seen Alupotha from every angle it has.</td><td>All three characters have reached an ending across any number of sessions. Tracked in localStorage across playthroughs.</td><td>Immediate pop-up</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="ach-clues" class="sub-tab-content" role="tabpanel">
+                        <div class="content-block">
+                            <h3>The Subtle Clue System</h3>
+                            <p>Clues only exist for 3 of the 6 secrets. The other three - the Sergeant's Transfer thread, the 1977 Receipt, and Sandya's Bulletin Board Thread - have no clues at all. Players either find them or they do not.</p>
+                            <p>Clues are delivered as casual NPC dialogue only - not UI tooltips, not tutorial text, not highlight effects. Each clue is a single line delivered once per playthrough. It does not repeat on subsequent visits. The visual treatment is the same dialogue box as all other NPC speech, but in a slightly more muted style, like an afterthought. No special sound. No icon. No signal that this was a clue.</p>
+
+                            <div class="location-card">
+                                <h4>Clue 1 - For The Road File</h4>
+                                <p><strong>Delivered by:</strong> Mudalali Perera, during any visit to his boutique after Week 4.</p>
+                                <p><strong>Trigger condition:</strong> Player has visited the Grama Sevaka Office at least once but has NOT yet found the Road File (foundRoadFile is false).</p>
+                                <p><strong>Dialogue:</strong> Said while arranging something behind the counter, not making eye contact with the player:</p>
+                                <blockquote class="clue-dialogue">"You know Nandadasa has been in that office since 1994. Thirty years. You would think a man in the same room for thirty years would run out of things to look at. He never has."</blockquote>
+                                <p class="note-text"><em>He does not explain this. He moves on. That is the entire clue.</em></p>
+                            </div>
+
+                            <div class="location-card">
+                                <h4>Clue 2 - For the Manifesto Comparison</h4>
+                                <p><strong>Delivered by:</strong> Sergeant Wickramasinghe, during any visit to the police station after the player has read the current manifesto.</p>
+                                <p><strong>Trigger condition:</strong> readCurrentManifesto is true AND player has visited the police station AND foundOldManifesto is false.</p>
+                                <p><strong>Dialogue:</strong> Said as a parting comment while turning back to his desk, after finishing his main dialogue:</p>
+                                <blockquote class="clue-dialogue">"That manifesto of his. You read it? I have a copy of the 2010 one somewhere in my files. I was going to compare them once. Never got around to it. Probably not worth the time."</blockquote>
+                                <p class="note-text"><em>He says this while walking away. The player cannot ask a follow-up question. That is the entire clue.</em></p>
+                            </div>
+
+                            <div class="location-card">
+                                <h4>Clue 3 - For Skeptics Cafe</h4>
+                                <p><strong>Delivered by:</strong> Nandadasa Mahaththaya, at the end of any conversation after the player has verified at least one message at the Elections Commission board but has not yet unlocked the Cafe.</p>
+                                <p><strong>Trigger condition:</strong> verifiedAtBoardCount is 1 or 2 (not 0, not 3 or more) AND skepticsCafeUnlocked is false.</p>
+                                <p><strong>Dialogue:</strong> Completely deadpan, while stamping a form, without looking up:</p>
+                                <blockquote class="clue-dialogue">"You have been to the notice board more than most people. There are others who go there regularly. I do not know them personally. I was invited to their group once. I did not reply."</blockquote>
+                                <p class="note-text"><em>He does not look up. He does not explain. That is the entire clue.</em></p>
+                            </div>
+
+                            <div class="content-block" style="background: var(--bg-surface, #F1F5F9); border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem;">
+                                <h4>Implementation Note for Developers</h4>
+                                <p>Each clue fires exactly once per playthrough and is tracked by a boolean flag in gameState:</p>
+                                <pre class="code-block" style="margin-top: 0.75rem;"><code>flags: {
+  clue_roadFile_delivered: false,
+  clue_manifesto_delivered: false,
+  clue_cafe_delivered: false
+}</code></pre>
+                                <p style="margin-top: 0.75rem;">Once a clue flag is true, that NPC's parting line reverts to standard dialogue on all subsequent visits. The clue is never repeated within the same playthrough.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="scope-view" class="view-section" aria-labelledby="scope-heading">
+                <header class="doc-header">
+                    <h2 id="scope-heading">17. Scope Definition - MVP vs Post-Launch</h2>
+                    <p class="lead-text">What is built in v1.0. What is documented but deferred. What the codebase must support without activation.</p>
+                </header>
+
+                <div class="doc-body">
+                    <div class="content-block">
+                        <h3>17.1 MVP - v1.0 - Web Only</h3>
+                        <p>Every item listed here is built, tested, and delivered at launch. Nothing in this list is optional.</p>
+                        <ul class="clean-list">
+                            <li>All 7 locations, all 3 playable characters, all 3 gauges with full delta system.</li>
+                            <li>Full consequence system with all 12 documented cross-zone chains.</li>
+                            <li>All 4 endings including the secret ending.</li>
+                            <li>All 6 secret content pieces: Road File, 1977 Receipt, Manifesto Comparison, Sergeant's Transfer, Bulletin Board Thread, Skeptics Cafe.</li>
+                            <li>Full misinformation mechanic with all 6 Uncle Sirisena messages and all 4 response options.</li>
+                            <li>3 subtle clue dialogues as specified in the Clue System.</li>
+                            <li>All 25 achievements with correct trigger conditions and notification types.</li>
+                            <li>Component B facilitator tool with real-time session management, WebSocket communication, and CSV export.</li>
+                            <li>Trilingual support: English, Sinhala, Tamil - all UI, all dialogue, all system text.</li>
+                            <li>Standard difficulty mode only.</li>
+                            <li>Web browser delivery only - no Android application in v1.0.</li>
+                            <li>Analytics dashboard with all 13 events from Section 16 tracked and accessible.</li>
+                            <li>WCAG accessibility compliance as specified in Section 14.</li>
+                            <li>Unencrypted source code delivered via GitHub repository.</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>17.2 Post-Launch - v1.x and v2.0</h3>
+                        <p>Every item listed here is architecturally supported by the v1.0 codebase but not activated. Documentation is complete. Implementation is deferred.</p>
+                        <ul class="clean-list">
+                            <li><strong>Android application packaging</strong> - Component A wrapped as APK. Compatible with Android 12 and above. Offline-capable core gameplay. Requires no code changes to game logic.</li>
+                            <li><strong>Hard mode</strong> - misinformation more plausible, missed deadlines lock ending paths, gauge progress bars hidden.</li>
+                            <li><strong>Expert mode</strong> - permanent credibility loss for single mistakes, some locations become inaccessible, gauges fully hidden.</li>
+                            <li><strong>Speedrun mode</strong> - 6 weeks compressed to 2, leaderboard integration required, backend changes needed for persistent high scores.</li>
+                            <li><strong>Additional misinformation scenarios</strong> - election violence reporting module, deepfake video content module.</li>
+                            <li><strong>Expanded Kumaran content</strong> - Northern Province electoral context, full bilingual form navigation module, additional Tamil-language dialogue threads.</li>
+                            <li><strong>Facilitator account system for Component B</strong> - persistent session history, multiple facilitator profiles, session comparison across workshops.</li>
+                            <li><strong>External achievement platform integration</strong> - Steam, if the game is eventually published commercially. Current in-game system is designed to be compatible with Steam achievement API calls with minimal changes.</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>17.3 Delivery Checklist</h3>
+                        <p class="muted-text">All items must be confirmed complete before handover to LIRNEasia.</p>
+                        <table class="data-table" aria-label="Delivery checklist">
+                            <thead><tr><th scope="col">Deliverable</th><th scope="col">Format</th><th scope="col">Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Component A - Web application</td><td>Deployed URL + GitHub repository</td><td>Tested on Chrome, Firefox, Safari, Edge, mobile browsers</td></tr>
+                                <tr><td>Component B - Facilitator tool</td><td>Deployed URL + same GitHub repository</td><td>Tested with minimum 10 simultaneous participants</td></tr>
+                                <tr><td>Source code</td><td>GitHub repository - unencrypted, public or client-access private</td><td>README with setup instructions. No dependency on proprietary tools.</td></tr>
+                                <tr><td>Content JSON files</td><td>Three files: content.en.json, content.si.json, content.ta.json</td><td>All trilingual content finalised and native-speaker reviewed</td></tr>
+                                <tr><td>Analytics dashboard</td><td>Live URL accessible to LIRNEasia staff</td><td>All 13 event types tracked and displaying aggregate data</td></tr>
+                                <tr><td>GDD v2.0</td><td>This document - HTML + Word export</td><td>Final authority on all design decisions</td></tr>
+                                <tr><td>Deployment documentation</td><td>Markdown file in repository</td><td>How to host, how to run a Component B session, how to add new scenarios</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <button id="backToTop" class="back-to-top" aria-label="Scroll back to top">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5"></line>
+                <polyline points="5 12 12 5 19 12"></polyline>
+            </svg>
+        </button>
+
+    </div><script src="script.js"></script>
+</body>
+</html>
