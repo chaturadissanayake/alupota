@@ -289,15 +289,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fix 2: Wrap all D3 initialization inside an if block rather than a return statement
     if (container) {
 
-        let width  = container.clientWidth || 780;
-        let height = container.clientHeight || 520;
+        let rect   = container.getBoundingClientRect();
+        let width  = rect.width  || 780;
+        let height = rect.height || 520;
         let networkInitialized = false;
 
         const svg = d3.select('#network').append('svg')
             .style('width',  '100%')
             .style('height', '100%')
-            .attr('width',   width)
-            .attr('height',  height);
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet');
 
         const simulation = d3.forceSimulation(gameData.nodes)
             .force('link',      d3.forceLink(gameData.links).id(d => d.id).distance(130))
@@ -445,28 +446,38 @@ document.addEventListener('DOMContentLoaded', () => {
             const typeColors = { trust: '#059669', conflict: '#DC2626', influence: '#94A3B8', location: '#D97706' };
             const typeLabels = { trust: 'Trust', conflict: 'Conflict', influence: 'Influence', location: 'Access' };
 
+            // Basic HTML sanitizer for node injection
+            const escapeHTML = str => String(str).replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+                }[tag])
+            );
+
+            const safeLabel = escapeHTML(d.label);
+            const safeRole = escapeHTML(d.role);
+
             const connList = conns.length
                 ? `<div style="margin-top:12px;border-top:1px solid var(--border-base);padding-top:10px;">
                     <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);font-weight:700;">Connections (${conns.length})</span>
                     <ul style="list-style:none;padding:0;margin-top:8px;display:flex;flex-direction:column;gap:4px;">
                         ${conns.map(c => `
                             <li style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;background:var(--bg-main);border:1px solid var(--border-base);border-radius:5px;font-size:12px;">
-                                <span style="font-weight:600;color:var(--text-core);">${c.node.label}</span>
+                                <span style="font-weight:600;color:var(--text-core);">${escapeHTML(c.node.label)}</span>
                                 <span style="font-size:10px;font-weight:600;color:${typeColors[c.type] || '#94A3B8'};text-transform:uppercase;letter-spacing:0.05em;">${typeLabels[c.type] || c.type}</span>
                             </li>`).join('')}
                     </ul>
                    </div>`
                 : '';
 
-            const typeChip = `<span style="display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:${themeColors[d.type]};background:${d.type === 'character' ? '#EFF6FF' : d.type === 'npc' ? '#F8FAFC' : d.type === 'location' ? '#FFFBEB' : '#F1F5F9'};padding:2px 8px;border-radius:100px;border:1px solid ${d.type === 'character' ? '#BFDBFE' : d.type === 'npc' ? '#E2E8F0' : d.type === 'location' ? '#FDE68A' : '#CBD5E1'};">${d.type}</span>`;
+            const typeChip = `<span style="display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:${themeColors[d.type]};background:${d.type === 'character' ? '#EFF6FF' : d.type === 'npc' ? '#F8FAFC' : d.type === 'location' ? '#FFFBEB' : '#F1F5F9'};padding:2px 8px;border-radius:100px;border:1px solid ${d.type === 'character' ? '#BFDBFE' : d.type === 'npc' ? '#E2E8F0' : d.type === 'location' ? '#FDE68A' : '#CBD5E1'};">${escapeHTML(d.type)}</span>`;
 
             panel.innerHTML = `
                 <div style="padding:10px;background:var(--bg-main);border:1px solid var(--border-base);border-radius:8px;">
                     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;">
-                        <h4 style="font-size:14px;margin:0;color:var(--text-core);line-height:1.3;">${d.label}</h4>
+                        <h4 style="font-size:14px;margin:0;color:var(--text-core);line-height:1.3;">${safeLabel}</h4>
                         ${typeChip}
                     </div>
-                    <p style="margin:0;font-size:12px;color:var(--text-muted);line-height:1.5;">${d.role}</p>
+                    <p style="margin:0;font-size:12px;color:var(--text-muted);line-height:1.5;">${safeRole}</p>
                     ${connList}
                 </div>`;
 
@@ -550,15 +561,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!container) return;
             
             // Measure real width. If 0 (hidden), abort.
-            const measuredW = container.clientWidth;
-            const measuredH = container.clientHeight;
+            const measuredRect = container.getBoundingClientRect();
+            const measuredW = measuredRect.width  || 780;
+            const measuredH = measuredRect.height || 580;
 
-            if (measuredW === 0 || measuredH === 0) return; 
+            if (measuredW < 10) return;
 
-            width = measuredW;
+            width  = measuredW;
             height = measuredH;
 
-            svg.attr('width', width).attr('height', height);
+            svg.attr('viewBox', `0 0 ${width} ${height}`);
             simulation.force('center', d3.forceCenter(width / 2, height / 2));
 
             if (!networkInitialized) {
