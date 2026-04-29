@@ -341,9 +341,33 @@
                                 <p><strong>Language note:</strong> Kumaran's presence in the game is the reason the trilingual support is not cosmetic. For Kumaran, the language of the ballot and the language of the instructions at the polling station are the literal difference between a valid vote and a spoiled one.</p>
                                 <p class="note-text"><em>Best suited to: Players who want to experience the full scope of the game's electoral justice content. Third playthrough recommended character.</em></p>
                             </div>
+
+                            <div class="character-profile" style="margin-top: var(--sp-8);">
+                                <h4>Character Visual Specifications & Emotional States</h4>
+                                <p><strong>Art Style Direction:</strong> Illustrated, flat vector style with clean lines. Colors must adhere to the Visual Style Bible (garnet red, slate, off-white). Proportions should be semi-realistic to ground the serious subject matter.</p>
+                                <table class="data-table" aria-label="Playable Character Visual Specs">
+                                    <thead><tr><th scope="col">Character</th><th scope="col">Visual Age & Build</th><th scope="col">Clothing Style</th><th scope="col">Skin Tone</th><th scope="col">Required Sprites (States)</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><strong>Karunasena</strong></td><td>19, slim/youthful build, average height</td><td>Casual but neat (e.g., untucked short-sleeve button-up or polo)</td><td>Medium brown</td><td>Neutral, Talking, Happy, Worried, Surprised</td></tr>
+                                        <tr><td><strong>Kamala</strong></td><td>34, confident posture, slightly taller than Karunasena</td><td>Professional/Teacher attire (e.g., modest saree or formal dress)</td><td>Warm brown</td><td>Neutral, Talking, Happy, Worried, Surprised</td></tr>
+                                        <tr><td><strong>Kumaran</strong></td><td>28, athletic/labor-accustomed build</td><td>Practical workwear (e.g., simple collared shirt, slightly worn)</td><td>Dark brown</td><td>Neutral, Talking, Happy, Worried, Surprised</td></tr>
+                                    </tbody>
+                                </table>
+                                <h4 style="margin-top: var(--sp-5);">NPC Portrait Specifications (8 Characters)</h4>
+                                <ul class="clean-list">
+                                    <li><strong>Nandadasa Mahaththaya:</strong> 50s, stern, spectacles, government issued short-sleeve shirt. States: Neutral (stamping), Talking, Annoyed.</li>
+                                    <li><strong>Uncle Sirisena:</strong> 60s, expressive, slightly unbuttoned shirt, welcoming. States: Neutral, Talking, Enthusiastic.</li>
+                                    <li><strong>Sergeant Wickramasinghe:</strong> 40s, sharp uniform, relaxed posture. States: Neutral, Talking, Amused.</li>
+                                    <li><strong>Mudalali Perera:</strong> 50s, apron, leaning forward. States: Neutral, Talking, Loud.</li>
+                                    <li><strong>Mahinda Bandara:</strong> 40s/50s, overly groomed, politician's smile, maroon sash/accent. States: Neutral, Talking, Evasive.</li>
+                                    <li><strong>Aunty Soma:</strong> 50s, kind eyes, traditional modest dress. States: Neutral, Talking, Warm/Reflective.</li>
+                                    <li><strong>Elderly Woman (Queue):</strong> 70s, frail but determined, glasses. States: Neutral, Confused, Relieved.</li>
+                                    <li><strong>Sandya (Reference):</strong> Profile picture style, anxious but hopeful. States: Neutral.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    
+
                     <div id="world-cast" class="sub-tab-content" role="tabpanel">
                         <div class="content-block">
                             <h3>5. The Supporting Cast</h3>
@@ -460,11 +484,11 @@
                     
                     <div id="sys-consequences" class="sub-tab-content" role="tabpanel">
                         <div class="content-block">
-                            <h3>8. The Consequence System - Cross-Zone Reactivity</h3>
+                            <h3>7. The Consequence System - Cross-Zone Reactivity</h3>
                             <p>Every significant decision in one location leaves a trace in at least one other location. The town remembers what the player did. This is the most technically complex system in the game and the most educationally important.</p>
                             <p>The system works by reading the <code>gameState.flags</code> object when a new location is loaded. If a relevant flag is true, the location renders a modified version of itself. These modifications are additive - multiple flags can combine in the same location simultaneously.</p>
 
-                            <h4>8.1 Confirmed Consequence Chains</h4>
+                            <h4>7.1 Confirmed Consequence Chains</h4>
                             <table class="data-table" aria-label="Confirmed consequence chains between locations">
                                 <thead>
                                     <tr><th scope="col">Trigger (Player Action)</th><th scope="col">Affected Location</th><th scope="col">World Change</th></tr>
@@ -489,7 +513,7 @@
                     
                     <div id="sys-mechanics" class="sub-tab-content" role="tabpanel">
                         <div class="content-block">
-                            <h3>9. The Countdown Mechanic and Permanent Consequences</h3>
+                            <h3>8. The Countdown Mechanic and Permanent Consequences</h3>
                             <p>The election is in 6 weeks. The countdown is always visible. Some doors close as time passes and do not reopen. The game does not announce these closures in advance - they are discovered by absence. The player's first playthrough teaches them that deadlines are real. Their second playthrough shows them what to do about it.</p>
                             <ul class="clean-list">
                                 <li><strong>Week 4 - Registration closes:</strong> If the player has not completed the registration chapter by the end of Week 4, voter registration is permanently unavailable. Information Health takes a permanent reduction of -20 that cannot be recovered. The game does not stop. The player can still vote if they were already registered - but the lesson is built into the experience, not delivered as a message.</li>
@@ -552,6 +576,24 @@
                 <div class="tab-content-container">
 
                     <div id="flow-misinfo" class="sub-tab-content active" role="tabpanel">
+                        <div class="content-block">
+                            <h3>9. Linear Chapter / Scene Breakdown (Karunasena Template)</h3>
+                            <p>This path outlines the expected chronological flow for Karunasena from Week 6 to Week 0. This serves as the narrative map for Godot scene connections and dialogue sequencing.</p>
+                            <table class="data-table" aria-label="Scene by scene breakdown">
+                                <thead><tr><th scope="col">Week</th><th scope="col">Location</th><th scope="col">NPC Encountered</th><th scope="col">Decision Point / Action</th><th scope="col">Consequence / Next Step</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Week 6</td><td>Uncle Sirisena's House</td><td>Uncle Sirisena, Aunty Soma</td><td>Receives first fake message (Registration Deadline). Choose to share or verify.</td><td>Triggers urgency. Player navigates to Town Map.</td></tr>
+                                    <tr><td>Week 6</td><td>Grama Sevaka Office</td><td>Nandadasa Mahaththaya</td><td>Ask about registration deadline. Discover it is actually Week 4.</td><td>IH increases. Registration process initiated.</td></tr>
+                                    <tr><td>Week 5</td><td>Mudalali's Boutique</td><td>Mudalali Perera</td><td>Overhear rumors about polling station assignments.</td><td>Introduces the Week 5 misinformation voice note.</td></tr>
+                                    <tr><td>Week 4</td><td>Police Station</td><td>Sgt. Wickramasinghe</td><td>Report 4am voting rumor (or deal with fallout if shared).</td><td>Registration closes. Notice board updates.</td></tr>
+                                    <tr><td>Week 3</td><td>EC Notice Board</td><td>None (Sandya's Note)</td><td>Read official candidate list. Find Sandya's note.</td><td>Bulletin Board thread begins. EC verification taught.</td></tr>
+                                    <tr><td>Week 2</td><td>Campaign Tent</td><td>Mahinda Bandara</td><td>Read current manifesto. Uncover 2010 box.</td><td>Manifesto comparison unlocks. Sergeant commentary unlocks.</td></tr>
+                                    <tr><td>Week 1</td><td>Police / Grama Office</td><td>Sgt / Nandadasa</td><td>Verify the ballot fold procedure.</td><td>Final preparation for election day. Campaign closes.</td></tr>
+                                    <tr><td>Week 0</td><td>Polling Station</td><td>Queue NPCs, PO</td><td>Help the queue people. Cast the ballot correctly.</td><td>Triggers Ending calculations.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="content-block">
                             <h3>10. The Misinformation Mechanic - Detailed Design</h3>
                             <p>This is the most educationally critical mechanic in the game. Uncle Sirisena sends the player content in four formats that mirror exactly how misinformation actually circulates in Sri Lanka. The game does not reward blanket distrust any more than it rewards blanket trust. It rewards discrimination - evaluating each piece of information on its merits. The false content is faster and easier to act on. The accurate verification requires a trip. This asymmetry is intentional and is the core educational design.</p>
@@ -656,6 +698,26 @@
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+
+                        <div class="content-block">
+                            <h3>10.5 Kumaran's Language Barrier Scenarios (MVP Scope)</h3>
+                            <p>Kumaran's path explicitly involves trilingual inclusion mechanics that impact his ability to participate. These are core MVP scenarios rather than post-launch deferrals.</p>
+                            
+                            <h4>Scenario A: The Sinhala-Only Form (Grama Sevaka Office)</h4>
+                            <p><strong>Context:</strong> Kumaran attempts to transfer his voter registration. The required form is only available in Sinhala. Nandadasa is trying to help, but his Tamil is limited.</p>
+                            <div class="choices" style="margin-bottom: var(--sp-4);">
+                                <button class="choice bad btn-interact" aria-expanded="false">Guess the fields based on formatting<div class="consequence"><strong>Result:</strong> Form is rejected for errors. Kumaran has to return next week. -10 VP, -5 IH.</div></button>
+                                <button class="choice good btn-interact" aria-expanded="false">Ask Kamala (via phone/text) to translate<div class="consequence"><strong>Result:</strong> Kamala translates. Form submitted correctly. +15 VP, +10 CT. Shows community network value.</div></button>
+                                <button class="choice neutral btn-interact" aria-expanded="false">Ask Nandadasa to point to the mandatory fields<div class="consequence"><strong>Result:</strong> Gets the bare minimum done. Accepted, but Kumaran misses out on optional context. +5 VP.</div></button>
+                            </div>
+
+                            <h4>Scenario B: Polling Station Instructions (Week 0)</h4>
+                            <p><strong>Context:</strong> At the polling station, the presiding officer mispronounces Kumaran's name and issues verbal instructions in rapid Sinhala. Kumaran needs to ensure he doesn't spoil his ballot.</p>
+                            <div class="choices">
+                                <button class="choice bad btn-interact" aria-expanded="false">Nod and walk to the booth quickly<div class="consequence"><strong>Result:</strong> High risk of spoiled ballot if the fold is wrong. -15 IH.</div></button>
+                                <button class="choice good btn-interact" aria-expanded="false">Request the trilingual instruction card<div class="consequence"><strong>Result:</strong> The officer pauses, finds the card, and hands it over. Kumaran votes confidently. +20 VP, +10 IH.</div></button>
                             </div>
                         </div>
                     </div>
@@ -764,7 +826,7 @@
 
                     <div id="tech-state" class="sub-tab-content active" role="tabpanel">
                         <div class="content-block">
-                            <h3>7. Game State Specification</h3>
+                            <h3>13. Game State Specification</h3>
                             <p>This is the complete definition of everything the game must remember. The developer implements this as a JavaScript object. It is saved to localStorage after every significant action. It is loaded on page load. Language can be switched at any time without resetting this state.</p>
                             <pre class="code-block"><code>gameState = {
   core: {
@@ -830,7 +892,7 @@
                         </div>
 
                         <div class="content-block">
-                            <h3>15.2 Content JSON Structure</h3>
+                            <h3>13. Game State <h3>13.1 Content JSON Structure</h3>Specification</h3>
                             <p>All game text lives in three files: <code>content.en.json</code>, <code>content.si.json</code>, and <code>content.ta.json</code>. They are structurally identical - the developer builds the game against the English file and the same key structure in the other two languages is loaded when the player switches language. Translators edit JSON files directly. They do not touch any code. New scenarios are added by adding entries to the JSON files without touching the game engine.</p>
                             <pre class="code-block"><code>// content.en.json - partial structure example
 {
@@ -888,10 +950,10 @@
                     
                     <div id="tech-component-b" class="sub-tab-content" role="tabpanel">
                         <div class="content-block">
-                            <h3>13. Component B - Facilitator-Led Training Tool</h3>
+                            <h3>14. Component B - Facilitator-Led Training Tool</h3>
                             <p>Component B reuses the game's visual assets, characters, and scenarios but restructures them for facilitator-led group sessions in classrooms and community workshops. It shares the same codebase and content JSON as Component A. The facilitator controls progression. Participants respond in real time on their own devices.</p>
 
-                            <h4>13.1 How It Works</h4>
+                            <h4>14.1 How It Works</h4>
                             <ul class="clean-list">
                                 <li>Facilitator opens the web application and creates a new session. They receive a 6-character session code.</li>
                                 <li>Participants navigate to the same URL on their phones or devices and enter the session code. No account required. Participant ID is generated automatically and anonymously.</li>
@@ -914,16 +976,24 @@
                                 </tbody>
                             </table>
 
-                            <h4>13.3 Participant Interface</h4>
+                            <h4>13.3 Participant Interface & Mobile View</h4>
+                            <p>The participant view is strictly mobile-first (responsive web). It is designed to minimize distractions and focus entirely on the active scenario.</p>
                             <ul class="clean-list">
-                                <li><strong>Join screen:</strong> Enter 6-character session code, select language (EN/SI/TA), receive anonymous participant ID.</li>
-                                <li><strong>Scenario view:</strong> Read the full scenario text on device. Cannot advance - facilitator controls pace.</li>
-                                <li><strong>Response screen:</strong> The same four options as Component A (Share, Ignore, Verify, Ask). Response is locked in on tap.</li>
-                                <li><strong>Waiting screen:</strong> "Response received - waiting for facilitator to reveal results." Cannot change response after submission.</li>
-                                <li><strong>Results view:</strong> Aggregate bar chart visible after facilitator reveals. Participant's own choice is highlighted.</li>
+                                <li><strong>Join Flow:</strong> Participants navigate to the portal URL, enter the 6-character session code, and select their language (EN/SI/TA). An anonymous 4-character ID is assigned automatically. No app download is required.</li>
+                                <li><strong>Scenario view:</strong> Read the full scenario text synced directly from the facilitator's active screen. Participants cannot scroll ahead or look back.</li>
+                                <li><strong>Response screen:</strong> The same four interaction options as Component A (e.g., Share, Ignore, Verify, Ask). Buttons are large (44x44px minimum tap target). Response is locked in on tap.</li>
+                                <li><strong>Waiting screen:</strong> "Response received - waiting for facilitator to reveal results." </li>
+                                <li><strong>Results view:</strong> A simplified aggregate bar chart is shown on mobile once the facilitator reveals the results, highlighting the participant's own choice against the group.</li>
                             </ul>
 
-                            <h4>13.4 Technical Architecture - Component B</h4>
+                            <h4>13.4 Facilitator Dashboard & Session Creation</h4>
+                            <ul class="clean-list">
+                                <li><strong>Session Creation:</strong> Facilitator logs in, enters a session password, and creates a room. They can drag-and-drop scenarios from the master list to create a custom playlist, set participant caps, and lock the room.</li>
+                                <li><strong>Dashboard Controls:</strong> Features a live "Waiting Room" counter, "Push Scenario" button to broadcast content to participants, a real-time incoming response ticker, and a "Reveal Results" trigger that displays the aggregate chart on the projected screen.</li>
+                                <li><strong>CSV Export Format:</strong> After the session, the facilitator clicks 'Export'. The CSV contains: <code>Session_ID, Timestamp, Scenario_ID, Participant_Anon_ID, Language_Selected, Choice_Selected, Correct_Flag, Response_Time_Seconds</code>.</li>
+                            </ul>
+
+                            <h4>13.5 Technical Architecture - Component B</h4>
                             <ul class="clean-list">
                                 <li><strong>Real-time communication:</strong> WebSockets (preferred) or HTTP polling every 2 seconds (fallback for restricted school/community networks).</li>
                                 <li><strong>Session state:</strong> Stored server-side in Node.js with in-memory session store. No database required for basic operation. Sessions expire after 4 hours of inactivity.</li>
@@ -945,21 +1015,27 @@
                     
                     <div id="tech-stack" class="sub-tab-content" role="tabpanel">
                         <div class="content-block">
-                            <h3>15.1 Technology Stack</h3>
-                            <table class="data-table" aria-label="Technology stack">
-                                <thead><tr><th scope="col">Layer</th><th scope="col">Technology</th><th scope="col">Rationale</th></tr></thead>
+                            <h3>15. Godot Project Structure & Technology Stack</h3>
+                            <p>The game is built using the <strong>Godot 2D Engine</strong> (exported to Web HTML5 for MVP). The following scene tree structure and plugin architecture replaces all previous HTML/JS web-app logic references.</p>
+                            <table class="data-table" aria-label="Godot Scene Tree Structure">
+                                <thead><tr><th scope="col">Godot Scene (.tscn)</th><th scope="col">Hierarchy / Parent</th><th scope="col">GDD Section Reference & Purpose</th></tr></thead>
                                 <tbody>
-                                    <tr><td>Frontend - Component A</td><td>HTML5 + CSS3 + JavaScript (vanilla, no framework)</td><td>No framework dependency. Unencrypted source. Runs in any browser. Fully inspectable by client. Future developer can work without proprietary tools.</td></tr>
-                                    <tr><td>Content system</td><td>JSON content files (content.en.json, content.si.json, content.ta.json)</td><td>Translators edit JSON, not code. New scenarios added without developer involvement. Full separation of content and logic.</td></tr>
-                                    <tr><td>State persistence</td><td>localStorage</td><td>Game state saved automatically after every significant action. Player returns to same session on same device without an account.</td></tr>
-                                    <tr><td>Backend - Component B</td><td>Node.js + Express</td><td>Lightweight session management. WebSocket support via ws library. Deployable to free hosting tiers.</td></tr>
-                                    <tr><td>Real-time - Component B</td><td>WebSockets (ws library) with HTTP polling fallback</td><td>Live participant response aggregation. Fallback ensures functionality in restricted school/community network environments.</td></tr>
-                                    <tr><td>Analytics</td><td>Custom event logger (POST to simple backend endpoint)</td><td>All events defined in Section 16. Stored as structured JSON. Dashboard accessible to funder without requiring database expertise.</td></tr>
-                                    <tr><td>Hosting</td><td>Vercel or Netlify (free tier)</td><td>Component A deployed as static site. Component B deployed as Node.js service. Both free at project scale.</td></tr>
-                                    <tr><td>Version control &amp; handoff</td><td>GitHub (public repository)</td><td>Full unencrypted source history. Client receives repository access, not a ZIP file. Post-launch developers can fork and extend.</td></tr>
-                                    <tr><td>Fonts</td><td>Noto Sans (Latin), Noto Sans Sinhala, Noto Sans Tamil</td><td>Single Noto font family. Consistent rendering across all three scripts. Available via Google Fonts at no cost.</td></tr>
+                                    <tr><td><code>Main.tscn</code></td><td>Root</td><td>Handles global Viewport, Scene swapping, and persistent AudioStreamPlayers.</td></tr>
+                                    <tr><td><code>MainMenu.tscn</code></td><td>Child of Main</td><td>Language selection (EN/SI/TA), Start Game, Settings, Achievements panel.</td></tr>
+                                    <tr><td><code>CharacterSelect.tscn</code></td><td>Child of Main</td><td>Selection of Karunasena, Kamala, or Kumaran. Initializes <code>GameState</code>.</td></tr>
+                                    <tr><td><code>GaugeHUD.tscn</code></td><td>Autoload / CanvasLayer</td><td>Always-visible top bar (Section 6). Manages CT, IH, VP delta animations.</td></tr>
+                                    <tr><td><code>TownMap.tscn</code></td><td>Child of Main</td><td>Primary navigation hub. Contains 7 clickable location node targets.</td></tr>
+                                    <tr><td><code>LocationTemplate.tscn</code></td><td>Child of Main</td><td>Base class for all 7 locations (GramaOffice.tscn, PoliceStation.tscn, etc.).</td></tr>
+                                    <tr><td><code>MisinfoCard.tscn</code></td><td>Instantiated UI</td><td>Uncle Sirisena's WhatsApp UI popup with 4 response buttons (Section 10).</td></tr>
                                 </tbody>
                             </table>
+                            
+                            <h4 style="margin-top: var(--sp-5);">Core Systems & Plugins</h4>
+                            <ul class="clean-list">
+                                <li><strong>Dialogue System:</strong> <code>Dialogic</code> plugin for Godot. All NPC conversations (Section 3 & 10) will be scripted in <code>.dtl</code> format, replacing the custom JSON dialogue renderer. Dialogic natively supports branching and variable triggers.</li>
+                                <li><strong>Game State & Persistence:</strong> Godot's <code>ConfigFile</code> class overrides the localStorage approach. The state dictionary (Section 7) is saved to <code>user://savegame.cfg</code> on every location transition.</li>
+                                <li><strong>Component B:</strong> Developed as a separate Web/Node.js application, not bundled directly inside the Godot client export.</li>
+                            </ul>
                         </div>
 
                         <div class="content-block">
@@ -988,7 +1064,7 @@
                     
                     <div id="tech-a11y" class="sub-tab-content" role="tabpanel">
                         <div class="content-block">
-                            <h3>14. Accessibility - WCAG Compliance Requirements</h3>
+                            <h3>17. Accessibility - WCAG Compliance Requirements</h3>
                             <p>Accessibility is not a post-launch feature. Every requirement listed below is a production prerequisite that is tested and confirmed before release. The game failing any of these tests is a build failure, not a nice-to-have fix.</p>
                             <table class="data-table" aria-label="Accessibility requirements and implementation">
                                 <thead><tr><th scope="col">Requirement</th><th scope="col">WCAG Standard</th><th scope="col">Implementation</th></tr></thead>
@@ -1068,39 +1144,74 @@
 
                 <div class="doc-body">
                     <div class="content-block">
-                        <h3>AI Tool Assignments by Production Area</h3>
-                        <div class="doc-grid">
-                            <div class="card">
-                                <h4>Writing &amp; Dialogue</h4>
-                                <div class="tool-list">
-                                    <div class="tool-entry"><strong>Claude:</strong> All NPC dialogue trees, GDD v2.0 drafting, UI copy and system text, secret content writing, Aunty Soma's ending scene, achievement descriptions.</div>
-                                    <div class="tool-entry"><strong>Gemini Pro:</strong> Sinhala translation draft, Tamil translation draft, cross-checking electoral law facts against Sri Lankan sources.</div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <h4>Code &amp; Development</h4>
-                                <div class="tool-list">
-                                    <div class="tool-entry"><strong>Claude:</strong> Game state engine, dialogue renderer, consequence system, gauge logic, Component B facilitator tool, analytics integration, trilingual language switcher.</div>
-                                    <div class="tool-entry"><strong>ChatGPT:</strong> Second opinion on complex logic, bug diagnosis, JSON content structure validation.</div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <h4>Art &amp; Visuals</h4>
-                                <div class="tool-list">
-                                    <div class="tool-entry"><strong>Adobe Firefly:</strong> All 7 location background illustrations, 3 playable character designs, town map artwork. Safe for commercial use.</div>
-                                    <div class="tool-entry"><strong>DALL-E 3 (via ChatGPT):</strong> NPC portrait illustrations, UI decorative elements, WhatsApp message card mockups.</div>
-                                    <div class="tool-entry"><strong>Canva AI (free tier):</strong> UI kit assembly, gauge graphic states, Elections Commission notice board designs.</div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <h4>Audio &amp; Hosting</h4>
-                                <div class="tool-list">
-                                    <div class="tool-entry"><strong>Suno (free tier):</strong> Ambient music loops for all 7 locations, Mahinda Bandara's campaign jingle, polling station atmosphere track.</div>
-                                    <div class="tool-entry"><strong>Freesound.org:</strong> WhatsApp notification tone, page turn and stamp sounds, gauge change audio, crowd ambience.</div>
-                                    <div class="tool-entry"><strong>Vercel / Netlify + GitHub:</strong> Free web hosting deployment and unencrypted source version control.</div>
-                                </div>
-                            </div>
-                        </div>
+                        <h3>18. Screen Inventory</h3>
+                        <p>All 16 required screens must be wireframed in Figma before Godot implementation begins.</p>
+                        <table class="data-table" aria-label="Screen Inventory List">
+                            <thead><tr><th scope="col">#</th><th scope="col">Screen Name</th><th scope="col">Section</th><th scope="col">Priority</th></tr></thead>
+                            <tbody>
+                                <tr><td>1</td><td>Splash / Loading Screen</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>2</td><td>Language Selection (EN/SI/TA)</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>3</td><td>Main Menu</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>4</td><td>Character Selection</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>5</td><td>Town Map Navigation</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>6</td><td>Location Scene Template (Applies to all 7)</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>7</td><td>Dialogue Box UI</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>8</td><td>WhatsApp Message Card</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>9</td><td>Gauge HUD</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>10</td><td>Week Counter Display</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>11</td><td>EC Notice Board View</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>12</td><td>Ending / Results Screen</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>13</td><td>Achievements Screen</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>14</td><td>Settings / Accessibility Panel</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>15</td><td>Facilitator Dashboard</td><td>Component B</td><td>MVP</td></tr>
+                                <tr><td>16</td><td>Participant Mobile View</td><td>Component B</td><td>MVP</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>Asset Production Checklist</h3>
+                        <p>Master list of all required assets. Must be completed before generating art in Firefly or DALL-E.</p>
+                        <table class="data-table" aria-label="Asset Production Checklist">
+                            <thead><tr><th scope="col">Asset Name</th><th scope="col">Type</th><th scope="col">AI Tool</th><th scope="col">Godot Format</th><th scope="col">Status</th></tr></thead>
+                            <tbody>
+                                <tr><td>7 Location Backgrounds</td><td>Background</td><td>Adobe Firefly</td><td>1920x1080 PNG</td><td></td></tr>
+                                <tr><td>1 Town Map Illustration</td><td>Background</td><td>Adobe Firefly</td><td>1920x1080 PNG</td><td></td></tr>
+                                <tr><td>3 Playable Character Sprites (x5 states)</td><td>Character</td><td>Adobe Firefly</td><td>Transparent PNG</td><td></td></tr>
+                                <tr><td>8 NPC Portraits (x3 states)</td><td>NPC</td><td>DALL-E 3</td><td>Transparent PNG</td><td></td></tr>
+                                <tr><td>6 WhatsApp UI Cards</td><td>UI</td><td>Canva / DALL-E</td><td>PNG</td><td></td></tr>
+                                <tr><td>UI Kit (Buttons, Gauges, Dialogue Box)</td><td>UI</td><td>Canva AI</td><td>PNG / Godot Theme</td><td></td></tr>
+                                <tr><td>Mahinda Bandara Posters & Calendars</td><td>UI / Prop</td><td>DALL-E 3</td><td>PNG</td><td></td></tr>
+                                <tr><td>EC Notice Board Elements</td><td>UI / Prop</td><td>Canva AI</td><td>PNG</td><td></td></tr>
+                                <tr><td>7 Ambient Location Audio Tracks</td><td>Audio</td><td>Suno</td><td>OGG</td><td></td></tr>
+                                <tr><td>UI Sounds & WhatsApp Notifications</td><td>Audio</td><td>Freesound</td><td>WAV</td><td></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>Visual Style Bible</h3>
+                        <p>Core visual parameters to be defined as Figma components in Week 1.</p>
+                        <ul class="clean-list">
+                            <li><strong>Color Palette:</strong> Garnet Red (#8B1A2B) for primary accents/critical actions, Slate (#3D4A5C) for typography/secondary, Off-White (#F5F0EA) for backgrounds.</li>
+                            <li><strong>UI Treatment:</strong> Glassmorphic overlays for floating panels (menus, gauges). Dialogue boxes must use solid Off-White backgrounds to ensure text contrast.</li>
+                            <li><strong>Typography:</strong> Inter (Latin), Noto Sans Sinhala, Noto Sans Tamil. <em>Note:</em> Sinhala and Tamil characters render larger than Latin at the same font size. All UI elements (buttons, dialogue boxes) must use flexible auto-layout in Figma to accommodate language switching without text clipping.</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>6-Week Production Timeline & Milestones</h3>
+                        <table class="data-table" aria-label="Production Timeline">
+                            <thead><tr><th scope="col">Week</th><th scope="col">Phase</th><th scope="col">Deliverables</th><th scope="col">Dependencies</th></tr></thead>
+                            <tbody>
+                                <tr><td>Week 1</td><td>Foundation</td><td>Visual Style Bible, Screen Inventory, Asset Checklist, Linear Scene Breakdown, Karunasena Dialogue Drafts.</td><td>GDD finalized. Character Brief completed.</td></tr>
+                                <tr><td>Week 2</td><td>Design</td><td>Figma wireframes (all 16 screens). Kamala/Kumaran dialogues. Component B flows. Figma-to-Godot handoff protocol.</td><td>Week 1 specifications approved.</td></tr>
+                                <tr><td>Week 3</td><td>Art & Audio</td><td>Generate all 7 backgrounds, character sprites, NPC portraits, UI assets, and audio. Submit dialogue for Sinhala/Tamil review.</td><td>Figma wireframes locked. Visual style locked.</td></tr>
+                                <tr><td>Week 4</td><td>Godot Build (Core)</td><td>Godot scene tree setup. Town Map, Gauge HUD, Week Counter, Dialogic implementation, State save/load system.</td><td>All Week 3 art and audio exported in correct formats.</td></tr>
+                                <tr><td>Week 5</td><td>Godot Build (Content) & Review</td><td>All 7 location scenes built. Cross-zone consequence chains implemented. <strong>Formal Milestone: Legal/Accuracy Review of Electoral Law content.</strong> Component B coded.</td><td>Dialogic system fully functional. Translation review completed.</td></tr>
+                                <tr><td>Week 6</td><td>Testing & Polish</td><td>Manual playtest of 12 consequence chains and 25 achievements. WCAG accessibility checks. Delivery prep.</td><td>Feature freeze. No new mechanics allowed.</td></tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <div class="content-block">
@@ -1273,13 +1384,13 @@
 
             <section id="scope-view" class="view-section" aria-labelledby="scope-heading">
                 <header class="doc-header">
-                    <h2 id="scope-heading">17. Scope Definition - MVP vs Post-Launch</h2>
+                    <h2 id="scope-heading">22. Scope Definition - MVP vs Post-Launch</h2>
                     <p class="lead-text">What is built in v1.0. What is documented but deferred. What the codebase must support without activation.</p>
                 </header>
 
                 <div class="doc-body">
                     <div class="content-block">
-                        <h3>17.1 MVP - v1.0 - Web Only</h3>
+                        <h3>22.1 MVP - v1.0 - Web Only</h3>
                         <p>Every item listed here is built, tested, and delivered at launch. Nothing in this list is optional.</p>
                         <ul class="clean-list">
                             <li>All 7 locations, all 3 playable characters, all 3 gauges with full delta system.</li>
@@ -1300,7 +1411,7 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>17.2 Post-Launch - v1.x and v2.0</h3>
+                        <h3>22.2 Post-Launch - v1.x and v2.0</h3>
                         <p>Every item listed here is architecturally supported by the v1.0 codebase but not activated. Documentation is complete. Implementation is deferred.</p>
                         <ul class="clean-list">
                             <li><strong>Android application packaging</strong> - Component A wrapped as APK. Compatible with Android 12 and above. Offline-capable core gameplay. Requires no code changes to game logic.</li>
@@ -1315,7 +1426,7 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>17.3 Delivery Checklist</h3>
+                        <h3>22.3 Delivery Checklist</h3>
                         <p class="muted-text">All items must be confirmed complete before handover to LIRNEasia.</p>
                         <table class="data-table" aria-label="Delivery checklist">
                             <thead><tr><th scope="col">Deliverable</th><th scope="col">Format</th><th scope="col">Notes</th></tr></thead>
