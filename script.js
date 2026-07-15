@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ─── DOM refs ────────────────────────────────────────────────────────────
     const DOM = {
         mainContent:     document.getElementById('main-content'),
         navSection:      document.getElementById('navSection'),
@@ -10,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         networkContainer: document.getElementById('network'),
     };
 
-    // ─── localStorage wrapper ────────────────────────────────────────────────
     const Store = {
         get(key) {
             try { return localStorage.getItem(key); }
@@ -18,25 +16,31 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         set(key, value) {
             try { localStorage.setItem(key, value); }
-            catch { /* private/quota - silently ignore */ }
+            catch {}
         },
     };
 
-    // ─── Motion preference ───────────────────────────────────────────────────
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+        prefersReducedMotion = e.matches;
+    });
 
-    // ─── State ───────────────────────────────────────────────────────────────
-    let initNetwork  = null;    // set once D3 block runs
+    let initNetwork  = null;
     let overlayTimer = null;
 
-    // ─── Restore last active view ────────────────────────────────────────────
-    const savedView = Store.get('gdd_active_view');
+    const hashView = window.location.hash.replace('#', '');
+    const savedView = hashView || Store.get('gdd_active_view');
     if (savedView) {
         const targetBtn = document.querySelector(`.nav-btn[data-view-target="${savedView}"]`);
-        if (targetBtn) activateView(targetBtn, savedView, false);
+        if (targetBtn) activateView(targetBtn, savedView, false, true);
     }
 
-    // ─── Single delegated click handler ─────────────────────────────────────
+    window.addEventListener('popstate', () => {
+        const viewId = window.location.hash.replace('#', '') || 'overview-view';
+        const targetBtn = document.querySelector(`.nav-btn[data-view-target="${viewId}"]`);
+        if (targetBtn) activateView(targetBtn, viewId, false, true);
+    });
+
     document.body.addEventListener('click', (e) => {
 
         const navBtn = e.target.closest('.nav-btn');
@@ -74,12 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ─── View switching ──────────────────────────────────────────────────────
-    function activateView(btn, targetViewId, shouldScroll) {
+    function activateView(btn, targetViewId, shouldScroll, skipHistory = false) {
         const targetView = document.getElementById(targetViewId);
-        if (!targetView) return;                                 // single guard, no duplicate below
+        if (!targetView) return;
 
-        // Update nav buttons
         document.querySelectorAll('.nav-btn').forEach(b => {
             b.classList.remove('active');
             b.setAttribute('aria-selected', 'false');
@@ -87,12 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
 
-        // Swap visible section
         document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
         targetView.classList.add('active');
 
-        // Focus the heading for screen readers, then clean up the tabindex so it
-        // does not linger in the natural tab order after the focus moves away.
         const heading = targetView.querySelector('h2');
         if (heading) {
             heading.setAttribute('tabindex', '-1');
@@ -101,13 +100,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         Store.set('gdd_active_view', targetViewId);
+        
+        if (!skipHistory) {
+            window.history.pushState(null, '', `#${targetViewId}`);
+        }
 
-        // Initialise (or re-centre) the network map if its view just became active
         if (targetViewId === 'network-view' && typeof initNetwork === 'function') {
             requestAnimationFrame(() => initNetwork());
         }
 
-        // Jump straight to a specific sub-tab if the button carries a hint
         if (btn.dataset.specificTab) {
             requestAnimationFrame(() => {
                 const subTabBtn = document.querySelector(`[data-tab-target="${btn.dataset.specificTab}"]`);
@@ -122,14 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
         closeMobileMenu();
     }
 
-    // ─── Tab panel switching ─────────────────────────────────────────────────
     function activateTab(btn) {
         const targetId       = btn.getAttribute('data-tab-target');
         const tabsContainer  = btn.closest('[role="tablist"]');
         if (!tabsContainer) return;
 
-        // The content wrapper is usually the immediate next sibling; fall back to
-        // a parent-scoped search for nested tab systems.
         const nextSib = tabsContainer.nextElementSibling;
         const contentContainer =
             (nextSib && nextSib.classList.contains('tab-content-container'))
@@ -156,13 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetContent) targetContent.classList.add('active');
     }
 
-    // ─── Expandable consequence panels ──────────────────────────────────────
     function handleLogicTree(btn) {
         const consequenceId = btn.getAttribute('aria-controls');
         const consequence   = document.getElementById(consequenceId);
         const isExpanded    = btn.getAttribute('aria-expanded') === 'true';
 
-        // Collapse any open sibling
         btn.closest('.choices').querySelectorAll('.btn-interact').forEach(sib => {
             if (sib === btn) return;
             sib.setAttribute('aria-expanded', 'false');
@@ -177,14 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ─── Keyboard navigation for tab / nav button groups ────────────────────
     document.body.addEventListener('keydown', (e) => {
         const isTabBtn = e.target.classList.contains('tab-btn');
         const isNavBtn = e.target.classList.contains('nav-btn');
         if (!isTabBtn && !isNavBtn) return;
 
         const btn       = e.target;
-        // BUG FIX: previously the ternary produced the same string in both branches.
         const container = btn.closest('[role="tablist"]');
         if (!container) return;
 
@@ -214,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ─── Escape closes the mobile menu ──────────────────────────────────────
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && DOM.navSection?.classList.contains('open')) {
             closeMobileMenu();
@@ -222,17 +215,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ═══════════════════════════════════════════════════════════════════════
-    // NETWORK MAP  (D3 force graph)
-    // ═══════════════════════════════════════════════════════════════════════
 
     const gameData = {
         nodes: [
-            // Playable characters
             { id: 'karunasena', shortName: 'Karuna',   label: 'Karunasena',          type: 'character', role: 'First-time voter' },
             { id: 'kamala',     shortName: 'Kamala',   label: 'Kamala',               type: 'character', role: 'School teacher (Locked)' },
             { id: 'kumaran',    shortName: 'Kumaran',  label: 'Kumaran',              type: 'character', role: 'Migrant worker (Locked)' },
-            // NPCs
             { id: 'mahinda',    shortName: 'Mahinda',  label: 'Mahinda Bandara',      type: 'npc',       role: 'Incumbent politician' },
             { id: 'elderly',    shortName: 'Soma',     label: 'Aunty Soma',           type: 'npc',       role: 'Voter since 1983' },
             { id: 'nandadasa',  shortName: 'Nanda',    label: 'Nandadasa',            type: 'npc',       role: 'Grama Sevaka' },
@@ -240,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'sirisena',   shortName: 'Sirisena', label: 'Uncle Sirisena',       type: 'npc',       role: 'Misinformation vector' },
             { id: 'police',     shortName: 'Sergeant', label: 'Sgt. Wickramasinghe',  type: 'npc',       role: 'Election law authority' },
             { id: 'queue',      shortName: 'Queue',    label: 'Queue People',         type: 'npc',       role: 'Election day VP gains' },
-            // Locations — BUG FIX: removed internal "(loc1)" IDs from user-visible labels
             { id: 'grama_office',     shortName: 'Office',   label: 'Grama Sevaka Office',  type: 'location', role: 'Voter registration hub' },
             { id: 'uncle_house',      shortName: 'Uncle',    label: "Uncle's House",         type: 'location', role: 'Misinformation source' },
             { id: 'ec_board',         shortName: 'Board',    label: 'EC Notice Board',       type: 'location', role: 'Official verification' },
@@ -254,14 +241,12 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'temple',           shortName: 'Temple',   label: 'Temple',                type: 'location', role: 'Atmospheric node' },
             { id: 'bar',              shortName: 'Bar',      label: 'The Bar',               type: 'location', role: 'Atmospheric node' },
             { id: 'boarding',         shortName: 'Boarding', label: "Kumaran's Boarding",    type: 'location', role: "Kumaran's residence" },
-            // Scenarios / abstract systems
             { id: 'registration',   shortName: 'Reg.',     label: 'Voter Registration',   type: 'scenario', role: 'Weeks 6–4 deadline system' },
             { id: 'misinformation', shortName: 'Misinfo',  label: 'Misinfo Evaluation',   type: 'scenario', role: 'Core loop — Uncle messages' },
             { id: 'manifesto',      shortName: 'Manifesto',label: 'Manifesto Comparison', type: 'scenario', role: 'Road-promise evidence chain' },
         ],
 
         links: [
-            // Characters ↔ primary locations
             { source: 'karunasena', target: 'uncle_house',     type: 'conflict'  },
             { source: 'karunasena', target: 'grama_office',    type: 'location'  },
             { source: 'karunasena', target: 'ec_board',        type: 'location'  },
@@ -270,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { source: 'kamala',     target: 'grama_office',    type: 'location'  },
             { source: 'kumaran',    target: 'boarding',        type: 'location'  },
             { source: 'kumaran',    target: 'grama_office',    type: 'location'  },
-            // NPCs ↔ their home locations
             { source: 'mahinda',    target: 'campaign_tent',   type: 'location'  },
             { source: 'nandadasa',  target: 'grama_office',    type: 'location'  },
             { source: 'shopkeeper', target: 'shop',            type: 'location'  },
@@ -278,14 +262,12 @@ document.addEventListener('DOMContentLoaded', () => {
             { source: 'police',     target: 'police_station',  type: 'location'  },
             { source: 'elderly',    target: 'polling_station', type: 'location'  },
             { source: 'queue',      target: 'polling_station', type: 'location'  },
-            // Key NPC ↔ scenario influence links
             { source: 'sirisena',   target: 'misinformation',  type: 'influence' },
             { source: 'ec_board',   target: 'misinformation',  type: 'trust'     },
             { source: 'ec_board',   target: 'skeptics_cafe',   type: 'trust'     },
             { source: 'nandadasa',  target: 'registration',    type: 'trust'     },
             { source: 'mahinda',    target: 'manifesto',       type: 'influence' },
             { source: 'campaign_tent', target: 'manifesto',    type: 'location'  },
-            // Cross-location consequence chains (the "town remembers" system)
             { source: 'misinformation', target: 'grama_office',   type: 'conflict'  },
             { source: 'misinformation', target: 'police_station',  type: 'conflict'  },
             { source: 'registration',   target: 'polling_station', type: 'trust'     },
@@ -309,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let height = DOM.networkContainer.clientHeight || 500;
         let networkInitialized = false;
 
-        // All D3 selections scoped here — no outer-scope `let` pollution
         const svg = d3.select('#network').append('svg')
             .attr('width', '100%')
             .attr('height', '100%')
@@ -318,7 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .attr('role', 'img')
             .attr('aria-label', 'Force-directed network of Road Remains characters, locations, and systems');
 
-        // Reduced-motion: settle instantly rather than animating
         const alphaDecay = prefersReducedMotion ? 0.3 : 0.04;
 
         const simulation = d3.forceSimulation(gameData.nodes)
@@ -343,13 +323,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .attr('class',          d => `link line-${d.type}`)
             .attr('stroke-width',   d => d.type === 'trust' ? 3 : 1.5)
             .attr('stroke',         d => linkColorMap[d.type] || '#555')
-            .attr('stroke-dasharray', d => d.type === 'conflict' ? '6,4' : null)
+            .attr('stroke-dasharray', null)
             .attr('stroke-opacity', 0.7);
 
-        // Node groups
         const networkNodes = g.selectAll('g.node').data(gameData.nodes).enter().append('g')
             .attr('class', 'node')
-            .attr('tabindex', '0')                  // keyboard reachable
+            .attr('tabindex', '0')
             .attr('role', 'button')
             .attr('aria-label', d => `${d.label} — ${d.role}`)
             .style('cursor', 'pointer')
@@ -378,7 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .style('paint-order', 'stroke fill')
             .style('pointer-events', 'none');
 
-        // ── Tooltip on hover ────────────────────────────────────────────────
         const tooltip = d3.select('body').append('div')
             .attr('role', 'tooltip')
             .attr('class', 'd3-tooltip')
@@ -401,7 +379,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 tooltip.transition().duration(150).style('opacity', 0);
             });
 
-        // ── Simulation tick ─────────────────────────────────────────────────
         simulation.on('tick', () => {
             const pad = 28;
             gameData.nodes.forEach(d => {
@@ -416,7 +393,6 @@ document.addEventListener('DOMContentLoaded', () => {
             networkNodes.attr('transform', d => `translate(${d.x},${d.y})`);
         });
 
-        // ── Node click: highlight connected subgraph ─────────────────────────
         networkNodes.on('click', (event, d) => {
             event.stopPropagation();
 
@@ -435,10 +411,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.05
             );
 
-            // Populate the sidebar info panel
             const panel = document.getElementById('selectedInfo');
             if (panel) {
-                const connectionCount = [...connectedIds].length - 1;   // exclude self
+                const connectionCount = [...connectedIds].length - 1;
                 const wrapper = document.createElement('div');
                 wrapper.className = 'node-info-panel';
                 wrapper.innerHTML = `
@@ -451,12 +426,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 panel.replaceChildren(wrapper);
             }
 
-            // Switch sidebar to the Info tab
             const infoTabBtn = document.querySelector('[data-tab-target="info-tab"]');
             if (infoTabBtn) activateTab(infoTabBtn);
         });
 
-        // Clicking the SVG background clears the selection
         svg.on('click', () => {
             networkNodes.style('opacity', 1);
             networkLinks.style('stroke-opacity', 0.7);
@@ -469,7 +442,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Keyboard activation for focused nodes
         networkNodes.on('keydown', (event, d) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
@@ -477,7 +449,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // ── Reset button ────────────────────────────────────────────────────
         const resetBtn = document.getElementById('resetBtn');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => {
@@ -501,7 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // ── initNetwork: called when the view first becomes visible ──────────
         initNetwork = function () {
             if (!DOM.networkContainer || DOM.networkContainer.clientWidth < 10) return;
 
@@ -512,7 +482,6 @@ document.addEventListener('DOMContentLoaded', () => {
             simulation.force('center', d3.forceCenter(width / 2, height / 2));
 
             if (!networkInitialized) {
-                // Seed positions near the centre so the simulation settles faster
                 gameData.nodes.forEach(n => {
                     n.x = width  / 2 + (Math.random() - 0.5) * 120;
                     n.y = height / 2 + (Math.random() - 0.5) * 120;
@@ -526,8 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // ── ResizeObserver keeps the graph centred when the container resizes ─
-        // (more accurate than window 'resize', fires on panel layout changes too)
         if (typeof ResizeObserver !== 'undefined') {
             new ResizeObserver(() => {
                 const nwView = document.getElementById('network-view');
@@ -536,7 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ─── Network filter ──────────────────────────────────────────────────────
     function handleNetworkFilter(btn) {
         const networkNodes = document.querySelectorAll('#network g.node');
         const networkLinks = document.querySelectorAll('#network line');
@@ -556,7 +522,6 @@ document.addEventListener('DOMContentLoaded', () => {
             scenarios:  ['scenario'],
         };
 
-        // Re-select via D3 so we can read the bound data
         d3.select('#network').selectAll('g.node')
             .style('opacity', d =>
                 filter === 'all' || (typeMap[filter]?.includes(d.type)) ? 1 : 0.05
@@ -566,7 +531,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .style('stroke-opacity', filter === 'all' ? 0.7 : 0.08);
     }
 
-    // ─── Dynamic layout metrics ──────────────────────────────────────────────
     function updateDynamicHeights() {
         const header = document.querySelector('.modern-sidebar-header');
         if (header) {
@@ -575,13 +539,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateDynamicHeights();
 
-    // ResizeObserver on the sidebar header is more accurate than window.resize
     const sidebarHeader = document.querySelector('.modern-sidebar-header');
     if (sidebarHeader && typeof ResizeObserver !== 'undefined') {
         new ResizeObserver(updateDynamicHeights).observe(sidebarHeader);
     }
 
-    // ─── Mobile menu ─────────────────────────────────────────────────────────
     function closeMobileMenu() {
         DOM.navSection?.classList.remove('open');
         DOM.mobileMenuBtn?.setAttribute('aria-expanded', 'false');
@@ -617,9 +579,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     DOM.sidebarOverlay?.addEventListener('click', closeMobileMenu);
 
-    // ─── Scroll progress bar ─────────────────────────────────────────────────
-    // Appended to document.body (position: fixed) so it stays at the top of the
-    // viewport and does NOT scroll away with the content.
     if (DOM.mainContent) {
         const scrollProgressBar = document.createElement('div');
         scrollProgressBar.className = 'scroll-progress';
@@ -628,13 +587,11 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollProgressBar.setAttribute('aria-valuemin', '0');
         scrollProgressBar.setAttribute('aria-valuemax', '100');
         scrollProgressBar.setAttribute('aria-valuenow', '0');
-        document.body.appendChild(scrollProgressBar);   // fixed — outside scroll container
+        document.body.appendChild(scrollProgressBar);
 
         DOM.mainContent.addEventListener('scroll', () => {
-            // Show / hide back-to-top
             DOM.backToTop?.classList.toggle('visible', DOM.mainContent.scrollTop > 300);
 
-            // Update progress bar
             const scrollHeight = DOM.mainContent.scrollHeight - DOM.mainContent.clientHeight;
             const progress = scrollHeight > 0
                 ? Math.round((DOM.mainContent.scrollTop / scrollHeight) * 100)
@@ -651,12 +608,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ─── Delta gauge table: collapsible groups ───────────────────────────────
     const deltaTable = document.querySelector('.delta-table');
     if (deltaTable) {
         deltaTable.querySelectorAll('tr.table-group').forEach(tr => {
             tr.style.cursor = 'pointer';
-            tr.setAttribute('tabindex', '0');           // keyboard focusable
+            tr.setAttribute('tabindex', '0');
             tr.setAttribute('role', 'button');
             tr.setAttribute('aria-expanded', 'true');
 
@@ -678,13 +634,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ─── PDF export ──────────────────────────────────────────────────────────
     const pdfBtn = document.getElementById('pdfExportBtn');
     if (pdfBtn) {
         pdfBtn.addEventListener('click', () => window.print());
     }
 
-    // ─── Horizontal tab overflow shadow indicator ────────────────────────────
     function checkTabScroll(tabs) {
         const isAtEnd = Math.ceil(tabs.scrollLeft + tabs.clientWidth) >= tabs.scrollWidth;
         tabs.classList.toggle('is-at-end', isAtEnd);
@@ -698,14 +652,19 @@ document.addEventListener('DOMContentLoaded', () => {
         checkTabScroll(tabs);
     });
 
-    // Automated Fallback for Missing Images (Moved from HTML)
-    document.querySelectorAll('img').forEach(img => {
-        img.addEventListener('error', function() {
-            this.onerror = null;
-            this.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='transparent'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='14' font-weight='bold' fill='%239A8060' text-anchor='middle' dominant-baseline='middle'%3EVisuals in progress...%3C/text%3E%3C/svg%3E";
-            this.style.border = "1px dashed var(--c-border)";
-            this.style.background = "transparent";
-        });
+    document.querySelectorAll('.content-block').forEach(block => {
+        if (block.querySelector('.data-table')) {
+            block.classList.add('has-data-table');
+        }
     });
+
+    document.addEventListener('error', function(event) {
+        if (event.target.tagName && event.target.tagName.toLowerCase() === 'img' && !event.target.dataset.fallbackApplied) {
+            event.target.dataset.fallbackApplied = 'true';
+            event.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='transparent'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='14' font-weight='bold' fill='%239A8060' text-anchor='middle' dominant-baseline='middle'%3EVisuals in progress...%3C/text%3E%3C/svg%3E";
+            event.target.style.border = "1px solid var(--c-border)";
+            event.target.style.background = "transparent";
+        }
+    }, true);
 
 });

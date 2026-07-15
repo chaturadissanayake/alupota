@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Road Remains — Game Design Document v2.0.3</title>
+    <title>Road Remains — Game Design Document v2.0.4</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Warm civic typography stack -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -28,7 +27,7 @@
             <div class="modern-sidebar-header">
                 <div class="brand-container">
                     <div class="brand-text">
-                        <h1>Road Remains</h1>
+                        <div class="brand-name">Road Remains</div>
                         <span class="brand-tagline">Game Design Document</span>
                     </div>
                 </div>
@@ -92,46 +91,59 @@
         <main class="main-content" id="main-content" tabindex="-1">
 
             <div class="print-header print-only" aria-hidden="true">
-                <strong>Road Remains - Game Design Document v2.0.3</strong>
+                <strong>Road Remains - Game Design Document v2.0.4</strong>
                 Alpha / Production Build &nbsp;|&nbsp; 18 June 2026
             </div>
 
 <section id="overview-view" class="view-section active" aria-labelledby="overview-statement-heading">
 
-                <!-- Hero Cover (Moved to absolute top) -->
-                <div class="hero-cover hero-cover-custom">
-                    <!-- Gritty texture overlay -->
-                    <div aria-hidden="true" class="hero-texture"></div>
+                <div class="hero-cover-editorial">
+                    <div class="hero-header-bar">
+                        <span class="hero-classification">OFFICIAL DRAFT — FOR REVIEW</span>
+                        <span class="hero-date">15 July 2026</span>
+                    </div>
                     
-                    <span class="hero-eyebrow">Chatura Dissanayake presents</span>
-                    <h1 class="hero-title hero-title-main">Road Remains</h1>
+                    <div class="hero-title-group">
+                        <span class="hero-author">Chatura Dissanayake presents</span>
+                        <h1 class="hero-title-editorial">Road Remains</h1>
+                        <p class="hero-subtitle-editorial">Game Design Document v2.0.4</p>
+                    </div>
                     
-                    <!-- The hook — the road arc in one line -->
-                    <p class="hero-hook">
+                    <p class="hero-hook-editorial">
                         "Don't worry, the road is going to be fixed this time."
                     </p>
 
-                    <!-- Genre tags -->
-                    <div class="genre-tags">
-                        <span class="tag">Isometric Visual Novel</span>
-                        <span class="tag">Misinformation &amp; Voting</span>
-                        <span class="tag">Sri Lanka</span>
-                        <span class="tag">30–40 min session</span>
+                    <div class="hero-meta-bar">
+                        <span class="meta-tag">Isometric Visual Novel</span>
+                        <span class="meta-tag">Misinformation &amp; Voting</span>
+                        <span class="meta-tag">Sri Lanka</span>
+                        <span class="meta-tag">30–40 min session</span>
                     </div>
-
-                    <p class="hero-meta">Game Design Document &nbsp;|&nbsp; v2.0.3 &nbsp;|&nbsp; 18 June 2026</p>
                 </div>
+
+                <nav class="audience-strip" aria-label="Jump to a relevant section">
+                    <button class="audience-card nav-btn" data-view-target="overview-view">
+                        <span class="audience-index">01</span>
+                        <span class="audience-title">Start with the story</span>
+                        <span class="audience-desc">For first-time readers</span>
+                    </button>
+                    <button class="audience-card nav-btn" data-view-target="technical-view">
+                        <span class="audience-index">02</span>
+                        <span class="audience-title">Go straight to the build</span>
+                        <span class="audience-desc">For developers &amp; designers</span>
+                    </button>
+                    <button class="audience-card nav-btn" data-view-target="status-view" data-specific-tab="status-involved">
+                        <span class="audience-index">03</span>
+                        <span class="audience-title">See how to help</span>
+                        <span class="audience-desc">For contributors &amp; organisations</span>
+                    </button>
+                </nav>
 
                 <header class="doc-header">
                     <span class="section-eyebrow">Documentation</span>
                     <h2 id="overview-statement-heading">Overview &amp; Vision Statement</h2>
                 </header>
 
-                <!-- ═══════════════════════════════════════════════════════
-                     THE PREMISE, plain language, no jargon, front and center
-                     This block solves the #1 playtesting problem: people 
-                     not knowing what the game is.
-                ════════════════════════════════════════════════════════════ -->
                 <div class="modern-content-card">
                     <span class="modern-card-title">The Game in Plain Language</span>
                     <h3 class="modal-lead" style="margin-bottom: var(--sp-4);">
@@ -142,15 +154,10 @@
                     </p>
                 </div>
 
-                <!-- ═══════════════════════════════════════════════════════
-                     THE ROAD ARC, Narrative Architecture (for the team)
-                     Every writer, artist, and dev needs this before anything else.
-                ════════════════════════════════════════════════════════════ -->
                 <div class="modern-content-card">
                     <span class="modern-card-title">The Road Arc</span>
                     <p class="modal-desc">The emotional core of this game. Every writer, artist, and developer reads this before touching anything else.</p>
 
-                    <!-- Arc timeline -->
                     <div class="modern-grid-sequence">
                         <div class="sequence-card">
                             <div class="sequence-badge default">WEEKS 6–3</div>
@@ -177,7 +184,6 @@
                         </div>
                     </div>
 
-                    <!-- Design mandate -->
                     <div class="modern-alert-box" style="margin-top: var(--sp-8); border-radius: 0;">
                         <strong>Design Mandate for the Entire Team:</strong> The road must feel genuinely fixable for the first two-thirds of the game. The optimism is real. Mahinda Bandara is not cartoonishly corrupt, he might even believe the promise himself. The disappointment only lands if the hope was real first. Do not undercut the hope early. Do not signal the ending prematurely. Let the player believe. Then show them the filing cabinet.
                     </div>
@@ -185,10 +191,6 @@
 
                 <div class="doc-body">
 
-                    <!-- ═══════════════════════════════════════════════════
-                         TONE REFERENCE, What "raw" actually means here
-                         Writers and artists: this is your north star.
-                    ════════════════════════════════════════════════════════ -->
                     <div class="modern-content-card">
                         <span class="modern-card-title">Tone Reference — "GTA SA, But It's About Voting"</span>
                         <p class="modal-desc">The reference point is GTA: San Andreas, not Civics 101. That game's power came from portraying a flawed, corrupt, alive world where you still had agency — where the system was broken but you moved through it anyway. The characters were not heroes or villains; they were people with contradictions, loyalties, and bad information doing what made sense to them.</p>
@@ -295,26 +297,16 @@
                         </ul>
                     </div>
 
-                    <!-- ═══════════════════════════════════════════════════
-                         SCREEN 15, PREMISE CARD (Mandatory first-launch)
-                         This is the fix for the #1 playtesting failure: 
-                         players not understanding what the game is.
-                         See Section 0.6 for the canonical policy.
-                         This mockup shows exactly what players must see before play.
-                    ════════════════════════════════════════════════════════ -->
                     <div class="content-block">
                         <h3>Screen 15, Premise &amp; Stakes Card <span style="font-family: var(--font-ui); font-size: 12px; font-weight: 600; color: #8B1A2B; text-transform: uppercase; letter-spacing: 0.06em; vertical-align: middle; margin-left: 0.5rem;">MVP · Mandatory · First Launch Only</span></h3>
                         <p>Every first-time player sees this screen before the game begins. It cannot be skipped on the first launch. It is not an "About" panel. It is not in a menu. It appears once, in sequence, and is then permanently gone. This is the solution to the playtesting problem documented in Section 0.6, <em>confirmed directly: first-time players reported not understanding the goal of the game at all.</em></p>
                         <p class="muted-text">The mockup below is the canonical design reference for the implementation of Screen 15. Implement this exactly. Do not move the road-promise statement. Do not soften it. Do not move it to an info panel.</p>
 
-                        <!-- PREMISE CARD MOCKUP -->
                         <div class="s15-shell">
-                            <!-- Card header bar -->
                             <div class="s15-header">
                                 <span class="s15-header-label">Road Remains — Before You Begin</span>
                                 <span class="s15-header-page">Screen 15 of 17</span>
                             </div>
-                            <!-- Card body -->
                             <div class="s15-body">
                                 <p class="s15-location">Six weeks before the election. Alupotha, Sri Lanka.</p>
                                 
@@ -322,7 +314,6 @@
 
                                 <p class="s15-sub">Over the next six weeks, three numbers track what's happening: community trust, how accurately you understand the process, and how many people in Alupotha will actually vote. What you share, verify, or ignore affects all three. Deadlines are real. Some close and do not reopen.</p>
 
-                                <!-- Stakes pills -->
                                 <div class="s15-pills">
                                     <div class="s15-pill">
                                         <p class="s15-pill-label">Civic Trust</p>
@@ -338,13 +329,11 @@
                                     </div>
                                 </div>
 
-                                <!-- The road statement, the thing players MUST know -->
                                 <div class="s15-rule">
                                     <p class="s15-rule-label">One thing to know before you start</p>
                                     <p class="s15-rule-text">The road is still broken at the end, whatever you do. The game is not about fixing it. It is about what you do anyway.</p>
                                 </div>
 
-                                <!-- CTA -->
                                 <div class="s15-cta">
                                     <div class="s15-btn">Begin — Week 6</div>
                                 </div>
@@ -387,7 +376,7 @@
                             <h3>3. The 13 Map Locations</h3>
                             <p class="muted-text">The map has been expanded to 13 locations to improve atmospheric depth and world-building. Interactive hubs drive the narrative, while atmospheric nodes provide texture.</p>
 
-                            <h4 style="margin-top: var(--sp-6); margin-bottom: var(--sp-4); font-family: var(--font-ui); color: var(--c-garnet); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--c-border); padding-bottom: var(--sp-2);">Interactive Hubs</h4>
+                            <h4 class="hub-category-title">Interactive Hubs</h4>
                             <div class="doc-grid" style="margin-bottom: var(--sp-8);">
                                 <div class="grid-item">
                                     <h4>Grama Sevaka Office</h4>
@@ -431,7 +420,7 @@
                                 </div>
                             </div>
 
-                            <h4 style="margin-top: var(--sp-6); margin-bottom: var(--sp-4); font-family: var(--font-ui); color: var(--c-garnet); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--c-border); padding-bottom: var(--sp-2);">Atmospheric / Secondary Nodes</h4>
+                            <h4 class="hub-category-title">Atmospheric / Secondary Nodes</h4>
                             <div class="doc-grid" style="margin-bottom: var(--sp-8);">
                                 <div class="grid-item">
                                     <h4>Kovil</h4>
@@ -441,12 +430,12 @@
                                 <div class="grid-item">
                                     <h4>Temple</h4>
                                     <figure class="editorial-figure" style="margin-top: 0;"><img src="assets/temple.webp" alt="Temple"></figure>
-                                    <p>Peaceful spot. "Whatever you came here for, it is not here."</p>
+                                    <p>White dagoba, evening light. "The chief monk is usually here somewhere. So is everyone else's business, eventually."</p>
                                 </div>
                                 <div class="grid-item">
                                     <h4>The Bar</h4>
                                     <figure class="editorial-figure" style="margin-top: 0;"><img src="assets/bar.webp" alt="The Bar"></figure>
-                                    <p>Quiet daytime spot. "No election talk. Owner's orders."</p>
+                                    <p>Quiet daytime spot. "No election talk. Owner's orders." Sandya is sometimes here after Week 5 - one of the few places in Alupotha where a conversation doesn't circle back to Mahinda Bandara within a minute.</p>
                                 </div>
                                 <div class="grid-item">
                                     <h4>Community Hall</h4>
@@ -468,10 +457,12 @@
                             <h3>4. The Three Playable Characters</h3>
                             <p>The player selects one character at the start. Each character experiences the same town and the same election but enters from a different position, has a different relationship with the community, and has one mechanical advantage and one mechanical disadvantage that changes how the game feels without changing what it teaches. The educational content is identical across all three - what changes is the texture of reaching it.</p>
 
+                            <p class="note-text"><em>Design note - character rotation: Karunasena's route is the only one being built for MVP. Kamala and Kumaran already exist in his story as supporting characters (Kumaran has 2-3 lines of dialogue in Karunasena's route ahead of his own playable release - see his profile below). When Kamala's and Kumaran's routes are built in a future update, Karunasena is intended to appear in their storylines the same way Sandya appears in his now - present, known to the player, not the protagonist. This keeps Alupotha feeling like one continuous town across all three routes rather than three disconnected games.</em></p>
+
                             <div class="character-profile">
                                 <h4>Karunasena (Playable MVP)</h4>
                                 <p class="char-meta">19 years old &nbsp;|&nbsp; First-time voter from Kurunegala</p>
-                                <figure class="editorial-figure portrait" style="max-width: 240px; float: right; margin: 0 0 var(--sp-4) var(--sp-4);">
+                                <figure class="editorial-figure portrait char-portrait-fig">
                                     <img src="assets/char_karunasena_neutral.webp" alt="Karunasena Sprite">
                                     <figcaption class="editorial-caption">Karunasena Default</figcaption>
                                 </figure>
@@ -485,7 +476,7 @@
                             <div class="character-profile">
                                 <h4>Kamala (Locked - Coming Soon)</h4>
                                 <p class="char-meta">34 years old &nbsp;|&nbsp; School teacher - has voted before, but inattentively</p>
-                                <figure class="editorial-figure portrait" style="max-width: 240px; float: right; margin: 0 0 var(--sp-4) var(--sp-4);">
+                                <figure class="editorial-figure portrait char-portrait-fig">
                                     <img src="assets/char_kamala_neutral.webp" alt="Kamala Sprite">
                                     <figcaption class="editorial-caption">Kamala Default</figcaption>
                                 </figure>
@@ -499,7 +490,7 @@
                             <div class="character-profile">
                                 <h4>Kumaran (Locked - Coming Soon)</h4>
                                 <p class="char-meta">28 years old &nbsp;|&nbsp; Migrant worker from the Northern Province - Tamil-speaking</p>
-                                <figure class="editorial-figure portrait" style="max-width: 240px; float: right; margin: 0 0 var(--sp-4) var(--sp-4);">
+                                <figure class="editorial-figure portrait char-portrait-fig">
                                     <img src="assets/char_kumaran_neutral.webp" alt="Kumaran Sprite">
                                     <figcaption class="editorial-caption">Kumaran Default</figcaption>
                                 </figure>
@@ -508,6 +499,7 @@
                                 <p><strong>Disadvantage - Distance:</strong> He does not have the social network Kamala has or the family anchor Karunasena has. He has fewer informal information sources, which makes accurate information harder to find and misinformation slightly harder to counter without the Elections Commission board.</p>
                                 <p><strong>Starting Gauges:</strong> Civic Trust 50 &nbsp;|&nbsp; Information Health 75 &nbsp;|&nbsp; Voter Participation 40</p>
                                 <p><strong>Language note:</strong> Kumaran's presence in the game is the reason the trilingual support is not cosmetic. For Kumaran, the language of the ballot and the language of the instructions at the polling station are the literal difference between a valid vote and a spoiled one.</p>
+                                <p><strong>Cameo in Karunasena's route (already active):</strong> Kumaran appears as a minor on-screen character within the MVP even before his own route is built - 2-3 lines of dialogue, most likely at the Grama Sevaka Office. This gives the player a preview of him and seeds his storyline ahead of the update that unlocks his full path.</p>
                                 <p class="note-text"><em>Best suited to: Players who want to experience the full scope of the game's electoral justice content. Third playthrough recommended character.</em></p>
                             </div>
 
@@ -522,7 +514,7 @@
                                         <tr><td><strong>Kumaran</strong></td><td>28, athletic/labor-accustomed build</td><td>Practical workwear (e.g., simple collared shirt, slightly worn)</td><td>Dark brown</td><td>Neutral, Talking, Happy, Worried, Surprised</td></tr>
                                     </tbody>
                                 </table>
-                                <h4 style="margin-top: var(--sp-5);">NPC Portrait Specifications (8 Characters)</h4>
+                                <h4 style="margin-top: var(--sp-5);">NPC Portrait Specifications (9 Characters)</h4>
                                 <ul class="clean-list">
                                     <li><strong>Nandadasa Mahaththaya:</strong> 50s, stern, spectacles, government issued short-sleeve shirt. States: Neutral (stamping), Talking, Annoyed.</li>
                                     <li><strong>Uncle Sirisena:</strong> 60s, expressive, slightly unbuttoned shirt, welcoming. States: Neutral, Talking, Enthusiastic.</li>
@@ -531,7 +523,8 @@
                                     <li><strong>Mahinda Bandara:</strong> 40s/50s, overly groomed, politician's smile, maroon sash/accent. States: Neutral, Talking, Evasive.</li>
                                     <li><strong>Aunty Soma:</strong> 50s, kind eyes, traditional modest dress. States: Neutral, Talking, Warm/Reflective.</li>
                                     <li><strong>Elderly Woman (Queue):</strong> 70s, frail but determined, glasses. States: Neutral, Confused, Relieved.</li>
-                                    <li><strong>Sandya (Reference):</strong> Profile picture style, anxious but hopeful. States: Neutral.</li>
+                                    <li><strong>Sandya:</strong> Late teens/early 20s, casual dress, carries herself with dry humour. On-screen character, not reference-only - full state set required for the shop and Bar scenes. States: Neutral, Talking, Wry/Skeptical.</li>
+                                    <li><strong>Venerable Sumedha:</strong> Elder monk, saffron robes, composed and unhurried. States: Neutral, Talking, Firm.</li>
                                 </ul>
                             </div>
                         </div>
@@ -573,6 +566,16 @@
                                     <h4>Aunty Soma</h4>
                                     <figure class="editorial-figure square" style="margin-top: 0;"><img src="assets/npc_soma_talking.webp" alt="Aunty Soma Portrait"></figure>
                                     <p>Karunasena's mother. Appears in his storyline directly; referenced by name in the other two characters' storylines. Has voted in every election since she turned eligible in 1983. Does not regard this as exceptional. Regards not voting the same way she regards not eating - technically survivable but why would you. She appears at the beginning of the game and at the end. Her scene at the end, outside the polling station, is the emotional anchor of the whole thing.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Sandya</h4>
+                                    <figure class="editorial-figure square" style="margin-top: 0;"><img src="assets/npc_sandya_neutral.webp" alt="Sandya Portrait"></figure>
+                                    <p>Known to Karunasena from before Alupotha. Moved here four months before he did, when her father was transferred. On-screen throughout his story - they run into each other outside Mudalali Perera's boutique in Week 5, and share a longer conversation at the Bar later on. Skeptical of campaign promises in a way that is funnier than it is bitter ("Maybe this year it'll become Sri Lanka's first flying road"), but not cynical about voting itself - she is the one who argues that leaving decisions to whoever forwards the loudest WhatsApp message is worse than sitting through an imperfect election. Her own registration is not straightforward: her name is missing from the list, which she discovers separately and pins as a handwritten note to the Elections Commission board (Section 11.5). Whether the player notices and follows that thread across the following weeks is independent of whether they talk to her in person - both paths lead to the same payoff on Week 0.</p>
+                                </div>
+                                <div class="grid-item">
+                                    <h4>Venerable Sumedha</h4>
+                                    <figure class="editorial-figure square" style="margin-top: 0;"><img src="assets/npc_sumedha_neutral.webp" alt="Venerable Sumedha Portrait"></figure>
+                                    <p>Chief monk of Alupotha Temple. Not a campaign figure and never presented as one - he is a respected community elder whom Mahinda Bandara visits directly, mid-campaign, to negotiate a donated vehicle in exchange for the temple's continued goodwill toward his candidacy. He is not a villain in any obvious sense: the temple's transport problem is real, and he never explicitly instructs anyone how to vote. He simply says that "the people listen when we speak." The player is not told what to think about this. See Section 11.7 for the full scene.</p>
                                 </div>
                                 <div class="grid-item full-width">
                                     <h4>The Queue People</h4>
@@ -1039,6 +1042,13 @@
                                     <p><strong>What happens:</strong> A secondary information network - community members who evaluate content before sharing. They provide additional misinformation commentary and context on any content currently circulating. Nandadasa is not a member. He was invited once. He did not reply to the invitation, which itself took six weeks.</p>
                                     <p><strong>What it does:</strong> Provides an additional response option (Share with Skeptics Cafe) for all subsequent Uncle Sirisena messages. Unlocks achievement "You Found the Cafe".</p>
                                 </div>
+                                <div class="grid-item">
+                                    <h4>11.7 The Temple Deal</h4>
+                                    <figure class="editorial-figure square" style="margin-top: 0;"><img src="assets/secret_temple.webp" alt="Temple Deal Scene Asset"></figure>
+                                    <p><strong>How to find it:</strong> Visit the Temple during the Week 2 evening window, after the campaign tent scene has already been seen once. No prompt is given that anything is about to happen; the player has to be at the Temple at the right time.</p>
+                                    <p><strong>What happens:</strong> Mahinda Bandara arrives with two aides carrying fruit baskets, ostensibly to ask what the temple and the village need most. The player, positioned behind the bodhi tree, overhears Venerable Sumedha raise the temple's real and long-standing transport problem - and then watches the conversation shift. Bandara offers a donated van. Sumedha, in turn, notes that "the people listen when we speak" and that "a grateful temple is always remembered." Nothing illegal is said outright. An aide quietly writes "White Toyota HiAce, temple donation" in a notebook. No houses near the canal, and no school roof, are mentioned by either man.</p>
+                                    <p><strong>What it does:</strong> The scene is presented without commentary - the player draws their own conclusion. Gauge: +15 IH. No CT change (this is deliberately not a "trust Sumedha less" mechanic; it complicates rather than condemns). Unlocks achievement "Fruit Baskets and Favours". Overheard-only: no dialogue choice is presented during the scene itself, matching how the player found the Road File and the 1977 Receipt.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1048,10 +1058,9 @@
                             <h3>12. Endings</h3>
                             <p>The ending is determined by the player's gauge scores and flag states at Week 0, after voting. Endings are evaluated in order from secret to bad, the game checks for the secret ending first, then good, then neutral, then bad.</p>
                             
-                            <!-- The naming convention callout -->
-                            <div style="background: #1a1a1a; border-left: 3px solid #8B1A2B; padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0;">
-                                <p style="font-family: var(--font-ui); font-size: 10px; font-weight: 700; color: #8B1A2B; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 0.5rem;">Design Note — Why All Four Endings Have the Same Name</p>
-                                <p style="font-family: var(--font-serif); font-size: 0.9rem; color: #9a8a78; line-height: 1.65; margin: 0;">Every ending in this game is called "The Road Remains." Good, Bad, Neutral, and Secret. The road does not get fixed in any of them. This is not a mistake. It is the entire argument of the game made structural: the outcome of the election does not depend on whether the candidate fixes the road — it depends on whether the community participated with accurate information. The title of the ending is the same. What changes is the community that reaches it.</p>
+                            <div class="design-note-callout">
+                                <p class="design-note-title">Design Note — Why All Four Endings Have the Same Name</p>
+                                <p class="design-note-text">Every ending in this game is called "The Road Remains." Good, Bad, Neutral, and Secret. The road does not get fixed in any of them. This is not a mistake. It is the entire argument of the game made structural: the outcome of the election does not depend on whether the candidate fixes the road — it depends on whether the community participated with accurate information. The title of the ending is the same. What changes is the community that reaches it.</p>
                             </div>
 
                             <div class="modern-grid-sequence endings-grid" aria-label="Game endings">
@@ -1163,7 +1172,7 @@
                                     <tr><td><code>checkMapUnlocks()</code></td><td>Evaluates <code>window.gameState.flags</code> to pulse map nodes (radar ripple) indicating current objectives.</td></tr>
                                     <tr><td><code>showWeekBanner()</code></td><td>Interrupts gameplay with a modal to safely transition weeks only after mandatory tasks are completed.</td></tr>
                                     <tr><td><code>_evalCondition()</code></td><td>Safely parses JSON string conditions against the current state to dynamically alter dialogue branches.</td></tr>
-                                    <tr><td><code>checkAchievements()</code></td><td>Owns all 28 achievement trigger conditions. Called after every flag mutation and gauge update. Does not live in <code>config.js</code> - that file holds only the static achievement data, not the evaluation logic.</td></tr>
+                                    <tr><td><code>checkAchievements()</code></td><td>Owns all 29 achievement trigger conditions. Called after every flag mutation and gauge update. Does not live in <code>config.js</code> - that file holds only the static achievement data, not the evaluation logic.</td></tr>
                                     <tr><td><code>applyConsequenceFlags()</code></td><td>Owns all 12 cross-zone consequence chains from Section 7. Reads <code>window.gameState.flags</code> on location load and renders the modified location variant. Single source of truth for consequence logic so it is never duplicated inside individual scene JSON files.</td></tr>
                                 </tbody>
                             </table>
@@ -1251,6 +1260,7 @@
                             <button id="resetBtn" class="action-btn" aria-label="Reset network map to initial state">Reset Map</button>
                         </div>
                         <div id="network" role="img" aria-label="Force-directed network graph of game entities"></div>
+                        <img src="assets/fullmap.webp" alt="Static Network Map Fallback" class="print-only print-only-map">
                     </div>
 
                     <aside class="network-sidebar" aria-label="Network node details">
@@ -1275,7 +1285,7 @@
 
                                     <h3>Relationship Types</h3>
                                     <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-trust" stroke-width="2"/></svg><span>Trust / Support</span></div>
-                                    <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-conflict" stroke-width="2" stroke-dasharray="4,4"/></svg><span>Conflict / Misinformation</span></div>
+                                    <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-conflict" stroke-width="2"/></svg><span>Conflict / Misinformation</span></div>
                                     <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-influence" stroke-width="1"/></svg><span>Influence Path</span></div>
                                     <div class="legend-item"><svg width="24" height="4" aria-hidden="true"><line x1="0" y1="2" x2="24" y2="2" class="line-location" stroke-width="2"/></svg><span>Location Access</span></div>
                                 </div>
@@ -1303,7 +1313,7 @@
                                 <tr><td>3</td><td>Main Menu</td><td>Component A</td><td>MVP</td></tr>
                                 <tr><td>4</td><td>Character Selection</td><td>Component A</td><td>MVP</td></tr>
                                 <tr><td>5</td><td>Town Map Navigation</td><td>Component A</td><td>MVP</td></tr>
-                                <tr><td>6</td><td>Location Scene Template (Applies to all 7)</td><td>Component A</td><td>MVP</td></tr>
+                                <tr><td>6</td><td>Location Scene Template (Applies to all 13)</td><td>Component A</td><td>MVP</td></tr>
                                 <tr><td>7</td><td>Dialogue Box UI</td><td>Component A</td><td>MVP</td></tr>
                                 <tr><td>8</td><td>WhatsApp Message Card</td><td>Component A</td><td>MVP</td></tr>
                                 <tr><td>9</td><td>Gauge HUD</td><td>Component A</td><td>MVP</td></tr>
@@ -1325,15 +1335,15 @@
                         <table class="data-table" aria-label="Asset Production Checklist">
                             <thead><tr><th scope="col">Asset Name</th><th scope="col">Type</th><th scope="col">AI Tool</th><th scope="col">Web Format</th><th scope="col">Status</th></tr></thead>
                             <tbody>
-                                <tr><td>7 Location Backgrounds</td><td>Background</td><td>Adobe Firefly</td><td>1920x1080 webp</td><td>Pending</td></tr>
+                                <tr><td>13 Location Backgrounds</td><td>Background</td><td>Adobe Firefly</td><td>1920x1080 webp</td><td>Pending</td></tr>
                                 <tr><td>1 Town Map Illustration</td><td>Background</td><td>Adobe Firefly</td><td>1920x1080 webp</td><td>Pending</td></tr>
                                 <tr><td>3 Playable Character Sprites (x5 states)</td><td>Character</td><td>Adobe Firefly</td><td>Transparent webp</td><td>Pending</td></tr>
-                                <tr><td>8 NPC Portraits (x3 states)</td><td>NPC</td><td>DALL-E 3</td><td>Transparent webp</td><td>Pending</td></tr>
+                                <tr><td>9 NPC Portraits (x3 states)</td><td>NPC</td><td>DALL-E 3</td><td>Transparent webp</td><td>Pending</td></tr>
                                 <tr><td>6 WhatsApp UI Cards</td><td>UI</td><td>Canva / DALL-E</td><td>webp</td><td>Pending</td></tr>
                                 <tr><td>UI Kit (Buttons, Gauges, Dialogue Box)</td><td>UI</td><td>Canva AI</td><td>CSS / SVG</td><td>Pending</td></tr>
                                 <tr><td>Mahinda Bandara Posters & Calendars</td><td>UI / Prop</td><td>DALL-E 3</td><td>webp</td><td>Pending</td></tr>
                                 <tr><td>EC Notice Board Elements</td><td>UI / Prop</td><td>Canva AI</td><td>webp</td><td>Pending</td></tr>
-                                <tr><td>7 Ambient Location Audio Tracks</td><td>Audio</td><td>Suno</td><td>OGG</td><td>Pending</td></tr>
+                                <tr><td>13 Ambient Location Audio Tracks</td><td>Audio</td><td>Suno</td><td>OGG</td><td>Pending</td></tr>
                                 <tr><td>UI Sounds & WhatsApp Notifications</td><td>Audio</td><td>Freesound</td><td>WAV</td><td>Pending</td></tr>
                             </tbody>
                         </table>
@@ -1356,10 +1366,10 @@
                             <tbody>
                                 <tr><td>Week 1</td><td>Foundation</td><td>Visual Style Bible, Screen Inventory, Asset Checklist, Linear Scene Breakdown, Karunasena Dialogue Drafts.</td><td>GDD finalized. Character Brief completed.</td></tr>
                                 <tr><td>Week 2</td><td>Design</td><td>Figma wireframes (all 17 screens). Kamala/Kumaran dialogues. Component B flows. Figma-to-DOM handoff protocol.</td><td>Week 1 specifications approved.</td></tr>
-                                <tr><td>Week 3</td><td>Art & Audio</td><td>Generate all 7 backgrounds, character sprites, NPC portraits, UI assets, and audio. Submit dialogue for Sinhala/Tamil review.</td><td>Figma wireframes locked. Visual style locked.</td></tr>
+                                <tr><td>Week 3</td><td>Art & Audio</td><td>Generate all 13 backgrounds, character sprites, NPC portraits, UI assets, and audio. Submit dialogue for Sinhala/Tamil review.</td><td>Figma wireframes locked. Visual style locked.</td></tr>
                                 <tr><td>Week 4</td><td>DOM Build (Core)</td><td>DOM scene structure setup. Town Map, Gauge HUD, Week Counter, dialogue engine implementation, State save/load system.</td><td>All Week 3 art and audio exported in correct formats.</td></tr>
-                                <tr><td>Week 5</td><td>DOM Build (Content) & Review</td><td>All 7 location scenes built. Cross-zone consequence chains implemented. <strong>Formal Milestone: Legal/Accuracy Review of Electoral Law content.</strong> Component B coded.</td><td>Dialogue system fully functional. Translation review completed.</td></tr>
-                                <tr><td>Week 6</td><td>Testing & Polish</td><td>Manual playtest of 12 consequence chains and 28 achievements. WCAG accessibility checks. Delivery prep.</td><td>Feature freeze. No new mechanics allowed.</td></tr>
+                                <tr><td>Week 5</td><td>DOM Build (Content) & Review</td><td>All 13 location scenes built. Cross-zone consequence chains implemented. <strong>Formal Milestone: Legal/Accuracy Review of Electoral Law content.</strong> Component B coded.</td><td>Dialogue system fully functional. Translation review completed.</td></tr>
+                                <tr><td>Week 6</td><td>Testing & Polish</td><td>Manual playtest of 12 consequence chains and 29 achievements. WCAG accessibility checks. Delivery prep.</td><td>Feature freeze. No new mechanics allowed.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -1376,7 +1386,7 @@
                             <p><strong>Consequence chain testing:</strong> All 12 consequence chains in Section 7 must be manually triggered and verified by a human player before release. This takes one focused day of playtesting, not a week. Do not skip it. Automated testing cannot replace this - the chains involve state combinations that require playing through as a human.</p>
                         </div>
                         <div class="warning-callout" role="alert" data-label="Notice">
-                            <p><strong>Achievement testing:</strong> All 28 achievements must be manually triggered in a test environment to confirm their conditions fire correctly. Pay particular attention to "The Road Remains" - it must fire on every single ending including the bad ending, and must not fire before an ending is reached.</p>
+                            <p><strong>Achievement testing:</strong> All 29 achievements must be manually triggered in a test environment to confirm their conditions fire correctly. Pay particular attention to "The Road Remains" - it must fire on every single ending including the bad ending, and must not fire before an ending is reached.</p>
                         </div>
                     </div>
                 </div>
@@ -1407,7 +1417,7 @@
                             <ul class="clean-list">
                                 <li>Achievements are stored in the same <code>gameState</code> localStorage object as everything else. No external platform required for MVP.</li>
                                 <li>The Achievements screen is accessible from the main menu only. It is not accessible mid-game.</li>
-                                <li>The screen shows all 28 achievements including locked ones. Locked achievements show their name but the description is replaced with a placeholder dash. The player has to earn it to read what it says.</li>
+                                <li>The screen shows all 29 achievements including locked ones. Locked achievements show their name but the description is replaced with a placeholder dash. The player has to earn it to read what it says.</li>
                                 <li>Four achievements are fully hidden when locked - they appear as a blank tile with a question mark. The player does not know these exist until they unlock them.</li>
                                 <li>The screen shows a simple counter: X / 28 Unlocked. No percentage. No rarity. No global statistics. Just the number.</li>
                             </ul>
@@ -1431,7 +1441,7 @@
                     
                     <div id="ach-list" class="sub-tab-content" role="tabpanel">
                         <div class="content-block">
-                            <h3>20. All 28 Achievements - Complete List</h3>
+                            <h3>20. All 29 Achievements - Complete List</h3>
                             <table class="data-table" aria-label="Complete achievement list">
                                 <thead>
                                     <tr><th scope="col">Name</th><th scope="col">Description (visible after unlock)</th><th scope="col">Trigger Condition</th><th scope="col">Notification Type</th></tr>
@@ -1448,12 +1458,13 @@
                                     <tr><td><strong>Professional Skeptic</strong></td><td>Verified three or more messages in a single playthrough. Unlocked something.</td><td>verifiedAtBoardCount reaches 3. Skeptics Cafe unlocks simultaneously.</td><td>Silent - the unlocked Cafe is the bigger discovery moment</td></tr>
                                     <tr><td><strong>Nandadasa Approved</strong></td><td>Asked Nandadasa Mahaththaya before acting on information. He was right. He is always right.</td><td>First time player selects Ask Nandadasa and follows his advice.</td><td>Silent</td></tr>
 
-                                    <tr class="table-group"><td colspan="4">You found things. (4 are hidden until found)</td></tr>
+                                    <tr class="table-group"><td colspan="4">You found things. (5 are hidden until found)</td></tr>
                                     <tr><td><strong>Thirty Years in the Same Room</strong> [HIDDEN until unlocked]</td><td>Found the Road File. You know why the road is not fixed. It is not the reason you expected.</td><td>foundRoadFile flag set to true.</td><td>Silent</td></tr>
                                     <tr><td><strong>Pol Roti and Politics</strong></td><td>Found the 1977 receipt behind Mudalali's counter. Political loyalty has stranger origins than you think.</td><td>found1977Receipt flag set to true.</td><td>Silent</td></tr>
                                     <tr><td><strong>Sandya Made It</strong></td><td>Followed Sandya's handwritten note from Week 3 to Week 0. Her name is on the register.</td><td>sandyaOnRegister flag set to true at Week 0.</td><td>Silent</td></tr>
                                     <tr><td><strong>Somebody Had to Ask</strong> [HIDDEN until unlocked]</td><td>Found the thread about Sergeant Wickramasinghe's 2016 transfer request. He still will not explain why.</td><td>foundSergeantTransferThread flag set to true.</td><td>Silent</td></tr>
                                     <tr><td><strong>You Found the Cafe</strong> [HIDDEN until unlocked]</td><td>Found the Skeptics Cafe. It does not have a sign. Nandadasa was invited once. He did not reply.</td><td>skepticsCafeUnlocked flag set to true.</td><td>Silent</td></tr>
+                                    <tr><td><strong>Fruit Baskets and Favours</strong> [HIDDEN until unlocked]</td><td>Overheard the Temple conversation. A van was offered. Nothing illegal was said. Draw your own conclusion.</td><td>foundTempleDeal flag set to true.</td><td>Silent</td></tr>
 
                                     <tr class="table-group"><td colspan="4">You helped people.</td></tr>
                                     <tr><td><strong>Not Your Job</strong></td><td>Helped the elderly woman find her name on the voter register. It was not your job. You did it anyway.</td><td>helpedElderlyWoman flag set to true.</td><td>Silent</td></tr>
@@ -1488,7 +1499,7 @@
                     <div id="ach-clues" class="sub-tab-content" role="tabpanel">
                         <div class="content-block">
                             <h3>21. The Subtle Clue System</h3>
-                            <p>Clues only exist for 3 of the 6 secrets. The other three - the Sergeant's Transfer thread, the 1977 Receipt, and Sandya's Bulletin Board Thread - have no clues at all. Players either find them or they do not.</p>
+                            <p>Clues only exist for 3 of the 7 secrets. The other four - the Sergeant's Transfer thread, the 1977 Receipt, Sandya's Bulletin Board Thread, and the Temple Deal - have no clues at all. Players either find them or they do not.</p>
                             <p>Clues are delivered as casual NPC dialogue only - not UI tooltips, not tutorial text, not highlight effects. Each clue is a single line delivered once per playthrough. It does not repeat on subsequent visits. The visual treatment is the same dialogue box as all other NPC speech, but in a slightly more muted style, like an afterthought. No special sound. No icon. No signal that this was a clue.</p>
 
                             <div class="location-card">
@@ -1551,7 +1562,7 @@
                             <li>All 6 secret content pieces: Road File, 1977 Receipt, Manifesto Comparison, Sergeant's Transfer, Bulletin Board Thread, Skeptics Cafe.</li>
                             <li>Full misinformation mechanic with all 6 Uncle Sirisena messages and all 4 response options.</li>
                             <li>3 subtle clue dialogues as specified in the Clue System.</li>
-                            <li>All 28 achievements with correct trigger conditions and notification types.</li>
+                            <li>All 29 achievements with correct trigger conditions and notification types.</li>
                             <li>Component B facilitator tool with real-time session management, WebSocket communication, and CSV export.</li>
                             <li>Trilingual support: English, Sinhala, Tamil - all UI, all dialogue, all system text.</li>
                             <li>Standard difficulty mode only.</li>
@@ -1651,6 +1662,7 @@
                                     <tr><th scope="col">Version</th><th scope="col">Focus</th><th scope="col">Key Changes &amp; Developer Notes</th></tr>
                                 </thead>
                                 <tbody>
+                                    <tr><td><strong>v2.0.4</strong></td><td>Documentation Pass - Consistency & Missing Scenes</td><td>Corrected location count throughout (Screen Inventory, Asset Checklist, Timeline) from an outdated "7" to the correct 13. Sandya promoted from a background/reference-only device to a full on-screen supporting character with her own portrait states, appearing at Mudalali's shop and at the Bar, in line with the current script draft. Added Venerable Sumedha and documented "The Temple Deal" as a new discoverable secret (Section 11.7) and achievement, reflecting the temple/monk scene now in the script. Differentiated Temple's location text from Kovil's (previously identical). Added a documented design note on future character rotation (Karunasena to appear as supporting cast once Kamala's and Kumaran's routes are built) and a note on Kumaran's existing cameo dialogue in Karunasena's route. Achievement and hidden-content counts updated accordingly (28 → 29 achievements, 6 → 7 secrets).</td></tr>
                                     <tr><td><strong>v2.0.3</strong></td><td>Architecture & Audio</td><td>Modularised JS engine into dedicated files (<code>engine.js</code>, <code>state.js</code>, <code>ui.js</code>, <code>config.js</code>). CSS split into component sheets (<code>variables.css</code>, <code>base.css</code>, <code>dialogue.css</code>, <code>map.css</code>). Map data externalised to <code>map-data.json</code>. Full audio layer integrated: BGM tracks for gameplay and credits, ambient audio for the Grama Sevaka Office, and SFX suite (click, hover, pause, slider tick, loading start).</td></tr>
                                     <tr><td><strong>v2.0.2</strong></td><td>Alpha Core Loop</td><td>Integrated custom Visual Novel UI, WhatsApp media cards, and the strict 6-week countdown state machine. Karunasena's path made fully playable. Achievements system built and persistent via <code>localStorage</code>. Map expanded to 13 locations.</td></tr>
                                     <tr><td><strong>v2.0.1</strong></td><td>UI Standardization</td><td>System-wide pass to eliminate modern glassmorphism. Enforced the strict "2006 card" design aesthetic for all panels, buttons, and dialogue boxes to properly ground the visual identity.</td></tr>
